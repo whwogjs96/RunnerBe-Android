@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../../layout/compose-model-1667487078292.xml" value="0.40185185185185185" />
+        <entry key="../../../../../layout/compose-model-1667488552528.xml" value="0.25" />
+        <entry key="../../../../../layout/compose-model-1667518985831.xml" value="0.5" />
+        <entry key="../../../../../layout/compose-model-1667521822767.xml" value="0.5" />
+        <entry key="../../../../../layout/compose-model-1667523605917.xml" value="0.25" />
+        <entry key="../../../../../layout/compose-model-1667536298093.xml" value="0.33" />
+        <entry key="../../../../../layout/compose-model-1667546203209.xml" value="0.24619932432432431" />
+        <entry key="../../../../../layout/compose-model-1667555560666.xml" value="0.2778716216216216" />
+        <entry key="../../../../../layout/compose-model-1667556343473.xml" value="0.2778716216216216" />
+        <entry key="../../../../../layout/compose-model-1667556784195.xml" value="0.25" />
+        <entry key="../../../../../layout/compose-model-1667557428816.xml" value="0.25" />
+        <entry key="../../../../../layout/compose-model-1667558760613.xml" value="1.0" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.229" />
+        <entry key="app/src/main/res/drawable/ic_kakao_logo.xml" value="0.229" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.229" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.229" />
+        <entry key="app/src/main/res/drawable/ic_logo_runnerbe.xml" value="0.229" />
+        <entry key="app/src/main/res/drawable/ic_naver_logo.xml" value="0.27" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.229" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
