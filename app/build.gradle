@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def buildVersionCode = Integer.parseInt(new Date().format("yyyyMMddHH"))
+
 android {
     compileSdk 32
 
@@ -10,8 +12,8 @@ android {
         applicationId "com.applemango.runnerbe"
         minSdk 23
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode buildVersionCode
+        versionName "0.0.1-beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -43,6 +45,18 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+//    flavorDimensions "server"
+//    productFlavors {
+//        dev {
+//            dimension "server"
+//            buildConfigField "String", "BASE_URL", "\"test_server_url\""
+//        }
+//        real {
+//            dimension "server"
+//            buildConfigField "String", "BASE_URL", "\"real_server_url\""
+//        }
+//    }
 }
 
 dependencies {
@@ -68,4 +82,29 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    // https://github.com/square/retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    // https://github.com/square/okhttp
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
+    // https://github.com/square/retrofit/tree/master/retrofit-converters/gson
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+
+    // https://github.com/ybq/Android-SpinKit
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    implementation "com.kakao.sdk:v2-all:2.11.2" // 전체 모듈 설치, 2.11.0 버전부터 지원
+
+    //네이버 로그인
+//    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'   // import from jcenter
+
+    //네이버 지도
+    implementation 'com.naver.maps:map-sdk:3.16.0'
+//    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
 }
