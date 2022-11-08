@@ -46,17 +46,17 @@ android {
         }
     }
 
-//    flavorDimensions "server"
-//    productFlavors {
-//        dev {
-//            dimension "server"
-//            buildConfigField "String", "BASE_URL", "\"test_server_url\""
-//        }
-//        real {
-//            dimension "server"
-//            buildConfigField "String", "BASE_URL", "\"real_server_url\""
-//        }
-//    }
+    flavorDimensions "server"
+    productFlavors {
+        dev {
+            dimension "server"
+            buildConfigField "String", "BASE_URL", "\"https://www.runnerbe2.shop\""
+        }
+        real {
+            dimension "server"
+            buildConfigField "String", "BASE_URL", "\"https://www.runnerbe2.shop\""
+        }
+    }
 }
 
 dependencies {
@@ -107,4 +107,9 @@ dependencies {
     implementation 'com.naver.maps:map-sdk:3.16.0'
 //    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.2'
 }
