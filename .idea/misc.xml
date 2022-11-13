@@ -15,12 +15,25 @@
         <entry key="../../../../../layout/compose-model-1667556784195.xml" value="0.25" />
         <entry key="../../../../../layout/compose-model-1667557428816.xml" value="0.25" />
         <entry key="../../../../../layout/compose-model-1667558760613.xml" value="1.0" />
+        <entry key="../../../../../layout/compose-model-1668343167953.xml" value="0.14695945945945946" />
+        <entry key="../../../../../layout/compose-model-1668358877400.xml" value="0.14611486486486486" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.229" />
+        <entry key="app/src/main/res/drawable/ic_home_off.xml" value="0.164" />
+        <entry key="app/src/main/res/drawable/ic_home_on.xml" value="0.164" />
         <entry key="app/src/main/res/drawable/ic_kakao_logo.xml" value="0.229" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.229" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.229" />
         <entry key="app/src/main/res/drawable/ic_logo_runnerbe.xml" value="0.229" />
         <entry key="app/src/main/res/drawable/ic_naver_logo.xml" value="0.27" />
+        <entry key="app/src/main/res/drawable/ic_select_book_mark.xml" value="0.163" />
+        <entry key="app/src/main/res/drawable/ic_select_home.xml" value="0.163" />
+        <entry key="app/src/main/res/drawable/ic_select_message.xml" value="0.163" />
+        <entry key="app/src/main/res/drawable/ic_select_my.xml" value="0.163" />
+        <entry key="app/src/main/res/drawable/ic_x_out.xml" value="0.164" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1767905711695376" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_runner_map.xml" value="0.25951261222744765" />
+        <entry key="app/src/main/res/layout/item_tab_list.xml" value="0.3277732754528344" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.229" />
       </map>
     </option>

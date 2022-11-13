@@ -1,5 +1,8 @@
 package com.applemango.runnerbe.screen
 
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,11 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.applemango.runnerbe.R
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.applemango.runnerbe.model.viewmodel.SplashViewModel
+import com.applemango.runnerbe.screen.activity.HomeActivity
 
 @Composable
 fun LoginView(
@@ -86,8 +91,12 @@ fun LogoAndTextView(modifier: Modifier) {
 
 @Composable
 fun KakaoLoginView(modifier: Modifier, navController: NavController) {
+    val mContext = LocalContext.current as ComponentActivity
     Button(
-        onClick = { /* 여기에 카카오 로그인 기능 첨부 */ },
+        onClick = {
+            mContext.startActivity(Intent(mContext, HomeActivity::class.java))
+            mContext.finish()
+        },
         shape = RoundedCornerShape(6.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.kakao_yellow)),
         modifier = modifier
