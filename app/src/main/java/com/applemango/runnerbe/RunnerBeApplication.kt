@@ -40,12 +40,6 @@ class RunnerBeApplication: Application() {
 
         editor = sSharedPreferences.edit()
 
-        // Kakao SDK 초기화
-        KakaoSdk.init(this, "5820a967bb81030d649333f17f04f062")
-
-        // kakao hash key 추출
-        Log.d("getKeyHash", "" + getKeyHash(this))
-
         // fire base settings
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
