@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.applemango.runnerbe.screen.LoginView
+import com.applemango.runnerbe.screen.compose.ui.LoginView
 
 @Composable
 fun SignNavHost(navController: NavHostController = rememberNavController()) {

@@ -1,7 +1,8 @@
-package com.applemango.runnerbe.screen
+package com.applemango.runnerbe.screen.compose.ui
 
-import android.app.Activity
 import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +30,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.applemango.runnerbe.model.viewmodel.SplashViewModel
 import com.applemango.runnerbe.screen.activity.HomeActivity
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.common.model.AuthErrorCause
+import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.kakao.sdk.common.util.Utility
 
 @Composable
 fun LoginView(
@@ -45,9 +53,12 @@ fun LoginView(
             .fillMaxSize()
     ) {
         LogoAndTextView(
-            Modifier.fillMaxWidth().align(Alignment.Center).padding(bottom = 165.dp)
+            Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center)
+                .padding(bottom = 165.dp)
         )
-        if(!isLoginViewVisible) {
+        if (!isLoginViewVisible) {
             Column(
                 modifier = Modifier
                     .padding(16.dp)
@@ -92,10 +103,62 @@ fun LogoAndTextView(modifier: Modifier) {
 @Composable
 fun KakaoLoginView(modifier: Modifier, navController: NavController) {
     val mContext = LocalContext.current as ComponentActivity
-    Button(
-        onClick = {
+
+    val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        if (error != null) {
+            Log.e("response!!", error.toString())
+            when {
+                error.toString() == AuthErrorCause.AccessDenied.toString() -> {
+                    Toast.makeText(mContext, "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidClient.toString() -> {
+                    Toast.makeText(mContext, "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
+                    Toast.makeText(mContext, "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
+                    Toast.makeText(mContext, "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidScope.toString() -> {
+                    Toast.makeText(mContext, "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.Misconfigured.toString() -> {
+                    Toast.makeText(mContext, "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                error.toString() == AuthErrorCause.ServerError.toString() -> {
+                    Toast.makeText(mContext, "서버 내부 에러", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.Unauthorized.toString() -> {
+                    Toast.makeText(mContext, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
+                }
+                else -> { // Unknown
+                    Toast.makeText(mContext, "카카오톡의 미로그인", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else if (token != null) {
+            Log.d("kakao_token", token.accessToken)
             mContext.startActivity(Intent(mContext, HomeActivity::class.java))
             mContext.finish()
+        }
+    }
+
+    Button(
+        onClick = {
+
+            /* 카카오 로그인 기능 */
+            var keyHash = Utility.getKeyHash(mContext)
+            Log.i("keyHash",keyHash)
+            KakaoSdk.init(mContext,mContext.getString(R.string.kakao_native_key))
+
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(mContext)) {
+                UserApiClient.instance.loginWithKakaoTalk(mContext, callback = callback)
+            } else {
+                UserApiClient.instance.loginWithKakaoAccount(mContext, callback = callback)
+            }
+
         },
         shape = RoundedCornerShape(6.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.kakao_yellow)),
@@ -118,8 +181,46 @@ fun KakaoLoginView(modifier: Modifier, navController: NavController) {
 
 @Composable
 fun NaverLoginView(modifier: Modifier, navController: NavController) {
+    val mContext = LocalContext.current as ComponentActivity
     Button(
-        onClick = { /* 여기에 카카오 로그인 기능 첨부 */ },
+        onClick = {
+
+            /* 네이버 로그인 기능 */
+            var naverToken : String
+            NaverIdLoginSDK.initialize(
+                mContext,
+                mContext.getString(R.string.login_naver_client_id),
+                mContext.getString(R.string.login_naver_client_secret),
+                mContext.getString(R.string.app_name)
+            )
+
+            val oauthLoginCallback = object : OAuthLoginCallback {
+                override fun onError(errorCode: Int, message: String) {
+                    onFailure(errorCode, message)
+                }
+
+                override fun onFailure(httpStatus: Int, message: String) {
+                    val errorCode = NaverIdLoginSDK.getLastErrorCode()
+                    val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                    Toast.makeText(
+                        mContext,
+                        "errorCode: ${errorCode}\nerrorDescription: ${errorDescription}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onSuccess() {
+                    // 네이버 로그인 인증이 성공할 경우
+                    naverToken = NaverIdLoginSDK.getAccessToken().toString()
+                    Log.d("naver_token", naverToken)
+
+                    mContext.startActivity(Intent(mContext, HomeActivity::class.java))
+                    mContext.finish()
+                }
+            }
+
+            NaverIdLoginSDK.authenticate(mContext, oauthLoginCallback)
+        },
         shape = RoundedCornerShape(6.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.naver_green)),
         modifier = modifier
