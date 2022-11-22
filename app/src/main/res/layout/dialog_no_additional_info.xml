@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_no_additional_info"
+        android:paddingBottom="20dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:text="나를 알려주면 참여할 수 있어요!"
+                android:fontFamily="@font/sb_aggro_otf_light"
+                android:textSize="20dp"
+                android:textColor="@color/dark_g1"
+                android:layout_marginTop="36dp"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/lockImage"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_no_addtional_foreground"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toBottomOf="@id/text1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/infoInputButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/lockImage"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:text="나에 대해 알려주기"
+                android:gravity="center"
+                android:fontFamily="sans-serif-black"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:background="@drawable/bg_move_my_additional_info"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/noButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/infoInputButton"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:text="지금은 둘러보기만 할게요"
+                android:gravity="center"
+                android:fontFamily="sans-serif-black"
+                android:textSize="12dp"
+                android:textColor="@color/dark_g3"
+                android:layout_marginTop="10dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -107,37 +107,18 @@ fun KakaoLoginView(modifier: Modifier, navController: NavController) {
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             Log.e("response!!", error.toString())
-            when {
-                error.toString() == AuthErrorCause.AccessDenied.toString() -> {
-                    Toast.makeText(mContext, "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.InvalidClient.toString() -> {
-                    Toast.makeText(mContext, "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
-                    Toast.makeText(mContext, "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
-                    Toast.makeText(mContext, "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.InvalidScope.toString() -> {
-                    Toast.makeText(mContext, "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.Misconfigured.toString() -> {
-                    Toast.makeText(mContext, "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                error.toString() == AuthErrorCause.ServerError.toString() -> {
-                    Toast.makeText(mContext, "서버 내부 에러", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.Unauthorized.toString() -> {
-                    Toast.makeText(mContext, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
-                }
-                else -> { // Unknown
-                    Toast.makeText(mContext, "카카오톡의 미로그인", Toast.LENGTH_SHORT).show()
-                }
+            val errorMessage = when(error.toString()) {
+                AuthErrorCause.AccessDenied.toString() -> "접근이 거부 됨(동의 취소)"
+                AuthErrorCause.InvalidClient.toString() -> "유효하지 않은 앱"
+                AuthErrorCause.InvalidGrant.toString() -> "인증 수단이 유효하지 않아 인증할 수 없는 상태"
+                AuthErrorCause.InvalidRequest.toString() -> "요청 파라미터 오류"
+                AuthErrorCause.InvalidScope.toString() -> "유효하지 않은 scope ID"
+                AuthErrorCause.Misconfigured.toString() -> "설정이 올바르지 않음(android key hash)"
+                AuthErrorCause.ServerError.toString() -> "서버 내부 에러"
+                AuthErrorCause.Unauthorized.toString() -> "앱이 요청 권한이 없음"
+                else -> "카카오톡의 미로그인" // Unknown
             }
+            Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
         } else if (token != null) {
             Log.d("kakao_token", token.accessToken)
             mContext.startActivity(Intent(mContext, HomeActivity::class.java))
@@ -204,7 +185,7 @@ fun NaverLoginView(modifier: Modifier, navController: NavController) {
                     val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
                     Toast.makeText(
                         mContext,
-                        "errorCode: ${errorCode}\nerrorDescription: ${errorDescription}",
+                        "errorCode: ${errorCode}\nerrorDescription: $errorDescription",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

@@ -8,11 +8,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="logo_yellow">#FFDD62</color>
+    <color name="kakao_yellow">#FEE500</color>
+
+    <color name="dark_g1">#F5F5F5</color>
+    <color name="dark_g3">#A8A8A8</color>
     <color name="dark_g3.5">#8D8D8D</color>
+    <color name="dark_g6">#292929</color>
     <color name="black_19">#191919</color>
     <color name="black_29">#292929</color>
     <color name="primary">#FFDD62</color>
-    <color name="kakao_yellow">#FEE500</color>
     <color name="naver_green">#03C75A</color>
     <color name="black_background">#121212</color>
 </resources>
