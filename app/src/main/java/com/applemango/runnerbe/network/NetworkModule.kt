@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.applemango.runnerbe.BuildConfig
+import com.applemango.runnerbe.screen.compose.login.KakaoLoginAPI
 import java.util.concurrent.TimeUnit
 
 /**
@@ -47,10 +48,10 @@ object NetworkModule {
         .client(okHttpClient)
         .build()
 
-//    @Provides
-//    @Singleton
-//    fun provideKakaoLoginApi(retrofit: Retrofit): KakaoLoginAPI =
-//        retrofit.create(KakaoLoginAPI::class.java)
+    @Provides
+    @Singleton
+    fun provideKakaoLoginApi(retrofit: Retrofit): KakaoLoginAPI =
+        retrofit.create(KakaoLoginAPI::class.java)
 //
 //    @Provides
 //    @Singleton

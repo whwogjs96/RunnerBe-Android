@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.screen.compose.ui
+package com.applemango.runnerbe.screen.compose.login
 
 import android.content.Intent
 import android.util.Log
@@ -12,7 +12,10 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -25,10 +28,13 @@ import com.applemango.runnerbe.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.applemango.runnerbe.model.viewmodel.SplashViewModel
+import com.applemango.runnerbe.RunnerBeApplication
+import com.applemango.runnerbe.network.request.SocialLoginRequest
+import com.applemango.runnerbe.network.response.CommonResponse
+import com.applemango.runnerbe.network.response.SocialLoginResponse
 import com.applemango.runnerbe.screen.activity.HomeActivity
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -37,12 +43,14 @@ import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.kakao.sdk.common.util.Utility
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun LoginView(
-    navController: NavController,
-    viewModel: SplashViewModel = viewModel()
+    navController: NavController
 ) {
+    val viewModel = hiltViewModel<SplashViewModel>()
     val isTokenCheck = viewModel.isTokenLogin.observeAsState()
     var isLoginViewVisible = isTokenCheck.value ?: true
     viewModel.isTokenCheck()
@@ -67,8 +75,7 @@ fun LoginView(
                 KakaoLoginView(
                     Modifier
                         .fillMaxWidth()
-                        .height(48.dp),
-                    navController
+                        .height(48.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 NaverLoginView(
@@ -101,8 +108,28 @@ fun LogoAndTextView(modifier: Modifier) {
 }
 
 @Composable
-fun KakaoLoginView(modifier: Modifier, navController: NavController) {
+fun KakaoLoginView(modifier: Modifier) {
+    val viewModel = hiltViewModel<SplashViewModel>()
     val mContext = LocalContext.current as ComponentActivity
+    LaunchedEffect(viewModel.kakaoFlow) {
+        viewModel.kakaoFlow.collect {
+            when(it) {
+                is CommonResponse.Success<*> -> {
+                    val result = (it.body as SocialLoginResponse).result
+                    if(result.jwt != null){
+                        RunnerBeApplication.editor.putString("X-ACCESS-TOKEN", result.jwt)
+                    }
+                    // 추가정보 입력시
+                    result.userId?.let { it1 -> RunnerBeApplication.editor.putInt("userId", it1) }
+                    // 추가정보 미입력시
+                    result.uuid?.let { it1 -> RunnerBeApplication.editor.putString("uuid", it1) }
+                    RunnerBeApplication.editor.commit()
+                    mContext.startActivity(Intent(mContext, HomeActivity::class.java))
+                    mContext.finish()
+                }
+            }
+        }
+    }
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -121,8 +148,10 @@ fun KakaoLoginView(modifier: Modifier, navController: NavController) {
             Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
         } else if (token != null) {
             Log.d("kakao_token", token.accessToken)
-            mContext.startActivity(Intent(mContext, HomeActivity::class.java))
-            mContext.finish()
+            val request = SocialLoginRequest(token.accessToken)
+            viewModel.kakaoLogin(request)
+//            mContext.startActivity(Intent(mContext, HomeActivity::class.java))
+//            mContext.finish()
         }
     }
 
