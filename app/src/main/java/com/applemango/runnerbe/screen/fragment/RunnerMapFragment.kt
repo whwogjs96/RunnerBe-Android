@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentRunnerMapBinding
+import com.applemango.runnerbe.screen.activity.HomeActivity
+import com.applemango.runnerbe.screen.dialog.NoAdditionalInfoDialog
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
@@ -18,6 +21,7 @@ import kotlin.collections.ArrayList
 class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragment_runner_map),
     OnMapReadyCallback {
     var TAG = "Runnerbe"
+    var userId = -1
     private val PERMISSION_REQUEST_CODE = 100
     private lateinit var mNaverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
@@ -26,6 +30,13 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         super.onViewCreated(view, savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
+
+        userId = RunnerBeApplication.sSharedPreferences.getInt("userId", -1)
+        if (userId == -1) {
+            val noAdditionalInfoDialog = NoAdditionalInfoDialog()
+            noAdditionalInfoDialog.show(this.parentFragmentManager,"")
+        }
+
     }
 
     override fun onStart() {
@@ -56,17 +67,20 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
 
 
     override fun onMapReady(map: NaverMap) {
-        Log.i(TAG,"onMapReady")
+        Log.i(TAG, "onMapReady")
         mNaverMap = map
         mNaverMap.locationSource = locationSource
         mNaverMap.locationTrackingMode = LocationTrackingMode.Follow
 
         //현재위치로 주소 디폴트 셋팅
-        binding.topTxt.text = getAddress(mNaverMap.cameraPosition.target.latitude,mNaverMap.cameraPosition.target.longitude)
+        binding.topTxt.text = getAddress(
+            mNaverMap.cameraPosition.target.latitude,
+            mNaverMap.cameraPosition.target.longitude
+        )
         //위치가 바뀔 때마다 주소 업데이트
         mNaverMap.addOnLocationChangeListener { location ->
-            binding.topTxt.run{
-                text = getAddress(location.latitude,location.longitude)
+            binding.topTxt.run {
+                text = getAddress(location.latitude, location.longitude)
             }
         }
     }

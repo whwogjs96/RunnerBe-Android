@@ -51,10 +51,18 @@ fun LoginView(
     navController: NavController
 ) {
     val viewModel = hiltViewModel<SplashViewModel>()
+    val mContext = LocalContext.current as ComponentActivity
     val isTokenCheck = viewModel.isTokenLogin.observeAsState()
     var isLoginViewVisible = isTokenCheck.value ?: true
     viewModel.isTokenCheck()
-    isTokenCheck.value?.let { isLoginViewVisible = it }
+    isTokenCheck.value?.let {
+        isLoginViewVisible = it
+        if(it){
+            mContext.startActivity(Intent(mContext, HomeActivity::class.java))
+            mContext.finish()
+        }
+    }
+
     Box(
         modifier = Modifier
             .background(colorResource(id = R.color.black_background))
@@ -191,7 +199,27 @@ fun KakaoLoginView(modifier: Modifier) {
 
 @Composable
 fun NaverLoginView(modifier: Modifier, navController: NavController) {
+    val viewModel = hiltViewModel<SplashViewModel>()
     val mContext = LocalContext.current as ComponentActivity
+    LaunchedEffect(viewModel.naverFlow) {
+        viewModel.naverFlow.collect {
+            when(it) {
+                is CommonResponse.Success<*> -> {
+                    val result = (it.body as SocialLoginResponse).result
+                    if(result.jwt != null){
+                        RunnerBeApplication.editor.putString("X-ACCESS-TOKEN", result.jwt)
+                    }
+                    // 추가정보 입력시
+                    result.userId?.let { it1 -> RunnerBeApplication.editor.putInt("userId", it1) }
+                    // 추가정보 미입력시
+                    result.uuid?.let { it1 -> RunnerBeApplication.editor.putString("uuid", it1) }
+                    RunnerBeApplication.editor.commit()
+                    mContext.startActivity(Intent(mContext, HomeActivity::class.java))
+                    mContext.finish()
+                }
+            }
+        }
+    }
     Button(
         onClick = {
 
@@ -223,9 +251,8 @@ fun NaverLoginView(modifier: Modifier, navController: NavController) {
                     // 네이버 로그인 인증이 성공할 경우
                     naverToken = NaverIdLoginSDK.getAccessToken().toString()
                     Log.d("naver_token", naverToken)
-
-                    mContext.startActivity(Intent(mContext, HomeActivity::class.java))
-                    mContext.finish()
+                    val request = SocialLoginRequest(naverToken)
+                    viewModel.naverLogin(request)
                 }
             }
 

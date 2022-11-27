@@ -8,9 +8,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class KakaoLoginRepository @Inject constructor(private val service: KakaoLoginAPI) {
+class NaverLoginRepository @Inject constructor(private val service: NaverLoginAPI) {
     fun getData(body: SocialLoginRequest): Flow<SocialLoginResponse> = flow {
-        emit(service.kakaoLogin(body))
+        emit(service.naverLogin(body))
     }.flowOn(Dispatchers.IO)
 }
-
