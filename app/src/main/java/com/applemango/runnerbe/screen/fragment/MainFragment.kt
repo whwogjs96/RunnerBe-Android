@@ -23,7 +23,6 @@ class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("여기 와야하지 않아?", "왜 안오지")
         pageSetting()
     }
 
@@ -32,7 +31,6 @@ class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
      * 나중에 이미지가 변경되지 않더라도 compose UI로 분사할 때 효율적으로 변경할 수 있습니다!
      */
     private fun pageSetting() {
-        Log.e("여기 옴?","온다")
         binding.fragmentBodyPager.adapter = MainFragmentPageAdapter(childFragmentManager, viewLifecycleOwner.lifecycle, tabIconIdList)
         binding.fragmentBodyPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout, binding.fragmentBodyPager) { tab, position ->
