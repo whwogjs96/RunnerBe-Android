@@ -12,11 +12,13 @@ import com.applemango.runnerbe.model.MainBottomTab
 import com.applemango.runnerbe.util.MainFragmentPageAdapter
 import com.applemango.runnerbe.util.imageSrcCompatResource
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * 메인 탭 페이지 전체 프래그먼트를 관리합니다.
  * author: niaka
  */
+@AndroidEntryPoint
 class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private var tabIconIdList = MainBottomTab.values().map { it.iconResourceId }
