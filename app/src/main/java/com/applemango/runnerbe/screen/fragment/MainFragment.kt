@@ -1,7 +1,6 @@
 package com.applemango.runnerbe.screen.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -9,6 +8,7 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentMainBinding
 import com.applemango.runnerbe.databinding.ItemTabListBinding
 import com.applemango.runnerbe.model.MainBottomTab
+import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.MainFragmentPageAdapter
 import com.applemango.runnerbe.util.imageSrcCompatResource
 import com.google.android.material.tabs.TabLayoutMediator

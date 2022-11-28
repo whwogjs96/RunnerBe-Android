@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.screen.fragment
+package com.applemango.runnerbe.screen.fragment.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

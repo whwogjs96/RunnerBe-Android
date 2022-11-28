@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/fragmentBodyPager"
+            android:id="@+id/fragment_body_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

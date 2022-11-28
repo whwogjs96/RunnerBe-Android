@@ -24,7 +24,11 @@
         <entry key="app/src/main/res/drawable/bg_edit_camera.xml" value="0.27" />
         <entry key="app/src/main/res/drawable/bg_move_my_additional_info.xml" value="0.257" />
         <entry key="app/src/main/res/drawable/bg_no_additional_info.xml" value="0.257" />
+        <entry key="app/src/main/res/drawable/bg_radius_100_logo_yellow.xml" value="0.27" />
+        <entry key="app/src/main/res/drawable/bg_radius_100_null.xml" value="0.27" />
         <entry key="app/src/main/res/drawable/bg_radius_20_dark_g4_stroke.xml" value="0.27" />
+        <entry key="app/src/main/res/drawable/bg_tab.xml" value="0.27" />
+        <entry key="app/src/main/res/drawable/bg_tab_selector.xml" value="0.27" />
         <entry key="app/src/main/res/drawable/ic_home_off.xml" value="0.164" />
         <entry key="app/src/main/res/drawable/ic_home_on.xml" value="0.164" />
         <entry key="app/src/main/res/drawable/ic_kakao_logo.xml" value="0.229" />
@@ -43,10 +47,13 @@
         <entry key="app/src/main/res/drawable/ic_x_out.xml" value="0.164" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1767905711695376" />
         <entry key="app/src/main/res/layout/dialog_no_additional_info.xml" value="0.3591485507246377" />
+        <entry key="app/src/main/res/layout/fragment_book_mark.xml" value="0.43854166666666666" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.4375" />
         <entry key="app/src/main/res/layout/fragment_runner_map.xml" value="0.25951261222744765" />
+        <entry key="app/src/main/res/layout/fragment_scrap.xml" value="0.4375" />
         <entry key="app/src/main/res/layout/item_tab_list.xml" value="0.3277732754528344" />
+        <entry key="app/src/main/res/layout/ragment_book_mark_tab.xml" value="0.43854166666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.229" />
       </map>
     </option>

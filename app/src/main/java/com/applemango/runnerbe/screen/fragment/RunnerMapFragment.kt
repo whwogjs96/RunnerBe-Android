@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentRunnerMapBinding
+import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
