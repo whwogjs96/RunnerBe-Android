@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.applemango.runnerbe.BuildConfig
 import com.applemango.runnerbe.screen.compose.login.KakaoLoginAPI
+import com.applemango.runnerbe.screen.compose.login.NaverLoginAPI
 import java.util.concurrent.TimeUnit
 
 /**
@@ -52,11 +53,12 @@ object NetworkModule {
     @Singleton
     fun provideKakaoLoginApi(retrofit: Retrofit): KakaoLoginAPI =
         retrofit.create(KakaoLoginAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideNaverLoginApi(retrofit: Retrofit): NaverLoginAPI =
-//        retrofit.create(NaverLoginAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNaverLoginApi(retrofit: Retrofit): NaverLoginAPI =
+        retrofit.create(NaverLoginAPI::class.java)
+
 //
 //    @Provides
 //    @Singleton
