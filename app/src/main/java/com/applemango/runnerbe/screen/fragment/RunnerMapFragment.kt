@@ -14,10 +14,12 @@ import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
+@AndroidEntryPoint
 class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragment_runner_map),
     OnMapReadyCallback {
     var TAG = "Runnerbe"
