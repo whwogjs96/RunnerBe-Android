@@ -30,22 +30,8 @@ class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pageSetting()
-        checkAdditionalUserInfo()
     }
 
-    private fun checkAdditionalUserInfo() {
-        if(RunnerBeApplication.mTokenPreference.getUserId() == 0 && CachingObject.isColdStart) {
-            showAdditionalInfoDialog()
-        }
-    }
-
-    private fun showAdditionalInfoDialog() {
-        val prev = parentFragmentManager.findFragmentByTag(fragmentTag)
-        if (prev != null) {
-            parentFragmentManager.also { it.beginTransaction().remove(prev).commit() }
-        }
-        NoAdditionalInfoDialog().show(childFragmentManager, fragmentTag)
-    }
 
     /**
      * 혹시 추후에 바텀 탭 이미지가 변경되는 경우 사용할 수 있도록 커스텀 layout 사용하는 방식으로 진행했습니다.

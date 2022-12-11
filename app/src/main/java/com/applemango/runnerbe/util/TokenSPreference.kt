@@ -40,4 +40,8 @@ class TokenSPreference(private val applicationContext : Context) {
         editor.putString("uuid", uuid)
         editor.commit()
     }
+
+    fun getUuid() :String? {
+        return sSharedPreferences.getString("uuid","")
+    }
 }

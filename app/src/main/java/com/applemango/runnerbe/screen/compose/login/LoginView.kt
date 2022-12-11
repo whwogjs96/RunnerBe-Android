@@ -208,13 +208,12 @@ fun NaverLoginView(modifier: Modifier, navController: NavController) {
                 is CommonResponse.Success<*> -> {
                     val result = (it.body as SocialLoginResponse).result
                     if(result.jwt != null){
-                        RunnerBeApplication.editor.putString("X-ACCESS-TOKEN", result.jwt)
+                        RunnerBeApplication.mTokenPreference.setToken(result.jwt)
                     }
                     // 추가정보 입력시
-                    result.userId?.let { it1 -> RunnerBeApplication.editor.putInt("userId", it1) }
+                    result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
                     // 추가정보 미입력시
-                    result.uuid?.let { it1 -> RunnerBeApplication.editor.putString("uuid", it1) }
-                    RunnerBeApplication.editor.commit()
+                    result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
                     mContext.startActivity(Intent(mContext, HomeActivity::class.java))
                     mContext.finish()
                 }
