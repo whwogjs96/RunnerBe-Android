@@ -19,7 +19,7 @@ class BearerInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var Baseresponse = chain.request()
         if(Baseresponse.method == "HTTP 403 "){
-            var accessToken = RunnerBeApplication.sSharedPreferences.getString("X-ACCESS-TOKEN", null)
+            var accessToken = RunnerBeApplication.mTokenPreference.getToken()
 //            var refreshToken = RunnerBeApplication.sSharedPreferences.getString("refresh-token", null)
 
 //            val response = Retrofit.Builder()

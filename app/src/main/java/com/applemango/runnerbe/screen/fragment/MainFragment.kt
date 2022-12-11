@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentMainBinding
 import com.applemango.runnerbe.databinding.ItemTabListBinding
+import com.applemango.runnerbe.model.CachingObject
 import com.applemango.runnerbe.model.MainBottomTab
+import com.applemango.runnerbe.screen.dialog.NoAdditionalInfoDialog
 import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.MainFragmentPageAdapter
 import com.applemango.runnerbe.util.imageSrcCompatResource
@@ -22,10 +25,26 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private var tabIconIdList = MainBottomTab.values().map { it.iconResourceId }
+    private val fragmentTag = "MainFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pageSetting()
+        checkAdditionalUserInfo()
+    }
+
+    private fun checkAdditionalUserInfo() {
+        if(RunnerBeApplication.mTokenPreference.getUserId() == 0 && CachingObject.isColdStart) {
+            showAdditionalInfoDialog()
+        }
+    }
+
+    private fun showAdditionalInfoDialog() {
+        val prev = parentFragmentManager.findFragmentByTag(fragmentTag)
+        if (prev != null) {
+            parentFragmentManager.also { it.beginTransaction().remove(prev).commit() }
+        }
+        NoAdditionalInfoDialog().show(childFragmentManager, fragmentTag)
     }
 
     /**

@@ -18,6 +18,5 @@ class HomeActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<ActivityHomeBinding>(this, R.layout.activity_home)
-        Log.e("여긴 오겠지", "HomeActivity")
     }
 }

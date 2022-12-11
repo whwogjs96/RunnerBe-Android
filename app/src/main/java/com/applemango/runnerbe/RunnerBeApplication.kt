@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import com.applemango.runnerbe.util.TokenSPreference
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.common.KakaoSdk
@@ -17,8 +18,7 @@ class RunnerBeApplication: Application() {
     //두루 코드 사용
     companion object {
         // 만들어져있는 SharedPreferences 를 사용해야합니다. 재생성하지 않도록 유념해주세요
-        lateinit var sSharedPreferences: SharedPreferences
-        lateinit var editor: SharedPreferences.Editor
+        lateinit var mTokenPreference : TokenSPreference
 
         // JWT Token Header 키 값
         val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
@@ -35,10 +35,8 @@ class RunnerBeApplication: Application() {
         // 다크모드 비활성화
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        sSharedPreferences =
-            applicationContext.getSharedPreferences("runnerBe", MODE_PRIVATE)
+        mTokenPreference = TokenSPreference(applicationContext)
 
-        editor = sSharedPreferences.edit()
 
         // fire base settings
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -52,8 +50,8 @@ class RunnerBeApplication: Application() {
             task.result
 
             Log.d("fcm_response!", token!!)
-            editor.putString("deviceToken", token)
-            editor.commit()
+            mTokenPreference.editor.putString("deviceToken", token)
+            mTokenPreference.editor.commit()
         })
     }
 }
