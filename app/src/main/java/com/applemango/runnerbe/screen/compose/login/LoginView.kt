@@ -1,9 +1,13 @@
 package com.applemango.runnerbe.screen.compose.login
 
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,24 +17,22 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
-import com.applemango.runnerbe.R
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.network.request.SocialLoginRequest
 import com.applemango.runnerbe.network.response.CommonResponse
@@ -39,11 +41,11 @@ import com.applemango.runnerbe.screen.activity.HomeActivity
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
+import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
-import com.kakao.sdk.common.util.Utility
-import kotlinx.coroutines.launch
+import java.security.MessageDigest
 
 
 @Composable
@@ -125,13 +127,12 @@ fun KakaoLoginView(modifier: Modifier) {
                 is CommonResponse.Success<*> -> {
                     val result = (it.body as SocialLoginResponse).result
                     if(result.jwt != null){
-                        RunnerBeApplication.editor.putString("X-ACCESS-TOKEN", result.jwt)
+                        RunnerBeApplication.mTokenPreference.setToken(result.jwt)
                     }
                     // 추가정보 입력시
-                    result.userId?.let { it1 -> RunnerBeApplication.editor.putInt("userId", it1) }
+                    result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
                     // 추가정보 미입력시
-                    result.uuid?.let { it1 -> RunnerBeApplication.editor.putString("uuid", it1) }
-                    RunnerBeApplication.editor.commit()
+                    result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
                     mContext.startActivity(Intent(mContext, HomeActivity::class.java))
                     mContext.finish()
                 }
@@ -207,13 +208,12 @@ fun NaverLoginView(modifier: Modifier, navController: NavController) {
                 is CommonResponse.Success<*> -> {
                     val result = (it.body as SocialLoginResponse).result
                     if(result.jwt != null){
-                        RunnerBeApplication.editor.putString("X-ACCESS-TOKEN", result.jwt)
+                        RunnerBeApplication.mTokenPreference.setToken(result.jwt)
                     }
                     // 추가정보 입력시
-                    result.userId?.let { it1 -> RunnerBeApplication.editor.putInt("userId", it1) }
+                    result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
                     // 추가정보 미입력시
-                    result.uuid?.let { it1 -> RunnerBeApplication.editor.putString("uuid", it1) }
-                    RunnerBeApplication.editor.commit()
+                    result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
                     mContext.startActivity(Intent(mContext, HomeActivity::class.java))
                     mContext.finish()
                 }

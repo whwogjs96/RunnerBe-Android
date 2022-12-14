@@ -1,6 +1,6 @@
 package com.applemango.runnerbe.network
 
-import com.applemango.runnerbe.RunnerBeApplication.Companion.sSharedPreferences
+import com.applemango.runnerbe.RunnerBeApplication.Companion.mTokenPreference
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -14,10 +14,10 @@ class XAccessTokenInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
-        val jwtToken: String? = sSharedPreferences.getString("X-ACCESS-TOKEN", null)
+        val jwtToken: String? = mTokenPreference.getToken()
 
         // refresh token
-        val refreshToken: String? = sSharedPreferences.getString("refresh-token", null)
+        val refreshToken: String? =  mTokenPreference.getRefreshToken()
 
         if (jwtToken != null) {
             builder.addHeader("x-access-token", jwtToken)

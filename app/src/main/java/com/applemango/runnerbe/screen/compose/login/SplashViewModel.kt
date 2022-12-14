@@ -41,10 +41,10 @@ class SplashViewModel @Inject constructor(
             delay(1000)
 
             // userId = -1, uuid = ""
-            var userId = RunnerBeApplication.sSharedPreferences.getInt("userId", -1)
-            var uuid = RunnerBeApplication.sSharedPreferences.getString("uuid", "")
+            var userId = RunnerBeApplication.mTokenPreference.getUserId()
+            var uuid = RunnerBeApplication.mTokenPreference.getUuid()
 
-            if (userId == -1 && uuid == "") {
+            if (userId == -1 && uuid.isNullOrEmpty()) {
                 _isTokenLogin.postValue(false)
             } else {
                 _isTokenLogin.postValue(true)

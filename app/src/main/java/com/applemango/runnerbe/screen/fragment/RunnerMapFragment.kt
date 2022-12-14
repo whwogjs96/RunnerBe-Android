@@ -8,16 +8,20 @@ import android.view.View
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentRunnerMapBinding
+import com.applemango.runnerbe.model.CachingObject
 import com.applemango.runnerbe.screen.activity.HomeActivity
 import com.applemango.runnerbe.screen.dialog.NoAdditionalInfoDialog
+import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
+@AndroidEntryPoint
 class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragment_runner_map),
     OnMapReadyCallback {
     var TAG = "Runnerbe"
@@ -30,15 +34,22 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         super.onViewCreated(view, savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
-
-        userId = RunnerBeApplication.sSharedPreferences.getInt("userId", -1)
-        if (userId == -1) {
-            val noAdditionalInfoDialog = NoAdditionalInfoDialog()
-            noAdditionalInfoDialog.show(this.parentFragmentManager,"")
-        }
-
+        checkAdditionalUserInfo()
     }
 
+    private fun checkAdditionalUserInfo() {
+        if(RunnerBeApplication.mTokenPreference.getUserId() == 0 && CachingObject.isColdStart) {
+            showAdditionalInfoDialog()
+        }
+    }
+
+    private fun showAdditionalInfoDialog() {
+        val prev = parentFragmentManager.findFragmentByTag(TAG)
+        if (prev != null) {
+            parentFragmentManager.also { it.beginTransaction().remove(prev).commit() }
+        }
+        NoAdditionalInfoDialog().show(childFragmentManager, TAG)
+    }
     override fun onStart() {
         super.onStart()
         binding.mapView.onStart()
