@@ -33,7 +33,7 @@ class TokenSPreference(private val applicationContext : Context) {
     }
 
     fun getUserId() : Int {
-        return sSharedPreferences.getInt("userId", 0)
+        return sSharedPreferences.getInt("userId", -1)
     }
 
     fun setUuid(uuid: String) {
