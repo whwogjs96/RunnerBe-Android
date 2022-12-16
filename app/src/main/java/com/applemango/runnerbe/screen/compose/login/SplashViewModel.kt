@@ -27,15 +27,8 @@ class SplashViewModel @Inject constructor(
     private val naverRepo: NaverLoginRepository
 ) : ViewModel() {
 
-    private val _isTokenLogin: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _isTokenLogin: MutableLiveData<Boolean> = MutableLiveData()
     val isTokenLogin: LiveData<Boolean> = _isTokenLogin
-
-    private var _kakaoFlow: MutableStateFlow<CommonResponse> =
-        MutableStateFlow(CommonResponse.Empty)
-    val kakaoFlow: StateFlow<CommonResponse> = _kakaoFlow
-    private var _naverFlow: MutableStateFlow<CommonResponse> =
-        MutableStateFlow(CommonResponse.Empty)
-    val naverFlow: StateFlow<CommonResponse> = _naverFlow
 
     private var _isSocialLogin: MutableStateFlow<CommonResponse> =
         MutableStateFlow(CommonResponse.Empty)
@@ -45,16 +38,14 @@ class SplashViewModel @Inject constructor(
     //UI 동작 확인용 테스트 코드
     fun isTokenCheck() {
         viewModelScope.launch {
-            delay(2000)
-
             // userId = -1, uuid = ""
             var userId = RunnerBeApplication.mTokenPreference.getUserId()
             var uuid = RunnerBeApplication.mTokenPreference.getUuid()
 
             if (userId == -1 && uuid.isNullOrEmpty()) {
-                _isTokenLogin.postValue(true)
-            } else {
                 _isTokenLogin.postValue(false)
+            } else {
+                _isTokenLogin.postValue(true)
             }
 
         }
@@ -76,6 +67,7 @@ class SplashViewModel @Inject constructor(
                 result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
                 // 추가정보 미입력시
                 result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
+                Log.e("uuid", result.uuid.toString())
                 _isSocialLogin.value = CommonResponse.Success(it)
             } else _isSocialLogin.value = CommonResponse.Failed(NetworkErrorException(it.message))
 

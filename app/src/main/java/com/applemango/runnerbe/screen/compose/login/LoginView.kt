@@ -58,11 +58,11 @@ fun LoginView(
     val isTokenCheck = viewModel.isTokenLogin.observeAsState()
     //ㅋㅋ 이거 true일 때 화면 보이는 걸로 할게요.
     //이름이랑 기능이 매칭이 반대로 되어 있었네요.
-    var isLoginViewVisible = isTokenCheck.value ?: true
+    var isLoginViewVisible = !(isTokenCheck.value ?: false)
     viewModel.isTokenCheck()
     isTokenCheck.value?.let {
-        isLoginViewVisible = it
-        if(!it){
+        isLoginViewVisible = !it
+        if(it){
             mContext.startActivity(Intent(mContext, HomeActivity::class.java))
             mContext.finish()
         }
