@@ -47,7 +47,6 @@ class SplashViewModel @Inject constructor(
             } else {
                 _isTokenLogin.postValue(true)
             }
-
         }
     }
 
