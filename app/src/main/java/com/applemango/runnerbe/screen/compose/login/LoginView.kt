@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
+import com.applemango.runnerbe.model.LoginType
 import com.applemango.runnerbe.network.request.SocialLoginRequest
 import com.applemango.runnerbe.network.response.CommonResponse
 import com.applemango.runnerbe.network.response.SocialLoginResponse
@@ -55,10 +56,12 @@ fun LoginView(
     val viewModel = hiltViewModel<SplashViewModel>()
     val mContext = LocalContext.current as ComponentActivity
     val isTokenCheck = viewModel.isTokenLogin.observeAsState()
-    var isLoginViewVisible = isTokenCheck.value ?: true
+    //ㅋㅋ 이거 true일 때 화면 보이는 걸로 할게요.
+    //이름이랑 기능이 매칭이 반대로 되어 있었네요.
+    var isLoginViewVisible = !(isTokenCheck.value ?: false)
     viewModel.isTokenCheck()
     isTokenCheck.value?.let {
-        isLoginViewVisible = it
+        isLoginViewVisible = !it
         if(it){
             mContext.startActivity(Intent(mContext, HomeActivity::class.java))
             mContext.finish()
@@ -76,7 +79,7 @@ fun LoginView(
                 .align(Alignment.Center)
                 .padding(bottom = 165.dp)
         )
-        if (!isLoginViewVisible) {
+        if (isLoginViewVisible) {
             Column(
                 modifier = Modifier
                     .padding(16.dp)
@@ -102,6 +105,18 @@ fun LoginView(
 
 @Composable
 fun LogoAndTextView(modifier: Modifier) {
+    val viewModel = hiltViewModel<SplashViewModel>()
+    val mContext = LocalContext.current as ComponentActivity
+    LaunchedEffect(viewModel.isSocialLogin) {
+        viewModel.isSocialLogin.collect {
+            when(it) {
+                is CommonResponse.Success<*> -> {
+                    mContext.startActivity(Intent(mContext, HomeActivity::class.java))
+                    mContext.finish()
+                }
+            }
+        }
+    }
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
         Image(
             painter = painterResource(id = R.drawable.ic_logo_runnerbe),
@@ -121,24 +136,6 @@ fun LogoAndTextView(modifier: Modifier) {
 fun KakaoLoginView(modifier: Modifier) {
     val viewModel = hiltViewModel<SplashViewModel>()
     val mContext = LocalContext.current as ComponentActivity
-    LaunchedEffect(viewModel.kakaoFlow) {
-        viewModel.kakaoFlow.collect {
-            when(it) {
-                is CommonResponse.Success<*> -> {
-                    val result = (it.body as SocialLoginResponse).result
-                    if(result.jwt != null){
-                        RunnerBeApplication.mTokenPreference.setToken(result.jwt)
-                    }
-                    // 추가정보 입력시
-                    result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
-                    // 추가정보 미입력시
-                    result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
-                    mContext.startActivity(Intent(mContext, HomeActivity::class.java))
-                    mContext.finish()
-                }
-            }
-        }
-    }
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -158,9 +155,7 @@ fun KakaoLoginView(modifier: Modifier) {
         } else if (token != null) {
             Log.d("kakao_token", token.accessToken)
             val request = SocialLoginRequest(token.accessToken)
-            viewModel.kakaoLogin(request)
-//            mContext.startActivity(Intent(mContext, HomeActivity::class.java))
-//            mContext.finish()
+            viewModel.login(LoginType.KAKAO, request)
         }
     }
 
@@ -202,24 +197,6 @@ fun KakaoLoginView(modifier: Modifier) {
 fun NaverLoginView(modifier: Modifier, navController: NavController) {
     val viewModel = hiltViewModel<SplashViewModel>()
     val mContext = LocalContext.current as ComponentActivity
-    LaunchedEffect(viewModel.naverFlow) {
-        viewModel.naverFlow.collect {
-            when(it) {
-                is CommonResponse.Success<*> -> {
-                    val result = (it.body as SocialLoginResponse).result
-                    if(result.jwt != null){
-                        RunnerBeApplication.mTokenPreference.setToken(result.jwt)
-                    }
-                    // 추가정보 입력시
-                    result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
-                    // 추가정보 미입력시
-                    result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
-                    mContext.startActivity(Intent(mContext, HomeActivity::class.java))
-                    mContext.finish()
-                }
-            }
-        }
-    }
     Button(
         onClick = {
 
@@ -252,7 +229,7 @@ fun NaverLoginView(modifier: Modifier, navController: NavController) {
                     naverToken = NaverIdLoginSDK.getAccessToken().toString()
                     Log.d("naver_token", naverToken)
                     val request = SocialLoginRequest(naverToken)
-                    viewModel.naverLogin(request)
+                    viewModel.login(LoginType.NAVER, request)
                 }
             }
 

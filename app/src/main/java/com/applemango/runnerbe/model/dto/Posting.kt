@@ -35,13 +35,11 @@ data class Posting(
     @SerializedName("runnerList") val runnerList: List<UserInfo>?,
     @SerializedName("whetherPostUser") val whetherPostUser: String?
 ){
-    fun endCheck(): String {
-        return if(this.whetherEnd == "Y"){
+    fun endCheck(): String = if(this.whetherEnd == "Y"){
             "마감된 게시글"
         } else {
             "모집중"
         }
-    }
 
     fun bookmarkCheck(): Boolean {
         return this.bookMark == 1

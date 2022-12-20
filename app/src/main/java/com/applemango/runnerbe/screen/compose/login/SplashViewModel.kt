@@ -1,5 +1,6 @@
 package com.applemango.runnerbe.screen.compose.login
 
+import android.accounts.NetworkErrorException
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,8 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.RunnerBeApplication
+import com.applemango.runnerbe.model.LoginType
 import com.applemango.runnerbe.network.request.SocialLoginRequest
 import com.applemango.runnerbe.network.response.CommonResponse
+import com.applemango.runnerbe.network.response.SocialLoginResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,19 +30,14 @@ class SplashViewModel @Inject constructor(
     private val _isTokenLogin: MutableLiveData<Boolean> = MutableLiveData()
     val isTokenLogin: LiveData<Boolean> = _isTokenLogin
 
-    private var _kakaoFlow: MutableStateFlow<CommonResponse> =
+    private var _isSocialLogin: MutableStateFlow<CommonResponse> =
         MutableStateFlow(CommonResponse.Empty)
-    val kakaoFlow: StateFlow<CommonResponse> = _kakaoFlow
-    private var _naverFlow: MutableStateFlow<CommonResponse> =
-        MutableStateFlow(CommonResponse.Empty)
-    val naverFlow: StateFlow<CommonResponse> = _naverFlow
+    val isSocialLogin : StateFlow<CommonResponse> = _isSocialLogin
 
 
     //UI 동작 확인용 테스트 코드
     fun isTokenCheck() {
         viewModelScope.launch {
-            delay(1000)
-
             // userId = -1, uuid = ""
             var userId = RunnerBeApplication.mTokenPreference.getUserId()
             var uuid = RunnerBeApplication.mTokenPreference.getUuid()
@@ -49,27 +47,29 @@ class SplashViewModel @Inject constructor(
             } else {
                 _isTokenLogin.postValue(true)
             }
-
         }
     }
 
-    fun kakaoLogin(body: SocialLoginRequest) = viewModelScope.launch {
-        _kakaoFlow.value = CommonResponse.Loading
-        kakaoRepo.getData(body).catch {
-            _kakaoFlow.value = CommonResponse.Failed(it)
-            it.printStackTrace()
-        }.collect {
-            _kakaoFlow.value = CommonResponse.Success(it)
+    fun login(type : LoginType, body: SocialLoginRequest) = viewModelScope.launch  {
+        val repo = when(type) {
+            LoginType.KAKAO -> kakaoRepo.getData(body)
+            LoginType.NAVER -> naverRepo.getData(body)
         }
-    }
-
-    fun naverLogin(body: SocialLoginRequest) = viewModelScope.launch {
-        _naverFlow.value = CommonResponse.Loading
-        naverRepo.getData(body).catch {
-            _naverFlow.value = CommonResponse.Failed(it)
+        repo.catch {
+            _isSocialLogin.value = CommonResponse.Failed(it)
             it.printStackTrace()
         }.collect {
-            _naverFlow.value = CommonResponse.Success(it)
+            if(it.isSuccess) {
+                val result = it.result
+                if(result.jwt != null) RunnerBeApplication.mTokenPreference.setToken(result.jwt)
+                // 추가정보 입력시
+                result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
+                // 추가정보 미입력시
+                result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
+                Log.e("uuid", result.uuid.toString())
+                _isSocialLogin.value = CommonResponse.Success(it)
+            } else _isSocialLogin.value = CommonResponse.Failed(NetworkErrorException(it.message))
+
         }
     }
 }

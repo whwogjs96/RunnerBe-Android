@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.network
+package com.applemango.runnerbe.di
 
 import dagger.Module
 import dagger.Provides
@@ -10,6 +10,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.applemango.runnerbe.BuildConfig
+import com.applemango.runnerbe.network.BearerInterceptor
+import com.applemango.runnerbe.network.XAccessTokenInterceptor
+import com.applemango.runnerbe.network.api.GetUserDataApi
 import com.applemango.runnerbe.screen.compose.login.KakaoLoginAPI
 import com.applemango.runnerbe.screen.compose.login.NaverLoginAPI
 import java.util.concurrent.TimeUnit
@@ -59,11 +62,10 @@ object NetworkModule {
     fun provideNaverLoginApi(retrofit: Retrofit): NaverLoginAPI =
         retrofit.create(NaverLoginAPI::class.java)
 
-//
-//    @Provides
-//    @Singleton
-//    fun provideRegisterApi(retrofit: Retrofit): RegisterAPI =
-//        retrofit.create(RegisterAPI::class.java)
+    @Provides
+    @Singleton
+    fun provideUserDataApi(retrofit: Retrofit): GetUserDataApi =
+        retrofit.create(GetUserDataApi::class.java)
 //
 //    @Provides
 //    @Singleton

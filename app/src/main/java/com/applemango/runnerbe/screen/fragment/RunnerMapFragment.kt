@@ -9,7 +9,6 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentRunnerMapBinding
 import com.applemango.runnerbe.model.CachingObject
-import com.applemango.runnerbe.screen.activity.HomeActivity
 import com.applemango.runnerbe.screen.dialog.NoAdditionalInfoDialog
 import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.naver.maps.map.LocationTrackingMode
@@ -38,7 +37,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     }
 
     private fun checkAdditionalUserInfo() {
-        if(RunnerBeApplication.mTokenPreference.getUserId() == 0 && CachingObject.isColdStart) {
+        if(RunnerBeApplication.mTokenPreference.getUserId() <= 0 && CachingObject.isColdStart) {
             showAdditionalInfoDialog()
         }
     }
