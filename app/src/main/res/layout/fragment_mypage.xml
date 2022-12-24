@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="myPageViewModel"
+            type="com.applemango.runnerbe.screen.fragment.mypage.MyPageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,15 +15,14 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/setting_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:padding="16dp"
             android:src="@drawable/ic_settings"
-            android:padding="16dp">
-        </ImageView>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/user_main"
@@ -31,110 +32,110 @@
             android:layout_marginRight="16dp"
             app:layout_constraintTop_toBottomOf="@id/setting_btn">
 
-            <ImageView
-                android:id="@+id/user_img"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/profileImageView"
                 android:layout_width="88dp"
                 android:layout_height="88dp"
-                app:layout_constraintTop_toTopOf="parent"
+                profileImageFromUrl="@{myPageViewModel.userInfo.profileImageUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:src="@drawable/ic_user_default">
-            </ImageView>
+                app:layout_constraintTop_toTopOf="parent"/>
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/user_img_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_camera"
-                app:layout_constraintRight_toRightOf="@id/user_img"
-                app:layout_constraintBottom_toBottomOf="@id/user_img">
-            </ImageView>
+                app:layout_constraintBottom_toBottomOf="@id/profileImageView"
+                app:layout_constraintRight_toRightOf="@id/profileImageView"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/user_img"
-                tools:text="닉네임"
-                android:textSize="20dp"
-                android:textColor="@color/dark_g2.5"
                 android:layout_marginLeft="24dp"
-                android:fontFamily="sans-serif-light"/>
+                android:fontFamily="sans-serif-light"
+                android:text="@{myPageViewModel.userInfo.nickName}"
+                android:textColor="@color/dark_g1"
+                android:textSize="20dp"
+                app:layout_constraintLeft_toRightOf="@id/profileImageView"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="닉네임" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/user_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/user_name"
-                app:layout_constraintLeft_toLeftOf="@id/user_name"
-                tools:text="여성 · 20대 후반"
+                android:layout_marginTop="4dp"
+                android:text="@{@string/comma_text(myPageViewModel.userInfo.gender, myPageViewModel.userInfo.age)}"
+                android:textColor="@color/dark_g3.5"
                 android:textSize="12dp"
-                android:textColor="@color/dark_g2.5"
-                android:layout_marginTop="4dp"/>
+                app:layout_constraintLeft_toLeftOf="@id/user_name"
+                app:layout_constraintTop_toBottomOf="@id/user_name"
+                tools:text="여성 · 20대 후반" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/user_edit_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_right_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:src="@drawable/ic_right_arrow">
-            </ImageView>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/runner_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/user_status"
-                app:layout_constraintLeft_toLeftOf="@id/user_status"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_radius_20_dark_g4_stroke">
-                <ImageView
+                android:background="@drawable/bg_radius_20_dark_g4_stroke"
+                app:layout_constraintLeft_toLeftOf="@id/user_status"
+                app:layout_constraintTop_toBottomOf="@id/user_status">
+
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/status_img"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    imageDrawable="@{myPageViewModel.getRunnerDiligenceImage(myPageViewModel.userInfo.diligence)}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent">
-                </ImageView>
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/runner_status_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@{myPageViewModel.userInfo.diligence}"
+                    android:textColor="@color/dark_g3"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/status_img"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:text="성실러너"
-                    android:textColor="@color/dark_g3"
-                    android:textSize="10sp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginLeft="4dp">
-                </TextView>
+                    tools:text="성실러너" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/user_job_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/runner_status"
-                app:layout_constraintTop_toTopOf="@id/runner_status"
-                app:layout_constraintBottom_toBottomOf="@id/runner_status"
-                tools:text="기획/전략/경영"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/bg_dark_g5_radius_24"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:text="@{myPageViewModel.userInfo.job}"
                 android:textColor="@color/logo_yellow"
                 android:textSize="10sp"
-                android:layout_marginLeft="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:background="@drawable/bg_dark_g5_radius_24">
-            </TextView>
+                app:layout_constraintBottom_toBottomOf="@id/runner_status"
+                app:layout_constraintLeft_toRightOf="@id/runner_status"
+                app:layout_constraintTop_toTopOf="@id/runner_status"
+                tools:text="기획/전략/경영"></TextView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -142,22 +143,22 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabSelectedTextColor="@color/white"
-            app:tabIndicatorColor="@color/white"
-            app:tabPaddingTop="16dp"
-            app:tabPaddingBottom="16dp"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
+            app:layout_constraintTop_toBottomOf="@id/user_main"
+            app:tabIndicatorColor="@color/white"
+            app:tabPaddingBottom="16dp"
+            app:tabPaddingTop="16dp"
+            app:tabSelectedTextColor="@color/white"
             app:tabTextAppearance="@style/tab_text"
-            app:tabTextColor="@color/dark_g4.5"
-            app:layout_constraintTop_toBottomOf="@id/user_main"/>
+            app:tabTextColor="@color/dark_g4.5" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

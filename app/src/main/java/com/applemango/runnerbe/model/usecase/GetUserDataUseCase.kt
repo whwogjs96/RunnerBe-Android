@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.model.usecase
 
 import android.accounts.NetworkErrorException
+import android.util.Log
 import com.applemango.runnerbe.network.repository.UserRepository
 import com.applemango.runnerbe.network.response.CommonResponse
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +20,7 @@ class GetUserDataUseCase @Inject constructor(private val repo : UserRepository) 
                 }
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(CommonResponse.Failed(e))
         }
     }
