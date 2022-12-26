@@ -3,6 +3,8 @@
     <string name="runner_be">러너비</string>
     <string name="login_kakao">카카오로 로그인</string>
     <string name="login_naver">네이버로 로그인</string>
+    
+    <string name="comma_text">%s · %s</string>
 
     <string name="login_naver_client_id">J_xcObueopdEQFV91h0W</string>
     <string name="login_naver_client_secret">tdcIn3fah3</string>

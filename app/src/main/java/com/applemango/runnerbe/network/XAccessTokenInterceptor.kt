@@ -20,6 +20,7 @@ class XAccessTokenInterceptor : Interceptor {
         val refreshToken: String? =  mTokenPreference.getRefreshToken()
 
         if (jwtToken != null) {
+            builder.addHeader("MobileType","AOS")
             builder.addHeader("x-access-token", jwtToken)
 //            if(refreshToken != null){
 ////                builder.addHeader("Authorization", "Bearer "+jwtToken)
