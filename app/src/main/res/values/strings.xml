@@ -6,6 +6,14 @@
     
     <string name="comma_text">%s · %s</string>
 
+    <string name="written_post">작성한 글</string>
+    <string name="join_running">참여 러닝</string>
+    
+    <string name="msg_empty_my_post">아직 모임을 만들지 않았어요!</string>
+    <string name="msg_empty_join_post">아직 러닝에 참여하지 않았어요!</string>
+    <string name="msg_go_my_post">모임을 만들어볼까요?</string>
+    <string name="msg_go_join_post">참여해볼까요?</string>
+
     <string name="login_naver_client_id">J_xcObueopdEQFV91h0W</string>
     <string name="login_naver_client_secret">tdcIn3fah3</string>
     <string name="kakao_native_key">5820a967bb81030d649333f17f04f062</string>
