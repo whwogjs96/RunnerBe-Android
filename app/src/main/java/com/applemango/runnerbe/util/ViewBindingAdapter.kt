@@ -40,3 +40,12 @@ fun bindTime(textView: TextView, dateString: String?) {
         textView.text = TimeString(dateString!!)
     }
 }
+
+@BindingAdapter("image_from_url_rounded")
+fun bindImageFromURLRounded(imageView: ImageView, imageURL: String?) {
+    Glide.with(imageView.context)
+        .load(imageURL)
+        .error(R.drawable.ic_user_default)
+        .transform(CenterCrop(), RoundedCorners(50))
+        .into(imageView)
+}

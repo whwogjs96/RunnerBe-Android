@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentMyPostBinding
+import com.applemango.runnerbe.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.screen.fragment.mypage.MyPageViewModel
 
@@ -18,5 +19,8 @@ class MyPostFragment : BaseFragment<FragmentMyPostBinding>(R.layout.fragment_my_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+        context?.let {
+            binding.postRecycler.addItemDecoration(RecyclerViewItemDeco(it, 12))
+        }
     }
 }

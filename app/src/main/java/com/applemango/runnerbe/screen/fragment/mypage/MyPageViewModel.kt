@@ -42,57 +42,57 @@ class MyPageViewModel @Inject constructor(
                             userInfo.postValue(result.userInfo)
                             joinPosts.addAll(result.myRunning)
                             myPosts.addAll(result.posting)
-//                            myPosts.add(
-//                                Posting(
-//                                    postId = 9,
-//                                    postingTime = "2022-02-11T03:25:58.000Z",
-//                                    postUserId = 2,
-//                                    nickName = "niaka",
-//                                    profileImageUrl = null,
-//                                    title = "테스트 제목",
-//                                    runningTime = "01:30:00",
-//                                    gatheringTime = "2023-05-22T11:22:11.000Z",
-//                                    gatherLongitude = "127.8343000000",
-//                                    gatherLatitude = "37.0231231230",
-//                                    locationInfo = "지금 어디 어디 어디",
-//                                    runningTag = "A",
-//                                    age = "20-65",
-//                                    gender = "남성",
-//                                    whetherEnd = "N",
-//                                    job = "DEV",
-//                                    peopleNum = 4,
-//                                    contents = "여기는 모임 내용",
-//                                    userId = 2,
-//                                    bookMark = 0,
-//                                    DISTANCE = null,
-//                                    attandance = null,
-//                                    profileUrlList = listOf(
-//                                        ProfileUrlList(23, null),
-//                                        ProfileUrlList(2, null),
-//                                        ProfileUrlList(20, null),
-//                                        ProfileUrlList(63, null)
-//                                    ),
-//                                    runnerList = listOf(
-//                                        UserInfo(
-//                                            userId = 23,
-//                                            nickName = "test",
-//                                            gender = "남성",
-//                                            age = "30대 초반",
-//                                            diligence = "불량 러너",
-//                                            job = "교육",
-//                                            profileImageUrl = null,
-//                                            whetherCheck = "N",
-//                                            attendance = 0,
-//                                            whetherAccept = null,
-//                                            nameChanged = null,
-//                                            jobChangePossible = null,
-//                                            pushOn = null
-//                                        )
-//                                    ),
-//                                    whetherPostUser = null,
-//                                    whetherCheck = null
-//                                )
-//                            )
+                            myPosts.add(
+                                Posting(
+                                    postId = 9,
+                                    postingTime = "2022-02-11 03:25:58",
+                                    postUserId = 2,
+                                    nickName = "niaka",
+                                    profileImageUrl = null,
+                                    title = "테스트 제목",
+                                    runningTime = "01:30:00",
+                                    gatheringTime = "2023-05-22 11:22:11",
+                                    gatherLongitude = "127.8343000000",
+                                    gatherLatitude = "37.0231231230",
+                                    locationInfo = "지금 어디 어디 어디",
+                                    runningTag = "A",
+                                    age = "20-65",
+                                    gender = "남성",
+                                    whetherEnd = "N",
+                                    job = "DEV",
+                                    peopleNum = 4,
+                                    contents = "여기는 모임 내용",
+                                    userId = 2,
+                                    bookMark = 0,
+                                    DISTANCE = null,
+                                    attandance = null,
+                                    profileUrlList = listOf(
+                                        ProfileUrlList(23, null),
+                                        ProfileUrlList(2, null),
+                                        ProfileUrlList(20, null),
+                                        ProfileUrlList(63, null)
+                                    ),
+                                    runnerList = listOf(
+                                        UserInfo(
+                                            userId = 23,
+                                            nickName = "test",
+                                            gender = "남성",
+                                            age = "30대 초반",
+                                            diligence = "불량 러너",
+                                            job = "교육",
+                                            profileImageUrl = null,
+                                            whetherCheck = "N",
+                                            attendance = 0,
+                                            whetherAccept = null,
+                                            nameChanged = null,
+                                            jobChangePossible = null,
+                                            pushOn = null
+                                        )
+                                    ),
+                                    whetherPostUser = null,
+                                    whetherCheck = null
+                                )
+                            )
                         }
                     }
                 }
