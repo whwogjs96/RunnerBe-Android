@@ -35,7 +35,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:text="@{holderModel.endCheck()}"
                 android:textColor="@color/dark_g2"
-                android:textSize="18sp"/>
+                android:textSize="18dp"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bookmark_btn"
@@ -102,12 +102,11 @@
                     android:text="외 1명"
                     android:visibility="@{holderModel.profileUrlList.size() > 5 ? View.VISIBLE : View.GONE}"
                     android:textSize="12sp"
-                    android:textColor="@color/dark_g3.5"
+                    android:textColor="@color/dark_g3_5"
                     app:layout_constraintLeft_toRightOf="@id/userProfileFourView"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -127,7 +126,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:src="@drawable/ic_calender"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/date_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -135,7 +134,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/date_img"
                     date_string="@{holderModel.gatheringTime}"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="@color/dark_g3"
                     android:layout_marginLeft="4dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -157,7 +156,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:src="@drawable/ic_people_18"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/group_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -165,7 +164,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/group_img"
                     android:text="@{holderModel.groupString()}"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="@color/dark_g3"
                     android:layout_marginLeft="4dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -179,39 +178,48 @@
                 android:layout_marginLeft="4dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/time_img"
+                    android:id="@+id/timeIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:src="@drawable/ic_time_18"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/time_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/time_img"
+                    app:layout_constraintTop_toTopOf="@id/timeIcon"
+                    app:layout_constraintBottom_toBottomOf="@id/timeIcon"
+                    app:layout_constraintLeft_toRightOf="@id/timeIcon"
                     time_string="@{holderModel.runningTime}"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="@color/dark_g3"
                     android:layout_marginLeft="4dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/checkButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/time_main"
-                android:text="러닝 후에 출석을 관리해주세요"
-                android:textSize="14dp"
-                android:gravity="center"
-                android:padding="12dp"
-                android:textColor="@color/dark_g3.5"
-                android:background="@drawable/bg_my_page_yet_running_custom"
-                android:layout_marginTop="20dp"/>
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintTop_toBottomOf="@id/time_txt"
+                    android:background="@color/black"
+                    android:layout_marginTop="16dp">
+                </View>
+
+                <TextView
+                    android:id="@+id/attendanceStatusView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/line"
+                    android:layout_marginTop="12dp"
+                    android:text="@{holderModel.attentionString()}"
+                    android:textColor="@{holderModel.attentionCheck() ? @color/logo_yellow : @color/dark_g3_5}"
+                    android:textSize="14dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 

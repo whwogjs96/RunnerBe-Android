@@ -6,6 +6,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.dto.Posting
 import com.applemango.runnerbe.dto.ProfileUrlList
+import com.applemango.runnerbe.screen.fragment.mypage.joinpost.JoinPostAdapter
 import com.applemango.runnerbe.screen.fragment.mypage.mypost.MyPostAdapter
 
 @BindingAdapter("myPostAdapter")
@@ -20,7 +21,7 @@ fun setMyPostAdapter(recyclerView: RecyclerView, dataList : ObservableArrayList<
 @BindingAdapter("joinPostAdapter")
 fun setJoinPostAdapter(recyclerView: RecyclerView, dataList : ObservableArrayList<Posting>) {
     if(recyclerView.adapter == null) {
-
+        recyclerView.adapter = JoinPostAdapter(dataList)
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }

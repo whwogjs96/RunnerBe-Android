@@ -28,7 +28,7 @@ data class Posting(
     @SerializedName("userId") val userId: Int?,
     // 0이면 찜X, 1이면 찜O
     @SerializedName("bookMark") val bookMark: Int?,
-    @SerializedName("attandance") val attandance: String?,
+    @SerializedName("attandance") val attandance: Int,
     // 출석처리 여부 Y: 반장이 출석체크O, N: 반장이 출석체크X
     @SerializedName("whetherCheck") val whetherCheck: String?,
     @SerializedName("profileUrlList") val profileUrlList: List<ProfileUrlList>?,
@@ -37,24 +37,21 @@ data class Posting(
 ){
     fun endCheck(): String = if(this.whetherEnd == "Y"){
             "마감된 게시글"
-        } else {
-            "모집중"
-        }
+        } else "모집중"
 
     fun bookmarkCheck(): Boolean {
         return this.bookMark == 1
     }
 
     fun attentionString(): String {
-        return if(this.whetherCheck == "Y" && this.whetherPostUser == "N") {
-            "출석을 완료했어요 \uD83D\uDE0E"
-        } else {
-            "리더의 체크를 기다리고 있어요"
-        }
+        return if(this.whetherCheck == "Y") {
+            if(this.attandance == 1)"출석을 완료했어요 \uD83D\uDE0E"
+            else "불참했어요 \uD83D\uDE2D"
+        } else "리더의 체크를 기다리고 있어요 \uD83E\uDD7A"
     }
 
     fun attentionCheck(): Boolean {
-        return this.whetherCheck == "Y"
+        return this.whetherCheck == "Y" && this.attandance == 1
     }
 
     fun writerCheck(): Boolean {
