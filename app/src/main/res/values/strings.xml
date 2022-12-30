@@ -6,6 +6,10 @@
     
     <string name="comma_text">%s · %s</string>
 
+    <string name="setting">설정</string>
+    <string name="book_mark_list">찜 목록</string>
+    <string name="running_talk">러닝톡</string>
+
     <string name="written_post">작성한 글</string>
     <string name="join_running">참여 러닝</string>
     <string name="logout">로그아웃</string>

@@ -19,7 +19,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="찜 목록"
+            android:text="@string/book_mark_list"
             android:textSize="16dp"
             android:textColor="@color/dark_g3"
             android:layout_margin="16dp">

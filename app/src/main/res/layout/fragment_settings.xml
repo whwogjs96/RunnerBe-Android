@@ -39,7 +39,7 @@
                 android:id="@+id/top_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="설정"
+                android:text="@string/setting"
                 android:textColor="@color/dark_g3.5"
                 android:fontFamily="sans-serif-black"
                 android:textSize="18dp"
