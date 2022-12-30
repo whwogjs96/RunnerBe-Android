@@ -10,11 +10,9 @@ import com.applemango.runnerbe.screen.fragment.mypage.mypost.MyPostAdapter
 
 @BindingAdapter("myPostAdapter")
 fun setMyPostAdapter(recyclerView: RecyclerView, dataList : ObservableArrayList<Posting>) {
-    Log.e("여기 안오나?", dataList.toString())
     recyclerView.adapter = MyPostAdapter(dataList)
     if(recyclerView.adapter == null) {
         recyclerView.adapter = MyPostAdapter(dataList)
-        Log.e("여길 안오는 거?", dataList.toString())
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }

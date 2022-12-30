@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentSettingsBinding
 import com.applemango.runnerbe.screen.activity.SignActivity
+import com.applemango.runnerbe.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.TokenSPreference
 
@@ -31,7 +32,18 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
 
     override fun onClick(v: View?) {
         when(v) {
-            binding.logoutBtn -> viewModel.logout()
+            binding.logoutBtn -> {
+                context?.let {
+                    TwoButtonDialog.createShow(
+                        it,
+                        firstButtonText = resources.getString(R.string.no),
+                        secondButtonText = resources.getString(R.string.yes),
+                        firstEvent = {},
+                        secondEvent = {viewModel.logout()},
+                        title = resources.getString(R.string.question_logout)
+                    )
+                }
+            }
         }
     }
 }

@@ -17,8 +17,8 @@ class TokenSPreference(private val applicationContext : Context) {
     fun isKakao() : Boolean = getLoginType() == LoginType.KAKAO
 
     fun logoutSet() {
-        if(isNaver()) NaverIdLoginSDK.logout()
-        if(isKakao()) //카카오도 SDK 로그아웃이 있는 경우 처리하기
+//        if(isNaver()) NaverIdLoginSDK.logout() //요긴 네이버 쪽 버그로 인해 로그아웃이 안되는 이슈가...
+//        if(isKakao()) {}//카카오도 SDK 로그아웃이 있는 경우 처리하기
         removeToken()
         removeRefreshToken()
         removeUserId()

@@ -15,6 +15,11 @@
     <string name="msg_go_my_post">모임을 만들어볼까요?</string>
     <string name="msg_go_join_post">참여해볼까요?</string>
 
+    <string name="yes">네</string>
+    <string name="no">아니오</string>
+
+    <string name="question_logout">로그아웃 하시겠어요?</string>
+
     <string name="login_naver_client_id">J_xcObueopdEQFV91h0W</string>
     <string name="login_naver_client_secret">tdcIn3fah3</string>
     <string name="kakao_native_key">5820a967bb81030d649333f17f04f062</string>
