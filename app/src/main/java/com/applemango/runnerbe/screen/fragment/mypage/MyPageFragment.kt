@@ -9,13 +9,14 @@ import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentMypageBinding
 import com.applemango.runnerbe.model.RunnerDiligence
 import com.applemango.runnerbe.network.response.CommonResponse
+import com.applemango.runnerbe.screen.fragment.MainFragmentDirections
 import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
+class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage), View.OnClickListener {
 
     private val viewModel: MyPageViewModel by viewModels()
 
@@ -31,6 +32,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             viewModel.getUserData(userId)
         }
         observeBinding()
+        binding.settingButton.setOnClickListener(this)
     }
 
     private fun tabInit() {
@@ -49,6 +51,14 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             } else {
 
                 binding.profileImageView
+            }
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when(v) {
+            binding.settingButton -> {
+                navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
             }
         }
     }

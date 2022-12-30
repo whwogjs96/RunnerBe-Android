@@ -20,7 +20,7 @@
             android:name=".screen.activity.SignActivity"
             android:exported="true"
             android:label="@string/runner_be"
-            android:theme="@style/Theme.RunnerBeAndroid">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +29,7 @@
         </activity>
 
         <activity android:name=".screen.activity.HomeActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>

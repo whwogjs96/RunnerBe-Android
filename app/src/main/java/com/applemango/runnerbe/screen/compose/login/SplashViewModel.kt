@@ -12,6 +12,7 @@ import com.applemango.runnerbe.model.LoginType
 import com.applemango.runnerbe.network.request.SocialLoginRequest
 import com.applemango.runnerbe.network.response.CommonResponse
 import com.applemango.runnerbe.network.response.SocialLoginResponse
+import com.applemango.runnerbe.util.TokenSPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,6 +62,7 @@ class SplashViewModel @Inject constructor(
         }.collect {
             if(it.isSuccess) {
                 val result = it.result
+                RunnerBeApplication.mTokenPreference.setLoginType(type)
                 if(result.jwt != null) RunnerBeApplication.mTokenPreference.setToken(result.jwt)
                 // 추가정보 입력시
                 result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }

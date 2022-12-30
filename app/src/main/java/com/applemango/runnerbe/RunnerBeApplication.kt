@@ -1,6 +1,7 @@
 package com.applemango.runnerbe
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
@@ -28,13 +29,13 @@ class RunnerBeApplication: Application() {
 
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
+
     }
 
     override fun onCreate() {
         super.onCreate()
         // 다크모드 비활성화
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
         mTokenPreference = TokenSPreference(applicationContext)
 
 
