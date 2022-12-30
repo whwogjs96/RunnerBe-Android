@@ -57,7 +57,7 @@
                 android:fontFamily="sans-serif-light"
                 android:text="@{myPageViewModel.userInfo.nickName}"
                 android:textColor="@color/dark_g1"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:layout_constraintLeft_toRightOf="@id/profileImageView"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="닉네임" />
@@ -69,7 +69,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@{@string/comma_text(myPageViewModel.userInfo.gender, myPageViewModel.userInfo.age)}"
                 android:textColor="@color/dark_g3.5"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="@id/user_name"
                 app:layout_constraintTop_toBottomOf="@id/user_name"
                 tools:text="여성 · 20대 후반" />
@@ -84,7 +84,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/runner_status"
+                android:id="@+id/runnerStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -119,7 +119,7 @@
                     tools:text="성실러너" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/user_job_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,10 +132,10 @@
                 android:text="@{myPageViewModel.userInfo.job}"
                 android:textColor="@color/logo_yellow"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@id/runner_status"
-                app:layout_constraintLeft_toRightOf="@id/runner_status"
-                app:layout_constraintTop_toTopOf="@id/runner_status"
-                tools:text="기획/전략/경영"></TextView>
+                app:layout_constraintBottom_toBottomOf="@id/runnerStatus"
+                app:layout_constraintLeft_toRightOf="@id/runnerStatus"
+                app:layout_constraintTop_toTopOf="@id/runnerStatus"
+                tools:text="기획/전략/경영"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -146,10 +146,10 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             app:layout_constraintTop_toBottomOf="@id/user_main"
-            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorColor="@color/dark_g3.5"
             app:tabPaddingBottom="16dp"
             app:tabPaddingTop="16dp"
-            app:tabSelectedTextColor="@color/white"
+            app:tabSelectedTextColor="@color/dark_g2"
             app:tabTextAppearance="@style/tab_text"
             app:tabTextColor="@color/dark_g4.5" />
 
@@ -157,8 +157,8 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
