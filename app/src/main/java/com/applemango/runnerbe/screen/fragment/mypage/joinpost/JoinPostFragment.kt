@@ -22,5 +22,4 @@ class JoinPostFragment : BaseFragment<FragmentJoinPostBinding>(R.layout.fragment
             binding.runningRecycler.addItemDecoration(RecyclerViewItemDeco(it, 12))
         }
     }
-
 }

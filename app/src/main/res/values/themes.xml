@@ -4,4 +4,5 @@
     <style name="Theme.RunnerBeAndroid" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/black_29</item>
     </style>
+
 </resources>

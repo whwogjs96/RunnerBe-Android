@@ -8,6 +8,7 @@ import com.applemango.runnerbe.model.MainBottomTab
 import com.applemango.runnerbe.screen.fragment.RunnerMapFragment
 import com.applemango.runnerbe.screen.fragment.mypage.MyPageFragment
 import com.applemango.runnerbe.screen.fragment.bookmark.BookMarkFragment
+import com.applemango.runnerbe.screen.fragment.chat.RunningTalkFragment
 
 /**
  * 메인 페이지의 탭 화면의 fragment 정의 어댑터입니다.
@@ -26,7 +27,7 @@ class MainFragmentPageAdapter(
         return when (tabIconIdList[position]) {
             MainBottomTab.MAP.iconResourceId -> RunnerMapFragment()
             MainBottomTab.BOOK_MARK.iconResourceId -> BookMarkFragment()
-//            MainBottomTab.MESSAGE.iconResourceId -> RunnerMapFragment()
+            MainBottomTab.MESSAGE.iconResourceId -> RunningTalkFragment()
             MainBottomTab.MY.iconResourceId -> MyPageFragment()
             else -> RunnerMapFragment()
         }

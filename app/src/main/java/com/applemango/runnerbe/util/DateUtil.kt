@@ -28,6 +28,8 @@ fun DateString(dateString: String): String {
     return dateToString.format(to)
 }
 
+fun DateStringInT(dateString: String) : String = dateString.substring(0, dateString.indexOf("T"))
+
 fun TimeString(dateString: String): String {
     val res = dateString.split(":")
     return res[0]+"시"+res[1]+"분"

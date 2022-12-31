@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.screen.fragment.mypage.mypost
+package com.applemango.runnerbe.screen.fragment.mypage.joinpost
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,20 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.dto.Posting
 
-class MyPostAdapter(private val dataList: ObservableArrayList<Posting>) :
-    RecyclerView.Adapter<MyPostViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPostViewHolder {
-        return MyPostViewHolder(
+class JoinPostAdapter(private val dataList: ObservableArrayList<Posting>) :
+    RecyclerView.Adapter<JoinPostViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JoinPostViewHolder {
+        return JoinPostViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_my_post,
+                R.layout.item_join_post,
                 parent,
                 false
             )
         )
     }
 
-    override fun onBindViewHolder(holder: MyPostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: JoinPostViewHolder, position: Int) {
         holder.bind(dataList[position])
     }
 

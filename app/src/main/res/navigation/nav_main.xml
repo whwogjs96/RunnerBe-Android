@@ -9,5 +9,14 @@
         android:id="@+id/mainFragment"
         android:name="com.applemango.runnerbe.screen.fragment.MainFragment"
         tools:layout="@layout/fragment_main"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        tools:layout="@layout/fragment_settings"
+        android:name="com.applemango.runnerbe.screen.fragment.mypage.setting.SettingFragment"
+        android:label="SettingFragment" />
 </navigation>
