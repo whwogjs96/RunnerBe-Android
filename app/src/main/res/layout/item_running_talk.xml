@@ -28,7 +28,7 @@
             android:layout_marginTop="2dp"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:textColor="@color/dark_g2.5"
+            android:textColor="@color/dark_g2_5"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@id/userTitleImageView"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -40,7 +40,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="2dp"
             android:textSize="12sp"
-            android:textColor="@color/dark_g3.5"
+            android:textColor="@color/dark_g3_5"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@id/userTitleImageView"
             app:layout_constraintTop_toBottomOf="@id/runningTalkTitleView"

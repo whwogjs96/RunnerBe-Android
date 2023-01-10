@@ -151,7 +151,7 @@
             app:tabPaddingTop="16dp"
             app:tabSelectedTextColor="@color/dark_g2"
             app:tabTextAppearance="@style/tab_text"
-            app:tabTextColor="@color/dark_g4.5" />
+            app:tabTextColor="@color/dark_g4_5" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
