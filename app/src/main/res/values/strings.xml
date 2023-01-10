@@ -28,4 +28,7 @@
     <string name="login_naver_client_secret">tdcIn3fah3</string>
     <string name="kakao_native_key">5820a967bb81030d649333f17f04f062</string>
 
+    <string name="msg_network_error_title">오프라인 상태예요!</string>
+    <string name="msg_network_error_content">네트워크를 연결해주세요.</string>
+    <string name="ready">준비됐어요!</string>
 </resources>
