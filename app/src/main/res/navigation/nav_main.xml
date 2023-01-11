@@ -18,5 +18,14 @@
         android:id="@+id/settingFragment"
         tools:layout="@layout/fragment_settings"
         android:name="com.applemango.runnerbe.screen.fragment.mypage.setting.SettingFragment"
-        android:label="SettingFragment" />
+        android:label="SettingFragment" >
+        <action
+            android:id="@+id/action_settingFragment_to_creatorFragment"
+            app:destination="@id/creatorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/creatorFragment"
+        tools:layout="@layout/fragment_creators"
+        android:name="com.applemango.runnerbe.screen.fragment.mypage.setting.creator.CreatorFragment"
+        android:label="CreatorFragment" />
 </navigation>
