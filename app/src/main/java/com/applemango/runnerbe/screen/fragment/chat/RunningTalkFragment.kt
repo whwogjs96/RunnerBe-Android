@@ -8,4 +8,5 @@ import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 class RunningTalkFragment: BaseFragment<FragmentRunningTalkBinding>(R.layout.fragment_running_talk) {
 
     private val viewModel : RunningTalkViewModel by viewModels()
+
 }

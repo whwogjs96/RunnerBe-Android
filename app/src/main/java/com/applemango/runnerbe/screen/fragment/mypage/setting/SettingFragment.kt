@@ -18,6 +18,7 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.logoutBtn.setOnClickListener(this)
+        binding.makers.setOnClickListener(this)
         observeBind()
     }
 
@@ -43,6 +44,9 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
                         title = resources.getString(R.string.question_logout)
                     )
                 }
+            }
+            binding.makers -> {
+                navigate(SettingFragmentDirections.actionSettingFragmentToCreatorFragment())
             }
         }
     }

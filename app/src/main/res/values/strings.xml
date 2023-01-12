@@ -10,6 +10,8 @@
     <string name="book_mark_list">찜 목록</string>
     <string name="running_talk">러닝톡</string>
 
+    <string name="creators">만든 사람들</string>
+
     <string name="written_post">작성한 글</string>
     <string name="join_running">참여 러닝</string>
     <string name="logout">로그아웃</string>
@@ -27,5 +29,18 @@
     <string name="login_naver_client_id">J_xcObueopdEQFV91h0W</string>
     <string name="login_naver_client_secret">tdcIn3fah3</string>
     <string name="kakao_native_key">5820a967bb81030d649333f17f04f062</string>
+
+    <string name="msg_network_error_title">오프라인 상태예요!</string>
+    <string name="msg_network_error_content">네트워크를 연결해주세요.</string>
+    <string name="ready">준비됐어요!</string>
+
+    <!--  만든 사람들  -->
+    <string name="eunseo">은서</string>
+    <string name="jeong">정</string>
+    <string name="duru">두루</string>
+    <string name="judy">주디</string>
+    <string name="sheave">시브</string>
+    <string name="joy">조이</string>
+    <string name="chanho">찬호</string>
 
 </resources>
