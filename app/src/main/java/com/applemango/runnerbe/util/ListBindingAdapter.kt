@@ -1,12 +1,12 @@
 package com.applemango.runnerbe.util
 
-import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
-import com.applemango.runnerbe.dto.Posting
-import com.applemango.runnerbe.dto.ProfileUrlList
+import com.applemango.runnerbe.model.dto.Posting
 import com.applemango.runnerbe.model.CreatorImageAndPosition
+import com.applemango.runnerbe.model.dto.Room
+import com.applemango.runnerbe.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.screen.fragment.mypage.joinpost.JoinPostAdapter
 import com.applemango.runnerbe.screen.fragment.mypage.mypost.MyPostAdapter
 import com.applemango.runnerbe.screen.fragment.mypage.setting.creator.CreatorAdapter
@@ -32,6 +32,14 @@ fun setJoinPostAdapter(recyclerView: RecyclerView, dataList : ObservableArrayLis
 fun setCreatorAdapter(recyclerView: RecyclerView, dataList: List<CreatorImageAndPosition>) {
     if(recyclerView.adapter == null) {
         recyclerView.adapter = CreatorAdapter(dataList)
+    }
+    recyclerView.adapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("runningTalkListAdapter")
+fun setRunningTalkListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Room>) {
+    if (recyclerView.adapter == null) {
+        recyclerView.adapter = RunningTalkAdapter(dataList)
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }

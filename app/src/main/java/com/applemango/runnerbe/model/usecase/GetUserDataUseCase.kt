@@ -16,12 +16,12 @@ class GetUserDataUseCase @Inject constructor(private val repo : UserRepository) 
                 if(this.body() != null) {
                     emit(CommonResponse.Success(this.body()))
                 } else {
-                    emit(CommonResponse.Failed(NetworkErrorException(this.message())))
+                    emit(CommonResponse.Failed(this.message()))
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            emit(CommonResponse.Failed(e))
+            emit(CommonResponse.Failed(e.message?:"error"))
         }
     }
 }

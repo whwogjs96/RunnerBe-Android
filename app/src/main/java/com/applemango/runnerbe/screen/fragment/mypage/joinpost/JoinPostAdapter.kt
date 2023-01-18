@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.R
-import com.applemango.runnerbe.dto.Posting
+import com.applemango.runnerbe.model.dto.Posting
 
 class JoinPostAdapter(private val dataList: ObservableArrayList<Posting>) :
     RecyclerView.Adapter<JoinPostViewHolder>() {
