@@ -12,9 +12,11 @@ import javax.inject.Singleton
 import com.applemango.runnerbe.BuildConfig
 import com.applemango.runnerbe.network.BearerInterceptor
 import com.applemango.runnerbe.network.XAccessTokenInterceptor
+import com.applemango.runnerbe.network.api.GetRunningTalkMessagesApi
 import com.applemango.runnerbe.network.api.GetUserDataApi
 import com.applemango.runnerbe.screen.compose.login.KakaoLoginAPI
 import com.applemango.runnerbe.screen.compose.login.NaverLoginAPI
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 /**
@@ -66,6 +68,11 @@ object NetworkModule {
     @Singleton
     fun provideUserDataApi(retrofit: Retrofit): GetUserDataApi =
         retrofit.create(GetUserDataApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRunningTalkApi(retrofit: Retrofit) : GetRunningTalkMessagesApi =
+        retrofit.create(GetRunningTalkMessagesApi::class.java)
 //
 //    @Provides
 //    @Singleton

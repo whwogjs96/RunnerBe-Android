@@ -52,26 +52,28 @@ class SplashViewModel @Inject constructor(
     }
 
     fun login(type : LoginType, body: SocialLoginRequest) = viewModelScope.launch  {
-        val repo = when(type) {
-            LoginType.KAKAO -> kakaoRepo.getData(body)
-            LoginType.NAVER -> naverRepo.getData(body)
-        }
-        repo.catch {
-            _isSocialLogin.value = CommonResponse.Failed(it)
-            it.printStackTrace()
-        }.collect {
-            if(it.isSuccess) {
-                val result = it.result
-                RunnerBeApplication.mTokenPreference.setLoginType(type)
-                if(result.jwt != null) RunnerBeApplication.mTokenPreference.setToken(result.jwt)
-                // 추가정보 입력시
-                result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
-                // 추가정보 미입력시
-                result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
-                Log.e("uuid", result.uuid.toString())
-                _isSocialLogin.value = CommonResponse.Success(it)
-            } else _isSocialLogin.value = CommonResponse.Failed(NetworkErrorException(it.message))
-
+        runCatching {
+            when(type) {
+                LoginType.KAKAO -> kakaoRepo.getData(body)
+                LoginType.NAVER -> naverRepo.getData(body)
+            }
+        }.onSuccess { repo ->
+            repo.catch {
+                _isSocialLogin.value = CommonResponse.Failed(it.message?:"error")
+                it.printStackTrace()
+            }.collect {
+                if(it.isSuccess) {
+                    val result = it.result
+                    RunnerBeApplication.mTokenPreference.setLoginType(type)
+                    if(result.jwt != null) RunnerBeApplication.mTokenPreference.setToken(result.jwt)
+                    // 추가정보 입력시
+                    result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
+                    // 추가정보 미입력시
+                    result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
+                    Log.e("uuid", result.uuid.toString())
+                    _isSocialLogin.value = CommonResponse.Success(it)
+                } else _isSocialLogin.value = CommonResponse.Failed(it.message?:"error")
+            }
         }
     }
 }

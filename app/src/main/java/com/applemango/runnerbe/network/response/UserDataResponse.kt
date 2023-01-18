@@ -1,7 +1,7 @@
 package com.applemango.runnerbe.network.response
 
-import com.applemango.runnerbe.dto.Posting
-import com.applemango.runnerbe.dto.UserInfo
+import com.applemango.runnerbe.model.dto.Posting
+import com.applemango.runnerbe.model.dto.UserInfo
 import com.google.gson.annotations.SerializedName
 
 data class UserDataResponse(

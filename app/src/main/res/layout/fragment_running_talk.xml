@@ -3,6 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.applemango.runnerbe.screen.fragment.chat.RunningTalkViewModel" />
 
     </data>
 
@@ -41,6 +44,7 @@
             android:id="@+id/talkRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            runningTalkListAdapter="@{viewModel.roomList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

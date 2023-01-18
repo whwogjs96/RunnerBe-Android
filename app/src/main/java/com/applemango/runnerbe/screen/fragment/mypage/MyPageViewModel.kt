@@ -1,15 +1,13 @@
 package com.applemango.runnerbe.screen.fragment.mypage
 
-import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.R
-import com.applemango.runnerbe.RunnerBeApplication
-import com.applemango.runnerbe.dto.Posting
-import com.applemango.runnerbe.dto.ProfileUrlList
-import com.applemango.runnerbe.dto.UserInfo
+import com.applemango.runnerbe.model.dto.Posting
+import com.applemango.runnerbe.model.dto.ProfileUrlList
+import com.applemango.runnerbe.model.dto.UserInfo
 import com.applemango.runnerbe.model.RunnerDiligence
 import com.applemango.runnerbe.model.usecase.GetUserDataUseCase
 import com.applemango.runnerbe.network.response.CommonResponse

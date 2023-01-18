@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.dto
+package com.applemango.runnerbe.model.dto
 
 import com.google.gson.annotations.SerializedName
 import java.util.*
