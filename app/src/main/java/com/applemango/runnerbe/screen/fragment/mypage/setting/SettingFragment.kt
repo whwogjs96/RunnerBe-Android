@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.screen.fragment.mypage.setting
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -19,7 +20,12 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         binding.logoutBtn.setOnClickListener(this)
         binding.makers.setOnClickListener(this)
+        binding.termsOfServiceButton.setOnClickListener(this)
+        binding.privacyPolicyButton.setOnClickListener(this)
+        binding.instagramButton.setOnClickListener(this)
+        binding.backBtn.setOnClickListener(this)
         observeBind()
+        binding.versionsTxt.text = getAppVersion()
     }
 
     private fun observeBind() {
@@ -45,9 +51,32 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
                     )
                 }
             }
+            binding.termsOfServiceButton -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://runnerbe.xyz/policy/service.txt"))
+                startActivity(intent)
+            }
+            binding.privacyPolicyButton -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://runnerbe.xyz/policy/privacy-deal.txt"))
+                startActivity(intent)
+            }
+            binding.instagramButton -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/runner_be_/"))
+                startActivity(intent)
+            }
             binding.makers -> {
                 navigate(SettingFragmentDirections.actionSettingFragmentToCreatorFragment())
             }
+            binding.backBtn -> {
+                navPopStack()
+            }
         }
+    }
+
+    private fun getAppVersion(): String {
+        return runCatching {
+            val pInfo = requireContext().packageManager.getPackageInfo(
+                requireContext().packageName, 0)
+            pInfo.versionName
+        }.getOrNull()?:""
     }
 }
