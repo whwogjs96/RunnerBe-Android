@@ -24,7 +24,10 @@
     <string name="yes">네</string>
     <string name="no">아니오</string>
 
+    <string name="confirm">확인</string>
+
     <string name="question_logout">로그아웃 하시겠어요?</string>
+    <string name="question_withdrawal">회원탈퇴 하시겠어요?</string>
 
     <string name="login_naver_client_id">J_xcObueopdEQFV91h0W</string>
     <string name="login_naver_client_secret">tdcIn3fah3</string>

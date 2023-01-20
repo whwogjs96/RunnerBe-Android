@@ -21,9 +21,9 @@ fun bindProfileImageFromUrl(view: ImageView, url: String?) {
     Glide.with(view.context)
         .load(url)
         .transform(CenterCrop(), RoundedCorners(200))
-        .apply(
-            RequestOptions().placeholder(R.drawable.ic_user_default)
-            .error(R.drawable.ic_user_default))
+        .placeholder(R.drawable.ic_user_default)
+        .error(R.drawable.ic_user_default)
+        .fallback(R.drawable.ic_user_default)
         .into(view)
 }
 

@@ -14,6 +14,7 @@ import com.applemango.runnerbe.network.BearerInterceptor
 import com.applemango.runnerbe.network.XAccessTokenInterceptor
 import com.applemango.runnerbe.network.api.GetRunningTalkMessagesApi
 import com.applemango.runnerbe.network.api.GetUserDataApi
+import com.applemango.runnerbe.network.api.WithdrawalApi
 import com.applemango.runnerbe.screen.compose.login.KakaoLoginAPI
 import com.applemango.runnerbe.screen.compose.login.NaverLoginAPI
 import retrofit2.create
@@ -73,6 +74,11 @@ object NetworkModule {
     @Singleton
     fun provideRunningTalkApi(retrofit: Retrofit) : GetRunningTalkMessagesApi =
         retrofit.create(GetRunningTalkMessagesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWithdrawalApi(retrofit: Retrofit) : WithdrawalApi =
+        retrofit.create(WithdrawalApi::class.java)
 //
 //    @Provides
 //    @Singleton

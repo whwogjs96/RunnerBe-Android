@@ -31,7 +31,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         if(userId > -1) {
             viewModel.getUserData(userId)
         }
-        observeBinding()
         binding.settingButton.setOnClickListener(this)
     }
 
@@ -42,17 +41,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
-    }
-
-    private fun observeBinding() {
-        viewModel.userInfo.observe(viewLifecycleOwner) {
-            if(it.profileImageUrl != null) {
-
-            } else {
-
-                binding.profileImageView
-            }
-        }
     }
 
     override fun onClick(v: View?) {
