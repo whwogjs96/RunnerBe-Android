@@ -46,7 +46,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     override fun onClick(v: View?) {
         when(v) {
             binding.settingButton -> {
-                navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
+                navigate(MainFragmentDirections.actionMainFragmentToSettingFragment(viewModel.userInfo.value?.pushOn == "Y"))
             }
         }
     }

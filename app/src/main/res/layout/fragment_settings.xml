@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<!--        <variable-->
-<!--            name="vm"-->
-<!--            type="com.applemango.runnerbe.viewmodel.SettingsViewModel" />-->
+        <variable
+            name="vm"
+            type="com.applemango.runnerbe.screen.fragment.mypage.setting.SettingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

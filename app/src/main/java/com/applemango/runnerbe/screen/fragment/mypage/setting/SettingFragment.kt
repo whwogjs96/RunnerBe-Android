@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentSettingsBinding
 import com.applemango.runnerbe.model.UiState
 import com.applemango.runnerbe.screen.activity.SignActivity
@@ -15,6 +17,8 @@ import com.applemango.runnerbe.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.TokenSPreference
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -22,6 +26,7 @@ import kotlinx.coroutines.launch
 class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings), View.OnClickListener {
 
     private val viewModel : SettingViewModel by viewModels()
+    private val args : SettingFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,6 +39,8 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
         binding.withdrawalButton.setOnClickListener(this)
         observeBind()
         binding.versionsTxt.text = getAppVersion()
+        viewModel.beforeAlarmCheck = args.alarmCheck
+        binding.alarmSwitch.isChecked = args.alarmCheck
     }
 
     private fun observeBind() {
@@ -66,7 +73,14 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
                 }
             }
         }
+    }
 
+    override fun onDestroyView() {
+        val check = binding.alarmSwitch.isChecked
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.patchAlarm(RunnerBeApplication.mTokenPreference.getUserId(), check)
+        }
+        super.onDestroyView()
     }
 
     override fun onClick(v: View?) {
