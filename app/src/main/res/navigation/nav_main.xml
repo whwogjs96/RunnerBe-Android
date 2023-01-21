@@ -22,6 +22,11 @@
         <action
             android:id="@+id/action_settingFragment_to_creatorFragment"
             app:destination="@id/creatorFragment" />
+
+        <argument
+            android:name="alarmCheck"
+            app:argType="boolean"/>
+
     </fragment>
     <fragment
         android:id="@+id/creatorFragment"

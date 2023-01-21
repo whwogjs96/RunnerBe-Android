@@ -18,13 +18,19 @@ fun bindImageFromRes(view: ImageView, drawableId: Int) {
 
 @BindingAdapter("profileImageFromUrl")
 fun bindProfileImageFromUrl(view: ImageView, url: String?) {
-    Glide.with(view.context)
-        .load(url)
-        .transform(CenterCrop(), RoundedCorners(200))
-        .apply(
-            RequestOptions().placeholder(R.drawable.ic_user_default)
-            .error(R.drawable.ic_user_default))
-        .into(view)
+    if(url.isNullOrEmpty() || url =="null") {
+        Glide.with(view.context)
+            .load(R.drawable.ic_user_default)
+            .into(view)
+    } else {
+        Glide.with(view.context)
+            .load(url)
+            .transform(CenterCrop(), RoundedCorners(200))
+            .placeholder(R.drawable.ic_user_default)
+            .error(R.drawable.ic_user_default)
+            .into(view)
+    }
+
 }
 
 @BindingAdapter("date_string")
@@ -43,9 +49,16 @@ fun bindTime(textView: TextView, dateString: String?) {
 
 @BindingAdapter("image_from_url_rounded")
 fun bindImageFromURLRounded(imageView: ImageView, imageURL: String?) {
-    Glide.with(imageView.context)
-        .load(imageURL)
-        .error(R.drawable.ic_user_default)
-        .transform(CenterCrop(), RoundedCorners(50))
-        .into(imageView)
+    if(imageURL.isNullOrEmpty()) {
+        Glide.with(imageView.context)
+            .load(R.drawable.ic_user_default)
+            .into(imageView)
+    } else {
+        Glide.with(imageView.context)
+            .load(imageURL)
+            .error(R.drawable.ic_user_default)
+            .transform(CenterCrop(), RoundedCorners(50))
+            .into(imageView)
+    }
+
 }

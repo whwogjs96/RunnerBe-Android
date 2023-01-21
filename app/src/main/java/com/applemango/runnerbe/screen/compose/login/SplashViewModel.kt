@@ -59,20 +59,20 @@ class SplashViewModel @Inject constructor(
             }
         }.onSuccess { repo ->
             repo.catch {
-                _isSocialLogin.value = CommonResponse.Failed(it.message?:"error")
+                _isSocialLogin.value = CommonResponse.Failed(999,it.message?:"error")
                 it.printStackTrace()
             }.collect {
                 if(it.isSuccess) {
                     val result = it.result
+                    Log.e("uuid", result.uuid.toString())
                     RunnerBeApplication.mTokenPreference.setLoginType(type)
                     if(result.jwt != null) RunnerBeApplication.mTokenPreference.setToken(result.jwt)
                     // 추가정보 입력시
                     result.userId?.let { it1 -> RunnerBeApplication.mTokenPreference.setUserId(it1) }
                     // 추가정보 미입력시
                     result.uuid?.let { it1 -> RunnerBeApplication.mTokenPreference.setUuid(it1) }
-                    Log.e("uuid", result.uuid.toString())
-                    _isSocialLogin.value = CommonResponse.Success(it)
-                } else _isSocialLogin.value = CommonResponse.Failed(it.message?:"error")
+                    _isSocialLogin.value = CommonResponse.Success(it.code, it)
+                } else _isSocialLogin.value = CommonResponse.Failed(it.code,it.message?:"error")
             }
         }
     }

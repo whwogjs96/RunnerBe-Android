@@ -14,14 +14,14 @@ class GetUserDataUseCase @Inject constructor(private val repo : UserRepository) 
         try {
             repo.getUserData(userId).run {
                 if(this.body() != null) {
-                    emit(CommonResponse.Success(this.body()))
+                    emit(CommonResponse.Success(this.body()!!.code, this.body()))
                 } else {
-                    emit(CommonResponse.Failed(this.message()))
+                    emit(CommonResponse.Failed(this.body()?.code?:this.code(), this.body()?.message?:this.message()))
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            emit(CommonResponse.Failed(e.message?:"error"))
+            emit(CommonResponse.Failed(999, e.message?:"error"))
         }
     }
 }

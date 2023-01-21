@@ -31,7 +31,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         if(userId > -1) {
             viewModel.getUserData(userId)
         }
-        observeBinding()
         binding.settingButton.setOnClickListener(this)
     }
 
@@ -44,21 +43,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }.attach()
     }
 
-    private fun observeBinding() {
-        viewModel.userInfo.observe(viewLifecycleOwner) {
-            if(it.profileImageUrl != null) {
-
-            } else {
-
-                binding.profileImageView
-            }
-        }
-    }
-
     override fun onClick(v: View?) {
         when(v) {
             binding.settingButton -> {
-                navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
+                navigate(MainFragmentDirections.actionMainFragmentToSettingFragment(viewModel.userInfo.value?.pushOn == "Y"))
             }
         }
     }
