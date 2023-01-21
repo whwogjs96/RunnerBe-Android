@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -33,4 +36,15 @@
         tools:layout="@layout/fragment_creators"
         android:name="com.applemango.runnerbe.screen.fragment.mypage.setting.creator.CreatorFragment"
         android:label="CreatorFragment" />
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        tools:layout="@layout/fragment_edit_profile"
+        android:name="com.applemango.runnerbe.screen.fragment.mypage.editprofile.EditProfileFragment"
+        android:label="EditProfileFragment" >
+
+        <argument
+            android:name="userData"
+            app:argType="com.applemango.runnerbe.model.dto.UserInfo"/>
+    </fragment>
 </navigation>

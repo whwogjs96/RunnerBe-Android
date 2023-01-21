@@ -1,8 +1,11 @@
 package com.applemango.runnerbe.model.dto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 // 마이페이지(UserInfo), 게시글 상세(runnerInfo, waitingRunnerInfo)
+@Parcelize
 data class UserInfo(
     @SerializedName("userId") val userId: Int?,
     @SerializedName("nickName") val nickName: String?,
@@ -23,4 +26,4 @@ data class UserInfo(
     @SerializedName("nameChanged") val nameChanged: String?,
     // 직군변경할 수 있는지 Y : 가능 N : 불가능
     @SerializedName("jobChangePossible") val jobChangePossible: String?
-)
+) : Parcelable
