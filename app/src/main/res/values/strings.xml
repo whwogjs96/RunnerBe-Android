@@ -49,6 +49,7 @@
     <string name="finished_enrollment">등록완료</string>
     <string name="consider_more">더 고민할래요!</string>
     <string name="complete_change_nickname">닉네임이 변경되었어요!</string>
+    <string name="complete_change_job">직업군이 변경되었어요!</string>
     <string name="error_double_check">중복된 닉네임이에요!</string>
 
     <!--  만든 사람들  -->

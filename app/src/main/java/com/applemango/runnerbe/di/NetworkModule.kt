@@ -87,6 +87,11 @@ object NetworkModule {
     @Singleton
     fun provideNicknameChangeApi(retrofit: Retrofit) : NicknameChangeApi =
         retrofit.create(NicknameChangeApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideJobChangeApi(retrofit: Retrofit) : EditJobApi =
+        retrofit.create(EditJobApi::class.java)
 //
 //    @Provides
 //    @Singleton

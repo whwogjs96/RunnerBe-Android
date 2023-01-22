@@ -2,6 +2,7 @@ package com.applemango.runnerbe.network.repository
 
 import android.accounts.NetworkErrorException
 import com.applemango.runnerbe.network.api.*
+import com.applemango.runnerbe.network.request.EditJobRequest
 import com.applemango.runnerbe.network.request.EditNicknameRequest
 import com.applemango.runnerbe.network.request.WithdrawalUserRequest
 import com.applemango.runnerbe.network.response.CommonResponse
@@ -15,7 +16,8 @@ class UserRepositoryImpl @Inject constructor(
     private val getRunningTalkMessagesApi: GetRunningTalkMessagesApi,
     private val withdrawalApi: WithdrawalApi,
     private val patchAlarmApi: PatchAlarmApi,
-    private val nicknameChangeApi: NicknameChangeApi
+    private val nicknameChangeApi: NicknameChangeApi,
+    private val jobChangeApi: EditJobApi
     )
     : UserRepository {
     override suspend fun getUserData(userId: Int): Response<UserDataResponse> =
@@ -68,6 +70,20 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun nicknameChange(userId: Int, nickname: String): CommonResponse {
         return try {
             val response = nicknameChangeApi.editNickname(userId, EditNicknameRequest(nickname))
+            if(response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
+                CommonResponse.Success(response.body()!!.code, response.body()!!)
+            } else {
+                CommonResponse.Failed(response.body()?.code?:response.code(), response.body()?.message?:response.message())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CommonResponse.Failed(999,e.message?:"error")
+        }
+    }
+
+    override suspend fun jobChange(userId: Int, job: String): CommonResponse {
+        return try {
+            val response = jobChangeApi.editJob(userId, EditJobRequest(job))
             if(response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
                 CommonResponse.Success(response.body()!!.code, response.body()!!)
             } else {

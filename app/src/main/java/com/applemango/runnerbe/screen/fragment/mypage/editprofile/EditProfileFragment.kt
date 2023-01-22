@@ -34,6 +34,7 @@ class EditProfileFragment :
         binding.buttonClick = jobButtonClick()
         viewModel.userInfo.value = args.userData
         observeBind()
+        Log.e("확인", viewModel.userInfo.value?.jobChangePossible?.toString().toString())
         binding.nameChangeBtn.setOnClickListener(this)
         binding.userNameEdit.addTextChangedListener {
             binding.nameFailTxt.isVisible =
@@ -48,6 +49,34 @@ class EditProfileFragment :
                 binding.userNameEdit.setText("${it.nickName} (disabled)")
             }
             initJob()
+        }
+        viewModel.jobChangeState.observe(viewLifecycleOwner) {
+            context?.let { context ->
+                if (it is UiState.Loading) showLoadingDialog(context)
+                else dismissLoadingDialog()
+            }
+            when (it) {
+                is UiState.NetworkError -> {
+                    //오프라인 발생 어쩌구 다이얼로그
+                }
+                is UiState.Failed -> {
+                    context?.let { context ->
+                        MessageDialog.createShow(
+                            context = context,
+                            message = it.message,
+                            buttonText = resources.getString(R.string.confirm)
+                        )
+                    }
+                }
+                is UiState.Success -> {
+                    Toast.makeText(
+                        context,
+                        resources.getString(R.string.complete_change_job),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    navPopStack()
+                }
+            }
         }
         viewModel.nicknameChangeState.observe(viewLifecycleOwner) {
             context?.let { context ->
@@ -98,8 +127,9 @@ class EditProfileFragment :
                         initJob()
                     },
                     secondEvent = {
-                        viewModel.currentJob = JobButtonId.findById(id)?.job ?: ""
-                        //여기에 서버와 통신 추가
+                        viewModel.currentJob = JobButtonId.findById(btn.id)?.job ?: ""
+                        Log.e("확인",viewModel.currentJob)
+                        viewModel.jobChange(viewModel.currentJob)
                     }
                 )
             }
