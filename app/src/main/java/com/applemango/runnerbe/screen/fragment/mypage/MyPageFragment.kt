@@ -16,7 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage), View.OnClickListener {
+class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage),
+    View.OnClickListener {
 
     private val viewModel: MyPageViewModel by viewModels()
 
@@ -28,14 +29,18 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         binding.myPageViewModel = viewModel
         tabInit()
         val userId = RunnerBeApplication.mTokenPreference.getUserId()
-        if(userId > -1) {
+        if (userId > -1) {
             viewModel.getUserData(userId)
         }
         binding.settingButton.setOnClickListener(this)
+        binding.userEditBtn.setOnClickListener(this)
     }
 
     private fun tabInit() {
-        val tabTitles = listOf(resources.getString(R.string.written_post), resources.getString(R.string.join_running))
+        val tabTitles = listOf(
+            resources.getString(R.string.written_post),
+            resources.getString(R.string.join_running)
+        )
         viewpagerFragmentAdapter = MyPageAdapter(this)
         binding.viewPager.adapter = viewpagerFragmentAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -44,9 +49,17 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     }
 
     override fun onClick(v: View?) {
-        when(v) {
+        when (v) {
             binding.settingButton -> {
                 navigate(MainFragmentDirections.actionMainFragmentToSettingFragment(viewModel.userInfo.value?.pushOn == "Y"))
+            }
+            binding.userEditBtn -> {
+                viewModel.userInfo.value?.let {
+                    navigate(
+                        MainFragmentDirections.actionMainFragmentToEditProfileFragment(it)
+                    )
+                }
+
             }
         }
     }

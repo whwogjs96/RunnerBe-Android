@@ -28,4 +28,5 @@
     <color name="black_background">#121212</color>
 
     <color name="tab_background">#0AFFFFFF</color>
+    <color name="error_light">#F59B92</color>
 </resources>

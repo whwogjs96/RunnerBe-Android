@@ -12,10 +12,7 @@ import javax.inject.Singleton
 import com.applemango.runnerbe.BuildConfig
 import com.applemango.runnerbe.network.BearerInterceptor
 import com.applemango.runnerbe.network.XAccessTokenInterceptor
-import com.applemango.runnerbe.network.api.GetRunningTalkMessagesApi
-import com.applemango.runnerbe.network.api.GetUserDataApi
-import com.applemango.runnerbe.network.api.PatchAlarmApi
-import com.applemango.runnerbe.network.api.WithdrawalApi
+import com.applemango.runnerbe.network.api.*
 import com.applemango.runnerbe.screen.compose.login.KakaoLoginAPI
 import com.applemango.runnerbe.screen.compose.login.NaverLoginAPI
 import retrofit2.create
@@ -85,6 +82,16 @@ object NetworkModule {
     @Singleton
     fun providePatchAlarmApi(retrofit: Retrofit) : PatchAlarmApi =
         retrofit.create(PatchAlarmApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNicknameChangeApi(retrofit: Retrofit) : NicknameChangeApi =
+        retrofit.create(NicknameChangeApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideJobChangeApi(retrofit: Retrofit) : EditJobApi =
+        retrofit.create(EditJobApi::class.java)
 //
 //    @Provides
 //    @Singleton

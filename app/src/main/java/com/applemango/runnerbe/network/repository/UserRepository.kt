@@ -10,4 +10,6 @@ interface UserRepository {
     suspend fun getRunningTalks() : CommonResponse
     suspend fun withdrawalUser(userId: Int, secretKey: String) : CommonResponse
     suspend fun patchAlarm(userId: Int, pushOn : Boolean) : CommonResponse
+    suspend fun nicknameChange(userId: Int, nickname : String) : CommonResponse
+    suspend fun jobChange(userId: Int, job : String) : CommonResponse
 }
