@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.model.dto.Posting
 import com.applemango.runnerbe.model.CreatorImageAndPosition
 import com.applemango.runnerbe.model.dto.Room
+import com.applemango.runnerbe.screen.dialog.selectitem.SelectListData
+import com.applemango.runnerbe.screen.dialog.selectitem.SelectListItemAdapter
 import com.applemango.runnerbe.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.screen.fragment.mypage.joinpost.JoinPostAdapter
 import com.applemango.runnerbe.screen.fragment.mypage.mypost.MyPostAdapter
@@ -40,6 +42,14 @@ fun setCreatorAdapter(recyclerView: RecyclerView, dataList: List<CreatorImageAnd
 fun setRunningTalkListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Room>) {
     if (recyclerView.adapter == null) {
         recyclerView.adapter = RunningTalkAdapter(dataList)
+    }
+    recyclerView.adapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("selectListAdapter")
+fun setSelectListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<SelectListData>) {
+    if(recyclerView.adapter == null) {
+        recyclerView.adapter = SelectListItemAdapter(dataList)
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }

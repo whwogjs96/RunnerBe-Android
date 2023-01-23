@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.screen.fragment.mypage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +10,9 @@ import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentMypageBinding
 import com.applemango.runnerbe.model.RunnerDiligence
 import com.applemango.runnerbe.network.response.CommonResponse
+import com.applemango.runnerbe.screen.dialog.selectitem.SelectItemDialog
+import com.applemango.runnerbe.screen.dialog.selectitem.SelectItemParameter
+import com.applemango.runnerbe.screen.dialog.selectitem.SelectListData
 import com.applemango.runnerbe.screen.fragment.MainFragmentDirections
 import com.applemango.runnerbe.screen.fragment.base.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -34,6 +38,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }
         binding.settingButton.setOnClickListener(this)
         binding.userEditBtn.setOnClickListener(this)
+        binding.userImgEdit.setOnClickListener(this)
     }
 
     private fun tabInit() {
@@ -58,6 +63,15 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                     navigate(
                         MainFragmentDirections.actionMainFragmentToEditProfileFragment(it)
                     )
+                }
+            }
+            binding.userImgEdit -> {
+                context?.let {
+                    SelectItemDialog.createShow(it, listOf(
+                        SelectItemParameter("촬영하기") { Log.e("문제 없음", "촬영하기") },
+                        SelectItemParameter("앨범에서 선택하기") {Log.e("문제 없음", "앨범에서 선택하기")},
+                        SelectItemParameter("기본 이미지로 변경하기") {Log.e("문제 없음", "기본 이미지로 변경하기")}
+                    ))
                 }
 
             }
