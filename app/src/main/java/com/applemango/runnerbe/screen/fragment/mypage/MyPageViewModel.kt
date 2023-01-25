@@ -9,7 +9,9 @@ import com.applemango.runnerbe.model.dto.Posting
 import com.applemango.runnerbe.model.dto.ProfileUrlList
 import com.applemango.runnerbe.model.dto.UserInfo
 import com.applemango.runnerbe.model.RunnerDiligence
+import com.applemango.runnerbe.model.UiState
 import com.applemango.runnerbe.model.usecase.GetUserDataUseCase
+import com.applemango.runnerbe.model.usecase.PatchUserImageUseCase
 import com.applemango.runnerbe.network.response.CommonResponse
 import com.applemango.runnerbe.network.response.UserDataResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val getUserDataUseCase: GetUserDataUseCase
+    private val getUserDataUseCase: GetUserDataUseCase,
+    private val patchUserImageUseCase: PatchUserImageUseCase
 ) : ViewModel() {
 
     private var _uiUserDataFlow: MutableStateFlow<CommonResponse> =
@@ -29,6 +32,9 @@ class MyPageViewModel @Inject constructor(
     val userInfo: MutableLiveData<UserInfo> = MutableLiveData()
     val joinPosts: ObservableArrayList<Posting> = ObservableArrayList()
     val myPosts: ObservableArrayList<Posting> = ObservableArrayList()
+
+    private var _updateUserImageState : MutableLiveData<UiState> = MutableLiveData()
+    val updateUserImageState get() = _updateUserImageState
 
     fun getUserData(userId: Int) = viewModelScope.launch {
         if (userId > -1) {
@@ -167,4 +173,19 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
+    fun userProfileImageChange(imageUrl : String?) = viewModelScope.launch {
+        patchUserImageUseCase(imageUrl).collect {
+            _updateUserImageState.postValue(
+                when(it) {
+                    is CommonResponse.Success<*> -> UiState.Success(it.code)
+                    is CommonResponse.Failed -> {
+                        if (it.code <= 999) UiState.NetworkError
+                        else UiState.Failed(it.message)
+                    }
+                    is CommonResponse.Loading -> UiState.Loading
+                    else -> UiState.Empty
+                }
+            )
+        }
+    }
 }

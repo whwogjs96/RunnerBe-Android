@@ -34,7 +34,6 @@ class EditProfileFragment :
         binding.buttonClick = jobButtonClick()
         viewModel.userInfo.value = args.userData
         observeBind()
-        Log.e("확인", viewModel.userInfo.value?.jobChangePossible?.toString().toString())
         binding.nameChangeBtn.setOnClickListener(this)
         binding.userNameEdit.addTextChangedListener {
             binding.nameFailTxt.isVisible =

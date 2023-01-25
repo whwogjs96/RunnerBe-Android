@@ -99,4 +99,5 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
         }
     }
 
+
 }
