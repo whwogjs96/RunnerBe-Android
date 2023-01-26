@@ -10,12 +10,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.applemango.runnerbe.BuildConfig
-import com.applemango.runnerbe.network.BearerInterceptor
-import com.applemango.runnerbe.network.XAccessTokenInterceptor
-import com.applemango.runnerbe.network.api.*
-import com.applemango.runnerbe.screen.compose.login.KakaoLoginAPI
-import com.applemango.runnerbe.screen.compose.login.NaverLoginAPI
-import retrofit2.create
+import com.applemango.runnerbe.data.network.BearerInterceptor
+import com.applemango.runnerbe.data.network.XAccessTokenInterceptor
+import com.applemango.runnerbe.data.network.api.*
+import com.applemango.runnerbe.data.network.api.KakaoLoginAPI
+import com.applemango.runnerbe.data.network.api.NaverLoginAPI
 import java.util.concurrent.TimeUnit
 
 /**

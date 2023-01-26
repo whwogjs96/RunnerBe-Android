@@ -3,15 +3,15 @@ package com.applemango.runnerbe.util
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
-import com.applemango.runnerbe.model.dto.Posting
-import com.applemango.runnerbe.model.CreatorImageAndPosition
-import com.applemango.runnerbe.model.dto.Room
-import com.applemango.runnerbe.screen.dialog.selectitem.SelectListData
-import com.applemango.runnerbe.screen.dialog.selectitem.SelectListItemAdapter
-import com.applemango.runnerbe.screen.fragment.chat.RunningTalkAdapter
-import com.applemango.runnerbe.screen.fragment.mypage.joinpost.JoinPostAdapter
-import com.applemango.runnerbe.screen.fragment.mypage.mypost.MyPostAdapter
-import com.applemango.runnerbe.screen.fragment.mypage.setting.creator.CreatorAdapter
+import com.applemango.runnerbe.data.dto.Posting
+import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
+import com.applemango.runnerbe.data.dto.Room
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListItemAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.JoinPostAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.creator.CreatorAdapter
 
 @BindingAdapter("myPostAdapter")
 fun setMyPostAdapter(recyclerView: RecyclerView, dataList : ObservableArrayList<Posting>) {

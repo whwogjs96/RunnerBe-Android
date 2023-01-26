@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.applemango.runnerbe.screen.fragment.MainFragment"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.MainFragment"
         tools:layout="@layout/fragment_main"
         android:label="MainFragment" >
         <action
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/settingFragment"
         tools:layout="@layout/fragment_settings"
-        android:name="com.applemango.runnerbe.screen.fragment.mypage.setting.SettingFragment"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.SettingFragment"
         android:label="SettingFragment" >
         <action
             android:id="@+id/action_settingFragment_to_creatorFragment"
@@ -34,17 +34,17 @@
     <fragment
         android:id="@+id/creatorFragment"
         tools:layout="@layout/fragment_creators"
-        android:name="com.applemango.runnerbe.screen.fragment.mypage.setting.creator.CreatorFragment"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.creator.CreatorFragment"
         android:label="CreatorFragment" />
 
     <fragment
         android:id="@+id/editProfileFragment"
         tools:layout="@layout/fragment_edit_profile"
-        android:name="com.applemango.runnerbe.screen.fragment.mypage.editprofile.EditProfileFragment"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.editprofile.EditProfileFragment"
         android:label="EditProfileFragment" >
 
         <argument
             android:name="userData"
-            app:argType="com.applemango.runnerbe.model.dto.UserInfo"/>
+            app:argType="com.applemango.runnerbe.data.dto.UserInfo"/>
     </fragment>
 </navigation>
