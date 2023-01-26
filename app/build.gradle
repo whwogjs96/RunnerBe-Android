@@ -76,6 +76,8 @@ dependencies {
     //compose liveData
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
+    //ui
+    implementation 'com.github.hannesa2:AndroidSlidingUpPanel:4.2.1'
 
     //navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")

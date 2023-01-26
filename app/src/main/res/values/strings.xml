@@ -14,6 +14,7 @@
 
     <string name="written_post">작성한 글</string>
     <string name="join_running">참여 러닝</string>
+    <string name="running_list">러닝 목록</string>
     <string name="logout">로그아웃</string>
     
     <string name="msg_empty_my_post">아직 모임을 만들지 않았어요!</string>
@@ -36,6 +37,11 @@
     <string name="msg_network_error_title">오프라인 상태예요!</string>
     <string name="msg_network_error_content">네트워크를 연결해주세요.</string>
     <string name="ready">준비됐어요!</string>
+    
+    <!-- 북마크 -->
+    <string name="before_work">출근 전</string>
+    <string name="after_work">퇴근 후</string>
+    <string name="holiday">휴일</string>
 
     <!-- 내정보 수정  -->
     <string name="msg_impossible_nickname_change">* 닉네임 변경이 완료되어 추가 변경은 불가능해요!</string>

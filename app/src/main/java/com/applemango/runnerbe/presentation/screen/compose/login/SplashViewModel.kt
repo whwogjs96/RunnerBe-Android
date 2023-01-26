@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.presentation.model.LoginType
 import com.applemango.runnerbe.data.network.request.SocialLoginRequest
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.domain.repository.KakaoLoginRepository
 import com.applemango.runnerbe.domain.repository.NaverLoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

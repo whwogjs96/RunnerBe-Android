@@ -1,6 +1,6 @@
 package com.applemango.runnerbe.domain.repository
 
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.data.network.response.UserDataResponse
 import retrofit2.Response
 

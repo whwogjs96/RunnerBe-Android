@@ -12,7 +12,7 @@ import com.applemango.runnerbe.presentation.model.RunnerDiligence
 import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.domain.usecase.GetUserDataUseCase
 import com.applemango.runnerbe.domain.usecase.PatchUserImageUseCase
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.data.network.response.UserDataResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

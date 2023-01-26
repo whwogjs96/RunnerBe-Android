@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.applemango.runnerbe.BuildConfig
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentSettingsBinding
@@ -134,17 +135,9 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
         activity?.finish()
     }
 
-    private fun withdrawal() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.withdrawalUser()
-        }
+    private fun withdrawal() = viewLifecycleOwner.lifecycleScope.launch {
+        viewModel.withdrawalUser()
     }
 
-    private fun getAppVersion(): String {
-        return runCatching {
-            val pInfo = requireContext().packageManager.getPackageInfo(
-                requireContext().packageName, 0)
-            pInfo.versionName
-        }.getOrNull()?:""
-    }
+    private fun getAppVersion() = BuildConfig.VERSION_NAME
 }

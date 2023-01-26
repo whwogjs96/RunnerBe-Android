@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.data.network.response
+package com.applemango.runnerbe.presentation.state
 
 sealed class CommonResponse {
     data class Success<T>(val code :Int, val body : T) : CommonResponse()

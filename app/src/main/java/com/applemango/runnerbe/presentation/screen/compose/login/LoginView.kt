@@ -31,7 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.presentation.model.LoginType
 import com.applemango.runnerbe.data.network.request.SocialLoginRequest
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.screen.activity.HomeActivity
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk

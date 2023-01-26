@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.data.dto.Room
 import com.applemango.runnerbe.domain.usecase.GetRunningTalkUseCase
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.data.network.response.RunningTalksResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

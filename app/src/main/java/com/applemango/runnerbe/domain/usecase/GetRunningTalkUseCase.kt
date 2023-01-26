@@ -1,7 +1,6 @@
 package com.applemango.runnerbe.domain.usecase
 
-import com.applemango.runnerbe.domain.repository.UserRepository
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.domain.repository.RunningTalkRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

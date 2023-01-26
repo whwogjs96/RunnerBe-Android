@@ -8,7 +8,7 @@ import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.domain.usecase.JobChangeUseCase
 import com.applemango.runnerbe.domain.usecase.NicknameChangeUseCase
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

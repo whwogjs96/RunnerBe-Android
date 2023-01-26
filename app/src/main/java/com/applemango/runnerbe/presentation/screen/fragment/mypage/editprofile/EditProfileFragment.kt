@@ -125,7 +125,6 @@ class EditProfileFragment :
                     },
                     secondEvent = {
                         viewModel.currentJob = JobButtonId.findById(btn.id)?.job ?: ""
-                        Log.e("확인",viewModel.currentJob)
                         viewModel.jobChange(viewModel.currentJob)
                     }
                 )

@@ -15,6 +15,7 @@ import com.applemango.runnerbe.data.network.XAccessTokenInterceptor
 import com.applemango.runnerbe.data.network.api.*
 import com.applemango.runnerbe.data.network.api.KakaoLoginAPI
 import com.applemango.runnerbe.data.network.api.NaverLoginAPI
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 /**
@@ -96,4 +97,9 @@ object NetworkModule {
     @Singleton
     fun provideUserProfileImgChangeApi(retrofit: Retrofit) : PatchUserImageApi =
         retrofit.create(PatchUserImageApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideGetBookmarkApi(retrofit: Retrofit) : GetBookmarkApi =
+        retrofit.create(GetBookmarkApi::class.java)
 }

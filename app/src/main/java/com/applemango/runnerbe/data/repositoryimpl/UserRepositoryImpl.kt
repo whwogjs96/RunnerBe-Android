@@ -7,7 +7,7 @@ import com.applemango.runnerbe.data.network.request.EditJobRequest
 import com.applemango.runnerbe.data.network.request.EditNicknameRequest
 import com.applemango.runnerbe.data.network.request.PatchUserImgRequest
 import com.applemango.runnerbe.data.network.request.WithdrawalUserRequest
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.data.network.response.UserDataResponse
 import retrofit2.Response
 import javax.inject.Inject

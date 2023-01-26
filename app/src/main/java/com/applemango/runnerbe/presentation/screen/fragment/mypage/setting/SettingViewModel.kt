@@ -8,7 +8,7 @@ import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.domain.usecase.PatchAlarmUseCase
 import com.applemango.runnerbe.domain.usecase.WithdrawalUserUseCase
-import com.applemango.runnerbe.data.network.response.CommonResponse
+import com.applemango.runnerbe.presentation.state.CommonResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
