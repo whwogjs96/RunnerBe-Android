@@ -5,6 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="vm"
+            type="com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,45 +28,84 @@
             android:layout_margin="16dp">
         </TextView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/scrap_text_view"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:background="@drawable/bg_tab"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/book_mark_tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_tab"
-                app:tabBackground="@drawable/selector_tab"
-                app:tabMode="scrollable"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:tabSelectedTextColor="@color/black"
-                app:tabTextColor="@color/dark_g4_5"
-                app:tabPaddingTop="12dp"
-                app:tabPaddingBottom="12dp"
-                app:tabPaddingStart="35dp"
-                app:tabPaddingEnd="35dp"
-                android:textSize="14dp"
-                app:tabGravity="center"
-                app:tabIndicatorHeight="0dp">
-            </com.google.android.material.tabs.TabLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
+        <RadioGroup
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tab_layout"
-            android:id="@+id/viewPager"/>
+            android:checkedButton="@={vm.radioChecked}"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="19dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_tab"
+            app:layout_constraintTop_toBottomOf="@id/scrap_text_view">
+
+            <RadioButton
+                android:id="@+id/beforeTab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:textSize="14sp"
+                android:checked="true"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="10dp"
+                android:button="@null"
+                android:textColor="@color/tc_select_tab"
+                android:text="@string/before_work"
+                android:background="@drawable/selector_tab"/>
+
+            <RadioButton
+                android:id="@+id/afterTab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="10dp"
+                android:button="@null"
+                android:textColor="@color/tc_select_tab"
+                android:text="@string/after_work"
+                android:background="@drawable/selector_tab"/>
+
+            <RadioButton
+                android:id="@+id/holidayTab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:paddingTop="8dp"
+                android:paddingBottom="10dp"
+                android:button="@null"
+                android:textColor="@color/tc_select_tab"
+                android:text="@string/holiday"
+                android:background="@drawable/selector_tab"/>
+
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/countView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookmarkRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            bookmarkAdapter="@{vm.bookmarkList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/countView"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.applemango.runnerbe.screen.fragment.chat.RunningTalkViewModel" />
+            type="com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkViewModel" />
 
     </data>
 

@@ -6,7 +6,7 @@
         <import type="android.view.View"/>
         <variable
             name="holderModel"
-            type="com.applemango.runnerbe.model.dto.Posting" />
+            type="com.applemango.runnerbe.data.dto.Posting" />
     </data>
 
     <androidx.cardview.widget.CardView

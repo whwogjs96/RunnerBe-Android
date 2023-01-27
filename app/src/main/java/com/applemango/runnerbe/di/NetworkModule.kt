@@ -10,11 +10,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.applemango.runnerbe.BuildConfig
-import com.applemango.runnerbe.network.BearerInterceptor
-import com.applemango.runnerbe.network.XAccessTokenInterceptor
-import com.applemango.runnerbe.network.api.*
-import com.applemango.runnerbe.screen.compose.login.KakaoLoginAPI
-import com.applemango.runnerbe.screen.compose.login.NaverLoginAPI
+import com.applemango.runnerbe.data.network.BearerInterceptor
+import com.applemango.runnerbe.data.network.XAccessTokenInterceptor
+import com.applemango.runnerbe.data.network.api.*
+import com.applemango.runnerbe.data.network.api.KakaoLoginAPI
+import com.applemango.runnerbe.data.network.api.NaverLoginAPI
 import retrofit2.create
 import java.util.concurrent.TimeUnit
 
@@ -92,64 +92,14 @@ object NetworkModule {
     @Singleton
     fun provideJobChangeApi(retrofit: Retrofit) : EditJobApi =
         retrofit.create(EditJobApi::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideDeleteUserApi(retrofit: Retrofit): DeleteUserAPI =
-//        retrofit.create(DeleteUserAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideMypageApi(retrofit: Retrofit): MypageAPI =
-//        retrofit.create(MypageAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideEditNicknameApi(retrofit: Retrofit): EditNicknameAPI =
-//        retrofit.create(EditNicknameAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideEditjobApi(retrofit: Retrofit): EditJobAPI =
-//        retrofit.create(EditJobAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun providePatchUserImgApi(retrofit: Retrofit): PatchUserImgAPI =
-//        retrofit.create(PatchUserImgAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideScrapApi(retrofit: Retrofit): GetScrapAPI =
-//        retrofit.create(GetScrapAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideBookmarkApi(retrofit: Retrofit): PostBookmarkAPI =
-//        retrofit.create(PostBookmarkAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun providePatchAlarmApi(retrofit: Retrofit): PatchAlarmAPI =
-//        retrofit.create(PatchAlarmAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideGetMessageApi(retrofit: Retrofit): GetMessageAPI =
-//        retrofit.create(GetMessageAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideGetAlarmApi(retrofit: Retrofit): GetAlarmAPI =
-//        retrofit.create(GetAlarmAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun providePostReportApi(retrofit: Retrofit): PostReportAPI =
-//        retrofit.create(PostReportAPI::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun providePostMessageApi(retrofit: Retrofit): PostMessageAPI =
-//        retrofit.create(PostMessageAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserProfileImgChangeApi(retrofit: Retrofit) : PatchUserImageApi =
+        retrofit.create(PatchUserImageApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideGetBookmarkApi(retrofit: Retrofit) : GetBookmarkApi =
+        retrofit.create(GetBookmarkApi::class.java)
 }

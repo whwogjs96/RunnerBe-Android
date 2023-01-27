@@ -11,12 +11,12 @@ plugins {
 def buildVersionCode = Integer.parseInt(new Date().format("yyyyMMddHH"))
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.applemango.runnerbe"
         minSdk 23
-        targetSdk 32
+        targetSdk 33
         versionCode buildVersionCode
         versionName "0.0.1-beta"
 
@@ -76,6 +76,8 @@ dependencies {
     //compose liveData
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
+    //ui
+    implementation 'com.github.hannesa2:AndroidSlidingUpPanel:4.2.1'
 
     //navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")

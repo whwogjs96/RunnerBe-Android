@@ -5,72 +5,143 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="addClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="vm"
+            type="com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapViewModel" />
     </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black">
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/main_top"
+        android:layout_height="match_parent">
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
+            android:id="@+id/slideLayout"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            app:umanoFadeColor="@android:color/transparent"
+            app:umanoOverlay="true"
+            app:umanoPanelHeight="74dp"
+            app:umanoShadowHeight="0dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/main_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/home_question"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arrow_left"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:padding="10dp"/>
+
+                        <TextView
+                            android:id="@+id/top_txt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:gravity="center_horizontal"
+                            android:text="address"
+                            android:textColor="@color/dark_g3_5"
+                            android:textSize="18dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/home_bell"
+                            app:layout_constraintStart_toEndOf="@+id/home_question"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/home_bell"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_bell"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- 네이버 지도 -->
+                    <com.naver.maps.map.MapView
+                        android:id="@+id/map_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/main_top" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/bottomDrawerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_top_rounded"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="6dp"
+                    android:src="@drawable/ic_gray_underbar" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/running_list"
+                    android:textColor="@color/dark_g2_5"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <!--            <include-->
+                <!--                android:id="@+id/expendChangePathLayout"-->
+                <!--                layout="@layout/include_change_path_expend"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content" />-->
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/runningAddButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
-
-            <ImageView
-                android:id="@+id/home_question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_left"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:padding="10dp">
-            </ImageView>
-
-            <TextView
-                android:id="@+id/top_txt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center_horizontal"
-                android:text="address"
-                android:textColor="@color/dark_g3_5"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/home_bell"
-                app:layout_constraintStart_toEndOf="@+id/home_question"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/home_bell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:src="@drawable/ic_bell"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- 네이버 지도 -->
-        <com.naver.maps.map.MapView
-            android:id="@+id/map_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="12dp"
+            android:onClickListener="@{addClick}"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_top" />
-
-
+            android:src="@drawable/ic_running_plus"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

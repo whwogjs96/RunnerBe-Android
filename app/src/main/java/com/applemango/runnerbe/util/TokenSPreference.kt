@@ -3,11 +3,7 @@ package com.applemango.runnerbe.util
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import com.applemango.runnerbe.RunnerBeApplication
-import com.applemango.runnerbe.model.LoginType
-import com.navercorp.nid.NaverIdLoginSDK
-import java.util.UUID
+import com.applemango.runnerbe.presentation.model.LoginType
 
 class TokenSPreference(private val applicationContext : Context) {
     val sSharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("runnerBe", Application.MODE_PRIVATE)

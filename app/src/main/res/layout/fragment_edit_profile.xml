@@ -10,7 +10,7 @@
             type="android.widget.CompoundButton.OnCheckedChangeListener" />
         <variable
             name="vm"
-            type="com.applemango.runnerbe.screen.fragment.mypage.editprofile.EditProfileViewModel" />
+            type="com.applemango.runnerbe.presentation.screen.fragment.mypage.editprofile.EditProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
