@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.applemango.runnerbe.presentation.model.MainBottomTab
-import com.applemango.runnerbe.presentation.screen.fragment.RunnerMapFragment
+import com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapFragment
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.MyPageFragment
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkFragment
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkFragment

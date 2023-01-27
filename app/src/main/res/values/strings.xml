@@ -7,8 +7,11 @@
     <string name="comma_text">%s · %s</string>
 
     <string name="setting">설정</string>
+    <string name="post_write">게시글 작성</string>
     <string name="book_mark_list">찜 목록</string>
     <string name="running_talk">러닝톡</string>
+    <string name="title">제목</string>
+    <string name="date">일시</string>
 
     <string name="creators">만든 사람들</string>
 
@@ -26,6 +29,7 @@
     <string name="no">아니오</string>
 
     <string name="confirm">확인</string>
+    <string name="next">다음</string>
 
     <string name="question_logout">로그아웃 하시겠어요?</string>
     <string name="question_withdrawal">회원탈퇴 하시겠어요?</string>
@@ -42,6 +46,11 @@
     <string name="before_work">출근 전</string>
     <string name="after_work">퇴근 후</string>
     <string name="holiday">휴일</string>
+
+    <!-- 게시글 작성 -->
+    <string name="msg_running_time_limit">모임은 최대 5시간까지 가능해요!</string>
+    <string name="running_location">모임 장소</string>
+    <string name="play_time">소요 시간</string>
 
     <!-- 내정보 수정  -->
     <string name="msg_impossible_nickname_change">* 닉네임 변경이 완료되어 추가 변경은 불가능해요!</string>

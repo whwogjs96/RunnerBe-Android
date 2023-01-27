@@ -15,7 +15,14 @@
             app:destination="@id/settingFragment" />
         <action
             android:id="@+id/action_mainFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
+            app:destination="@id/editProfileFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_mainFragment_to_runningWriteFragment"
+            app:destination="@id/runningWriteFragment"/>
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -24,7 +31,9 @@
         android:label="SettingFragment" >
         <action
             android:id="@+id/action_settingFragment_to_creatorFragment"
-            app:destination="@id/creatorFragment" />
+            app:destination="@id/creatorFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
 
         <argument
             android:name="alarmCheck"
@@ -47,4 +56,9 @@
             android:name="userData"
             app:argType="com.applemango.runnerbe.data.dto.UserInfo"/>
     </fragment>
+    <fragment
+        android:id="@+id/runningWriteFragment"
+        tools:layout="@layout/fragment_running_write"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.map.write.RunningWriteFragment"
+        android:label="RunningWriteFragment" />
 </navigation>
