@@ -156,6 +156,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
+                    android:text="@={vm.runningTitle}"
+                    android:hint="@string/hint_running_title"
                     android:background="@drawable/bg_dark_5_5g_radius_6"
                     android:padding="16dp"
                     android:textColor="@color/dark_g1"

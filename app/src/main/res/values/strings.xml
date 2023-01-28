@@ -51,6 +51,7 @@
     <string name="msg_running_time_limit">모임은 최대 5시간까지 가능해요!</string>
     <string name="running_location">모임 장소</string>
     <string name="play_time">소요 시간</string>
+    <string name="hint_running_title">ex) A 직군 모여라, 묵언 러닝 하실 분, 마라톤 완주!</string>
 
     <!-- 내정보 수정  -->
     <string name="msg_impossible_nickname_change">* 닉네임 변경이 완료되어 추가 변경은 불가능해요!</string>

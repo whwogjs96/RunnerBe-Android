@@ -78,6 +78,7 @@ dependencies {
 
     //ui
     implementation 'com.github.hannesa2:AndroidSlidingUpPanel:4.2.1'
+    implementation 'com.github.gzu-liyujiang.AndroidPicker:WheelView:4.1.11'
 
     //navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")

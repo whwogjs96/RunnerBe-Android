@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentRunningWriteBinding
+import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateTimePickerDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.AddressUtil
 import com.naver.maps.map.LocationTrackingMode
@@ -16,7 +17,7 @@ import com.naver.maps.map.util.FusedLocationSource
 
 class RunningWriteFragment :
     BaseFragment<FragmentRunningWriteBinding>(R.layout.fragment_running_write),
-    OnMapReadyCallback {
+    OnMapReadyCallback, View.OnClickListener {
 
     var TAG = "Runnerbe"
 
@@ -43,6 +44,8 @@ class RunningWriteFragment :
             v.performClick()
             binding.mapView.onTouchEvent(event)
         }
+
+        binding.dateLayout.setOnClickListener(this)
     }
 
     override fun onStart() {
@@ -90,6 +93,14 @@ class RunningWriteFragment :
                 context?.let {
                     text = AddressUtil.getAddress(it, location.latitude, location.longitude)
                 }
+            }
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when(v) {
+            binding.dateLayout -> {
+                DateTimePickerDialog.createShow(requireContext())
             }
         }
     }

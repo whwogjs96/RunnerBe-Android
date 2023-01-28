@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class RunningWriteViewModel : ViewModel() {
 
     val radioChecked : MutableStateFlow<Int> = MutableStateFlow(R.id.beforeTab)
+    val runningTitle : MutableStateFlow<String> = MutableStateFlow("")
 
 }
