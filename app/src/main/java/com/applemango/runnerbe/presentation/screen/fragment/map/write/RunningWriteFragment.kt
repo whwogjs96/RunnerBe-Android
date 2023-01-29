@@ -5,18 +5,28 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentRunningWriteBinding
+import com.applemango.runnerbe.presentation.model.DateResultListener
+import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.model.TimeResultListener
+import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
+import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateTimePickerDialog
+import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectData
+import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectPickerDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.AddressUtil
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
+import kotlinx.coroutines.launch
+import java.util.*
 
 class RunningWriteFragment :
     BaseFragment<FragmentRunningWriteBinding>(R.layout.fragment_running_write),
-    OnMapReadyCallback {
+    OnMapReadyCallback, View.OnClickListener {
 
     var TAG = "Runnerbe"
 
@@ -32,7 +42,7 @@ class RunningWriteFragment :
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
         binding.scrollView.requestDisallowInterceptTouchEvent(true)
         binding.mapView.setOnTouchListener { v, event ->
-            when(event.action) {
+            when (event.action) {
                 MotionEvent.ACTION_MOVE -> {
                     binding.scrollView.requestDisallowInterceptTouchEvent(true)
                 }
@@ -42,6 +52,23 @@ class RunningWriteFragment :
             }
             v.performClick()
             binding.mapView.onTouchEvent(event)
+        }
+
+        observeBind()
+        binding.dateLayout.setOnClickListener(this)
+        binding.timeLayout.setOnClickListener(this)
+    }
+
+    private fun observeBind() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.radioChecked.collect {
+                val tag = when(it) {
+                    R.id.afterTab -> RunningTag.After
+                    R.id.holidayTab -> RunningTag.Holiday
+                    else -> RunningTag.Before
+                }
+                viewModel.runningDisplayDate.emit(DateSelectData.runningTagDefault(tag))
+            }
         }
     }
 
@@ -90,6 +117,33 @@ class RunningWriteFragment :
                 context?.let {
                     text = AddressUtil.getAddress(it, location.latitude, location.longitude)
                 }
+            }
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.dateLayout -> {
+                DateTimePickerDialog.createShow(
+                    requireContext(),
+                    displayDate = viewModel.runningDisplayDate.value,
+                    resultListener = object : DateResultListener {
+                        override fun getDate(date: Date, displayDate: DateSelectData) {
+                            viewModel.runningDate = date
+                            viewModel.runningDisplayDate.value = displayDate
+                        }
+                    })
+            }
+            binding.timeLayout -> {
+                TimeSelectPickerDialog.createShow(
+                    requireContext(),
+                    selectedData = viewModel.runningDisplayTime.value,
+                    resultListener = object  : TimeResultListener {
+                        override fun getDate(displayTime: TimeSelectData) {
+                            viewModel.runningDisplayTime.value = displayTime
+                        }
+                    }
+                )
             }
         }
     }
