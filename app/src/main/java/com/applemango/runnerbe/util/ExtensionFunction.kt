@@ -3,6 +3,7 @@ package com.applemango.runnerbe.util
 import android.content.Context
 import android.net.Uri
 import android.util.TypedValue
+import android.view.View
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import com.applemango.runnerbe.BuildConfig
@@ -21,3 +22,11 @@ fun Int.dpToPx(context: Context): Int {
 fun Date.simpleDateFormatted(format: String): String = SimpleDateFormat(format, Locale.KOREA).format(this)
 
 fun File.toUri(context: Context): Uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", this)
+
+fun View.setHeight(value: Int) {
+    val lp = layoutParams
+    lp?.let {
+        lp.height = value
+        layoutParams = lp
+    }
+}
