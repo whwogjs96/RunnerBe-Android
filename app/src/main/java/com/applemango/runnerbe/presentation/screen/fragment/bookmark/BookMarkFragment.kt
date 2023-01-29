@@ -28,7 +28,6 @@ class BookMarkFragment: BaseFragment<FragmentBookMarkBinding>(R.layout.fragment_
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.radioChecked.collect {
-                Log.e("id", it.toString())
                 val tag = when(it) {
                     R.id.afterTab -> RunningTag.After
                     R.id.holidayTab -> RunningTag.Holiday

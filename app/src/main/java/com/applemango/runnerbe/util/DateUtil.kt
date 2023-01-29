@@ -59,3 +59,23 @@ fun removeLastNchars(str: String, n: Int): String {
         str
     } else str.substring(0, str.length - n)
 }
+
+fun getDateList(range : Int) : List<String> {
+    val format = SimpleDateFormat("M/d (E)")
+    val cal = Calendar.getInstance()
+    cal.add(Calendar.DATE, -1)
+    return IntRange(0, range).map {
+        cal.add(Calendar.DATE, 1)
+        format.format(cal.time)
+    }
+}
+
+fun getYearList(range: Int) : List<String> {
+    val format = SimpleDateFormat("yyyy")
+    val cal = Calendar.getInstance()
+    cal.add(Calendar.DATE, -1)
+    return IntRange(0, range).map {
+        cal.add(Calendar.DATE, 1)
+        format.format(cal.time)
+    }
+}

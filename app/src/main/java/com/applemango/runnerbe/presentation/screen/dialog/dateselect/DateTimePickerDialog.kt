@@ -3,14 +3,21 @@ package com.applemango.runnerbe.presentation.screen.dialog.dateselect
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.DialogDateSelectBinding
+import com.applemango.runnerbe.presentation.model.DateResultListener
 import com.applemango.runnerbe.util.NumberUtil
+import com.applemango.runnerbe.util.TimeUtil
+import com.applemango.runnerbe.util.getDateList
+import com.applemango.runnerbe.util.getYearList
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DateTimePickerDialog(context: Context) : Dialog(context, R.style.confirmDialogStyle) {
 
-    val binding : DialogDateSelectBinding by lazy {
+    val binding: DialogDateSelectBinding by lazy {
         DataBindingUtil.inflate(
             layoutInflater,
             R.layout.dialog_date_select,
@@ -19,13 +26,26 @@ class DateTimePickerDialog(context: Context) : Dialog(context, R.style.confirmDi
         )
     }
 
-    var currentHour = 0
-    var currentMinute = 0
+    var isAm = true
+    var currentDate: DateSelectData? = null
+    lateinit var result: DateResultListener
+    private val yearList = getYearList(DEFAULT_DATE_SIZE)
 
     companion object {
-        fun createShow(context: Context) {
+
+        const val DEFAULT_DATE_SIZE = 7
+        fun createShow(
+            context: Context,
+            isAm: Boolean = true,
+            displayDate: DateSelectData? = null,
+            resultListener: DateResultListener
+        ) {
             val dialog = DateTimePickerDialog(context)
             with(dialog) {
+                this.isAm = isAm
+                this.currentDate = displayDate
+                this.isAm = displayDate?.AMAndPM == "AM"
+                this.result = resultListener
                 show()
             }
         }
@@ -33,11 +53,45 @@ class DateTimePickerDialog(context: Context) : Dialog(context, R.style.confirmDi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.dateWheelView.setData(listOf("3/27(일)","3/28(월)", "3/29(화)", "3/30(수)", "3/31(목)", "4/1(금)"), 0)
-        binding.AMAndPMWheelView.setData(listOf("AM","PM"), 0)
-        binding.hourWheelView.setData(NumberUtil.getRange(0, 12), currentHour)
-        binding.minuteWheelView.setData(NumberUtil.getFiveUnitNumber(0, 60) ,currentMinute)
+        val hourList = NumberUtil.getRange(0, 12)
+        val minuteList = NumberUtil.getFiveUnitNumber(0, 50) //50분까지만 보이기
+        binding.dateWheelView.setData(
+            getDateList(DEFAULT_DATE_SIZE),
+            getDateList(DEFAULT_DATE_SIZE).indexOf(currentDate?.formatDate)
+        )
+        binding.AMAndPMWheelView.setData(listOf("AM", "PM"), if (isAm) 0 else 1)
+        binding.hourWheelView.setData(hourList, hourList.indexOf(currentDate?.hour))
+        binding.minuteWheelView.setData(minuteList, minuteList.indexOf(currentDate?.minute))
         setContentView(binding.root)
+        binding.confirmButton.setOnClickListener {
+            changeDisplayToDate()?.let { completeDate ->
+                result.getDate(
+                    completeDate, DateSelectData(
+                        formatDate = getDate(),
+                        AMAndPM = getAm(),
+                        hour = getHour(),
+                        minute = getMinute()
+                    )
+                )
+            }
+            dismiss()
+        }
     }
 
+    private fun getDate(): String = binding.dateWheelView.getCurrentItem()
+    private fun getAm(): String = binding.AMAndPMWheelView.getCurrentItem()
+    private fun getHour(): String = binding.hourWheelView.getCurrentItem()
+    private fun getMinute(): String = binding.minuteWheelView.getCurrentItem()
+
+    private fun changeDisplayToDate(): Date? {
+        val dateSplit = getDate().split("/")
+        val hour = TimeUtil.getAMAndPMTo24(
+            binding.AMAndPMWheelView.getCurrentItem<String>() == "AM",
+            binding.hourWheelView.getCurrentItem<String>().toInt()
+        )
+        val date = "${yearList[binding.dateWheelView.currentPosition]}-${dateSplit[0]}-${
+            dateSplit[1].split(" ")[0]
+        } $hour:${binding.minuteWheelView.getCurrentItem<String>()}:00"
+        return SimpleDateFormat("yyyy-MM-dd kk:mm:ss").parse(date)
+    }
 }
