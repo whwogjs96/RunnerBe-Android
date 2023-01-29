@@ -247,6 +247,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="16dp"
+                        android:text="@{vm.runningDisplayTime.fullDisplayTime}"
                         tools:text="0 시간 20 분"
                         android:textColor="@color/dark_g1"/>
 

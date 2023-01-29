@@ -54,7 +54,7 @@ class DateTimePickerDialog(context: Context) : Dialog(context, R.style.confirmDi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val hourList = NumberUtil.getRange(0, 12)
-        val minuteList = NumberUtil.getFiveUnitNumber(0, 50) //50분까지만 보이기
+        val minuteList = NumberUtil.getUnitNumber(0, 55, 5) //55분까지만 보이기
         binding.dateWheelView.setData(
             getDateList(DEFAULT_DATE_SIZE),
             getDateList(DEFAULT_DATE_SIZE).indexOf(currentDate?.formatDate)

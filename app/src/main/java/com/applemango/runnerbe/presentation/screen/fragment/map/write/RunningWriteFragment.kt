@@ -10,9 +10,11 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentRunningWriteBinding
 import com.applemango.runnerbe.presentation.model.DateResultListener
 import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.model.TimeResultListener
 import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
 import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateTimePickerDialog
-import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
+import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectData
+import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectPickerDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.AddressUtil
 import com.naver.maps.map.LocationTrackingMode
@@ -54,6 +56,7 @@ class RunningWriteFragment :
 
         observeBind()
         binding.dateLayout.setOnClickListener(this)
+        binding.timeLayout.setOnClickListener(this)
     }
 
     private fun observeBind() {
@@ -130,6 +133,17 @@ class RunningWriteFragment :
                             viewModel.runningDisplayDate.value = displayDate
                         }
                     })
+            }
+            binding.timeLayout -> {
+                TimeSelectPickerDialog.createShow(
+                    requireContext(),
+                    selectedData = viewModel.runningDisplayTime.value,
+                    resultListener = object  : TimeResultListener {
+                        override fun getDate(displayTime: TimeSelectData) {
+                            viewModel.runningDisplayTime.value = displayTime
+                        }
+                    }
+                )
             }
         }
     }
