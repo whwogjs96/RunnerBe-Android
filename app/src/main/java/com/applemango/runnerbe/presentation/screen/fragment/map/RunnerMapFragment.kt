@@ -14,9 +14,12 @@ import com.applemango.runnerbe.presentation.screen.dialog.NoAdditionalInfoDialog
 import com.applemango.runnerbe.presentation.screen.fragment.MainFragmentDirections
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.AddressUtil
+import com.applemango.runnerbe.util.setHeight
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -38,6 +41,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         super.onViewCreated(view, savedInstanceState)
         binding.addClick = writeClickEvent()
         binding.vm = viewModel
+        binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
         checkAdditionalUserInfo()
@@ -88,13 +92,15 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         mNaverMap = map
         mNaverMap.locationSource = locationSource
         mNaverMap.locationTrackingMode = LocationTrackingMode.Follow
-
+        //SlidingUpPanelLayout이 크기를 자꾸 변경하는 문제가 있어서 레이아웃 사이즈를 초기에 고정시켜버리기
+        binding.mapLayout.setHeight(binding.mapLayout.measuredHeight)
         //현재위치로 주소 디폴트 셋팅
         binding.topTxt.text = AddressUtil.getAddress(
             requireContext(),
             mNaverMap.cameraPosition.target.latitude,
             mNaverMap.cameraPosition.target.longitude
         )
+
         //위치가 바뀔 때마다 주소 업데이트
         mNaverMap.addOnLocationChangeListener { location ->
             binding.topTxt.run {

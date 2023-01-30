@@ -17,9 +17,13 @@ import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectD
 import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectPickerDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.AddressUtil
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.InfoWindow
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import kotlinx.coroutines.launch
 import java.util.*
@@ -29,6 +33,9 @@ class RunningWriteFragment :
     OnMapReadyCallback, View.OnClickListener {
 
     var TAG = "Runnerbe"
+
+    private var centerMarker : Marker? = null
+    private var markerInfoView : InfoWindow = InfoWindow()
 
     private val PERMISSION_REQUEST_CODE = 100
     private lateinit var mNaverMap: NaverMap
@@ -40,6 +47,7 @@ class RunningWriteFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
+        binding.mapView.getMapAsync(this)
         binding.scrollView.requestDisallowInterceptTouchEvent(true)
         binding.mapView.setOnTouchListener { v, event ->
             when (event.action) {
@@ -62,7 +70,7 @@ class RunningWriteFragment :
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.radioChecked.collect {
-                val tag = when(it) {
+                val tag = when (it) {
                     R.id.afterTab -> RunningTag.After
                     R.id.holidayTab -> RunningTag.Holiday
                     else -> RunningTag.Before
@@ -100,25 +108,59 @@ class RunningWriteFragment :
 
 
     override fun onMapReady(map: NaverMap) {
-        Log.i(TAG, "onMapReady")
+        Log.e(TAG, map.toString())
         mNaverMap = map
+        createCenterMarker()
+        initMarkerInfoView()
         mNaverMap.locationSource = locationSource
         mNaverMap.locationTrackingMode = LocationTrackingMode.Follow
 
-        //현재위치로 주소 디폴트 셋팅
-        binding.topTxt.text = AddressUtil.getAddress(
-            requireContext(),
-            mNaverMap.cameraPosition.target.latitude,
-            mNaverMap.cameraPosition.target.longitude
-        )
-        //위치가 바뀔 때마다 주소 업데이트
-        mNaverMap.addOnLocationChangeListener { location ->
-            binding.topTxt.run {
-                context?.let {
-                    text = AddressUtil.getAddress(it, location.latitude, location.longitude)
+        mNaverMap.addOnCameraChangeListener {_, _ ->
+            if(centerMarker?.infoWindow != null) {
+                markerInfoView.close()
+                Log.e("여기 계속오면 낭패", markerInfoView.toString())
+            }
+            centerMarker?.position = LatLng(
+                mNaverMap.cameraPosition.target.latitude,
+                mNaverMap.cameraPosition.target.longitude
+            )
+        }
+    }
+
+    private fun createCenterMarker() {
+        centerMarker = Marker()
+        centerMarker?.apply {
+            position = LatLng(
+                mNaverMap.cameraPosition.target.latitude,
+                mNaverMap.cameraPosition.target.longitude
+            )
+            map = mNaverMap
+            icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
+            this.setOnClickListener {
+                val marker = it as Marker
+                if(marker.infoWindow == null) {
+                    openAddressView(marker)
+                } else {
+                    markerInfoView.close()
                 }
+                true
             }
         }
+        mNaverMap.setOnMapClickListener {_, _ ->
+            markerInfoView.close()
+        }
+    }
+
+    private fun initMarkerInfoView() {
+        markerInfoView.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
+            override fun getText(p0: InfoWindow): CharSequence {
+                return "테스트"
+            }
+        }
+    }
+
+    private fun openAddressView(marker: Marker) {
+        markerInfoView.open(marker)
     }
 
     override fun onClick(v: View?) {
@@ -138,7 +180,7 @@ class RunningWriteFragment :
                 TimeSelectPickerDialog.createShow(
                     requireContext(),
                     selectedData = viewModel.runningDisplayTime.value,
-                    resultListener = object  : TimeResultListener {
+                    resultListener = object : TimeResultListener {
                         override fun getDate(displayTime: TimeSelectData) {
                             viewModel.runningDisplayTime.value = displayTime
                         }
