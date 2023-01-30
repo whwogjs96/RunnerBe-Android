@@ -15,9 +15,11 @@ import com.applemango.runnerbe.presentation.screen.fragment.MainFragmentDirectio
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.AddressUtil
 import com.applemango.runnerbe.util.setHeight
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -82,11 +84,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     override fun onLowMemory() {
         super.onLowMemory()
         binding.mapView.onLowMemory()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.mapView.onDestroy()
     }
 
 
