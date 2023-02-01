@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.presentation
+package com.applemango.runnerbe.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

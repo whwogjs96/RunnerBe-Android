@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.applemango.runnerbe.presentation.screen.fragment.map.write.RunningWriteViewModel" />
+            type="com.applemango.runnerbe.presentation.screen.fragment.map.write.RunningWriteOneViewModel" />
     </data>
 
 <!--    <ScrollView-->
@@ -57,6 +57,7 @@
                 app:layout_constraintRight_toRightOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/next"

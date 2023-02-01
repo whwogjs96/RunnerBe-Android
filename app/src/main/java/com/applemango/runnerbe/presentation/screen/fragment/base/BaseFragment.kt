@@ -14,7 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import com.applemango.runnerbe.presentation.NavigationViewModel
+import com.applemango.runnerbe.presentation.viewmodel.NavigationViewModel
 import com.applemango.runnerbe.presentation.screen.dialog.LoadingDialog
 
 /**

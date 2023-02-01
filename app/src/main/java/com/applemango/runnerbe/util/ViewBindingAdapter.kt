@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.util
 
 import android.content.ContentValues.TAG
+import android.location.Address
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.naver.maps.geometry.LatLng
 
 @BindingAdapter("imageDrawable")
 fun bindImageFromRes(view: ImageView, drawableId: Int) {
@@ -60,5 +62,4 @@ fun bindImageFromURLRounded(imageView: ImageView, imageURL: String?) {
             .transform(CenterCrop(), RoundedCorners(50))
             .into(imageView)
     }
-
 }

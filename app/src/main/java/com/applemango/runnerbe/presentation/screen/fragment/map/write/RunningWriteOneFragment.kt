@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentRunningWriteBinding
+import com.applemango.runnerbe.databinding.ItemMapInfoBinding
 import com.applemango.runnerbe.presentation.model.DateResultListener
 import com.applemango.runnerbe.presentation.model.RunningTag
 import com.applemango.runnerbe.presentation.model.TimeResultListener
@@ -25,10 +27,15 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
 
-class RunningWriteFragment :
+/**
+ * @author niaka
+ *
+ */
+class RunningWriteOneFragment :
     BaseFragment<FragmentRunningWriteBinding>(R.layout.fragment_running_write),
     OnMapReadyCallback, View.OnClickListener {
 
@@ -41,7 +48,7 @@ class RunningWriteFragment :
     private lateinit var mNaverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
 
-    private val viewModel: RunningWriteViewModel by viewModels()
+    private val viewModel: RunningWriteOneViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,6 +72,8 @@ class RunningWriteFragment :
         observeBind()
         binding.dateLayout.setOnClickListener(this)
         binding.timeLayout.setOnClickListener(this)
+        binding.backBtn.setOnClickListener(this)
+        binding.nextButton.setOnClickListener(this)
     }
 
     private fun observeBind() {
@@ -118,12 +127,13 @@ class RunningWriteFragment :
         mNaverMap.addOnCameraChangeListener {_, _ ->
             if(centerMarker?.infoWindow != null) {
                 markerInfoView.close()
-                Log.e("여기 계속오면 낭패", markerInfoView.toString())
             }
-            centerMarker?.position = LatLng(
+            val center = LatLng(
                 mNaverMap.cameraPosition.target.latitude,
                 mNaverMap.cameraPosition.target.longitude
             )
+            viewModel.coordinate = center
+            centerMarker?.position = center
         }
     }
 
@@ -151,10 +161,21 @@ class RunningWriteFragment :
         }
     }
 
+    //이 부분은 추후 리팩토링이 들어가야 할 듯 합니다.
     private fun initMarkerInfoView() {
-        markerInfoView.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
-            override fun getText(p0: InfoWindow): CharSequence {
-                return "테스트"
+        markerInfoView.adapter = object : InfoWindow.DefaultViewAdapter(requireContext()) {
+            override fun getContentView(p0: InfoWindow): View {
+                val view : ItemMapInfoBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_map_info, null, false)
+                val address =AddressUtil.getAddressSimpleLine(context, viewModel.coordinate.latitude, viewModel.coordinate.longitude)
+                val addressLine = AddressUtil.getAddressSimpleLine(context, viewModel.coordinate.latitude, viewModel.coordinate.longitude).split(" ")
+                if(addressLine.size > 1) {
+                    view.oneTextView.text = addressLine.filterIndexed{ index, _ -> index != 0 && index <= addressLine.size/2 }.joinToString (separator = " ")
+                    view.twoTextView.text = addressLine.filterIndexed{ index, _ -> index > addressLine.size/2 }.joinToString (separator = " ")
+                } else {
+                    view.oneTextView.text = address
+                }
+
+                return view.root
             }
         }
     }
@@ -186,6 +207,10 @@ class RunningWriteFragment :
                         }
                     }
                 )
+            }
+            binding.backBtn -> navPopStack()
+            binding.nextButton -> {
+                navigate(RunningWriteOneFragmentDirections.actionRunningWriteFragmentToRunningWriteTwoFragment())
             }
         }
     }

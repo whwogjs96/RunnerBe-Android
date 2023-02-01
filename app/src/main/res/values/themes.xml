@@ -5,4 +5,9 @@
         <item name="android:statusBarColor">@color/black_29</item>
     </style>
 
+    <style name="SliderTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/black_29</item>
+        <item name="colorAccent">@color/black_29</item>
+    </style>
 </resources>
