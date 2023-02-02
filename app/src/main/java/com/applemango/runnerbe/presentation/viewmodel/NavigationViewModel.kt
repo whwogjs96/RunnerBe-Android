@@ -6,6 +6,6 @@ import androidx.navigation.NavDirections
 
 class NavigationViewModel : ViewModel() {
     val popBackStack = MutableLiveData<Boolean>()
-
+    val navSpecificBackStack = MutableLiveData<Int>()
     val navDirectionAction = MutableLiveData<NavDirections?>()
 }

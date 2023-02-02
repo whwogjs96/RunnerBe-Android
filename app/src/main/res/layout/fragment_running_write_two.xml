@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
             name="vm"
             type="com.applemango.runnerbe.presentation.screen.fragment.map.write.RunningWriteTwoViewModel" />
@@ -46,6 +48,7 @@
                 app:layout_constraintRight_toRightOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/postButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/enrollment"
@@ -99,8 +102,10 @@
                             android:src="@drawable/ic_location_marker"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/addressView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@{vm.locationInfo}"
                             android:textSize="12sp"
                             android:textColor="@color/dark_g3"/>
 
@@ -116,6 +121,7 @@
                 android:background="@drawable/bg_primary_stroke_radius_8"
                 android:paddingHorizontal="8dp"
                 tools:text="출근전"
+                android:text="@{vm.oneData.runningTag.tagNameResource}"
                 android:textColor="@color/primary"
                 android:layout_marginLeft="8dp"
                 app:layout_constraintLeft_toRightOf="@id/mapCardView"
@@ -129,6 +135,7 @@
                 android:layout_marginLeft="8dp"
                 android:lines="1"
                 android:ellipsize="end"
+                android:text="@{vm.oneData.runningTitle}"
                 tools:text="새벽에 달리기 하실분? 새로운 일이 가득합니다."
                 android:textSize="18dp"
                 android:textColor="@color/dark_g2_5"
@@ -157,6 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
+                    android:text="@{vm.oneData.runningDisplayDate.fullDisplayDate}"
                     tools:text="3/31 (금) AM 6:00"
                     android:textColor="@color/dark_g3"
                     android:textSize="12sp"/>
@@ -184,6 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
+                    android:text="@{vm.oneData.runningDisplayTime.fullDisplayTime}"
                     tools:text="1시간 20분"
                     android:textColor="@color/dark_g3"
                     android:textSize="12sp"/>
@@ -247,13 +256,13 @@
                         android:background="@drawable/selector_gender_tab"/>
 
                     <RadioButton
-                        android:id="@+id/ladyTab"
+                        android:id="@+id/femaleTab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="24dp"
                         android:textSize="14sp"
                         android:textColor="@color/tc_select_gender_tab"
-                        android:text="@string/lady"
+                        android:text="@string/female"
                         android:checked="false"
                         android:layout_gravity="center"
                         android:paddingVertical="6dp"
@@ -262,13 +271,13 @@
                         android:background="@drawable/selector_gender_tab"/>
 
                     <RadioButton
-                        android:id="@+id/manTab"
+                        android:id="@+id/maleTab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="24dp"
                         android:textSize="14sp"
                         android:textColor="@color/tc_select_gender_tab"
-                        android:text="@string/man"
+                        android:text="@string/male"
                         android:checked="false"
                         android:layout_gravity="center"
                         android:paddingVertical="6dp"
@@ -326,7 +335,7 @@
                         android:layout_height="wrap_content"
                         android:button="@null"
                         android:background="@drawable/selector_check_box"
-                        android:checked="false" />
+                        android:checked="@={vm.isAllAgeChecked()}" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -343,22 +352,26 @@
                         android:id="@+id/ageText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="35세 - 65세 이상"
-                        android:textColor="@color/logo_yellow"
+                        android:text="@{vm.recruitmentAge}"
+                        android:enabled="@{!vm.isAllAgeChecked()}"
+                        android:textColor="@color/tc_enable_primary_g4"
                         android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/ageSlider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:values="@array/initial_slider_values"
-                        app:trackColorActive="@color/primary"
-                        app:trackColorInactive="@color/dark_g4"
-                        app:tickColorActive="@color/primary"
-                        app:tickColorInactive="@color/dark_g4"
+                        app:trackColorActive="@color/track_select_active"
+                        app:trackColorInactive="@color/dark_g5_5"
+                        app:tickColorActive="@color/track_select_active"
+                        app:tickColorInactive="@color/dark_g5_5"
+                        app:thumbColor="@color/track_select_active"
                         app:trackHeight="8dp"
+                        android:enabled="@{!vm.isAllAgeChecked()}"
                         android:theme="@style/SliderTheme"
                         android:valueFrom="20.0"
                         android:valueTo="65.0"
@@ -404,12 +417,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="32dp"
+                        android:enabled="@{vm.joinRunnerCount > 2}"
+                        android:onClick="@{() -> vm.joinRunnerMinus()}"
                         android:src="@drawable/selector_minus_btn"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="2"
+                        android:text="@{String.valueOf(vm.joinRunnerCount)}"
                         android:textColor="@color/primary"
                         android:textSize="16sp"/>
 
@@ -417,6 +432,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="32dp"
+                        android:enabled="@{vm.joinRunnerCount &lt; 8}"
+                        android:onClick="@{() -> vm.joinRunnerPlus()}"
                         android:src="@drawable/selector_plus_btn"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -425,6 +442,7 @@
                     android:id="@+id/countLimitMessageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="@{vm.joinRunnerCount == 2 ? View.VISIBLE : View.GONE}"
                     android:text="@string/msg_recruitment_count_minimum"
                     android:textColor="@color/error_light"
                     android:textSize="12sp"
@@ -469,6 +487,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="0/500"
+                        android:text="@{@string/limit_five_hundred(vm.content.length())}"
                         android:textColor="@color/dark_g4"
                         android:textSize="14sp"
                         app:layout_constraintTop_toTopOf="parent"
@@ -484,6 +503,7 @@
                     android:gravity="top"
                     android:textSize="16sp"
                     android:textColor="@color/dark_g1"
+                    android:text="@={vm.content}"
                     android:hint="@string/hint_content_write"
                     android:textColorHint="@color/dark_g3_5"
                     android:background="@drawable/bg_dark_5_5g_solid_radius_8"

@@ -2,6 +2,7 @@ package com.applemango.runnerbe.presentation.screen.fragment.base
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,10 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
             popBackStack.observe(viewLifecycleOwner) {
                 if (it) navController.popBackStack()
             }
+            navSpecificBackStack.observe(viewLifecycleOwner) {
+                Log.e( "navSpecificBackStack", it.toString())
+                if(it != null) navController.popBackStack(it, false)
+            }
         }
     }
 
@@ -82,7 +87,12 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
         }
     }
 
-    fun navPopStack() { navigationViewModel.popBackStack.postValue(true) }
+    fun navPopStack(id: Int? = null) {
+        id?.let {
+            navigationViewModel.navSpecificBackStack.postValue(it)
+        }?:navigationViewModel.popBackStack.postValue(true)
+
+    }
 
     fun navigate(direction: NavDirections) { navigationViewModel.navDirectionAction.postValue(direction) }
 

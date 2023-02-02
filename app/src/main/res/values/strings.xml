@@ -35,8 +35,8 @@
     <string name="enrollment">등록</string>
 
     <string name="all">전체</string>
-    <string name="lady">여성</string>
-    <string name="man">남성</string>
+    <string name="female">여성</string>
+    <string name="male">남성</string>
 
     <string name="question_logout">로그아웃 하시겠어요?</string>
     <string name="question_withdrawal">회원탈퇴 하시겠어요?</string>
@@ -67,6 +67,10 @@
     <string name="recruitment_content">하고싶은 말 (선택)</string>
     <string name="msg_recruitment_count_minimum">모임 인원은 최소 2명부터 가능해요!</string>
     <string name="hint_content_write">함께할 러너들에게 하실 말씀이 있나요?\nex) ㅇㅇ마트 앞에서 만나요~</string>
+    <string name="limit_five_hundred">%s/500</string>
+    <string name="display_recruitment_age_setting">%s세 - %s세</string>
+    <string name="question_running_write">글을 등록하시겠어요?</string>
+    <string name="complete_running_write">글이 등록되었어요!</string>
 
 
     <!-- 내정보 수정  -->

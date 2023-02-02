@@ -1,6 +1,103 @@
 package com.applemango.runnerbe.presentation.screen.fragment.map.write
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
+import com.applemango.runnerbe.data.network.request.WriteRunningRequest
+import com.applemango.runnerbe.data.network.response.BaseResponse
+import com.applemango.runnerbe.data.vo.RunningWriteTransferData
+import com.applemango.runnerbe.domain.usecase.post.WriteRunningUseCase
+import com.applemango.runnerbe.presentation.model.GenderTag
+import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
+import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectData
+import com.applemango.runnerbe.presentation.state.CommonResponse
+import com.applemango.runnerbe.presentation.state.UiState
+import com.naver.maps.geometry.LatLng
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import java.util.Calendar
+import javax.inject.Inject
 
-class RunningWriteTwoViewModel: ViewModel() {
+@HiltViewModel
+class RunningWriteTwoViewModel @Inject constructor(
+    private val writeUseCase : WriteRunningUseCase
+) : ViewModel() {
+
+    val oneData: MutableStateFlow<RunningWriteTransferData> = MutableStateFlow(
+        RunningWriteTransferData(
+            runningTitle = "",
+            runningDate = Calendar.getInstance().time,
+            runningDisplayDate = DateSelectData.defaultNowDisplayDate(),
+            runningDisplayTime = TimeSelectData.getDefaultTimeData(),
+            runningTag = RunningTag.Before,
+            coordinate = LatLng(0.0, 0.0)
+            )
+    )
+
+    private val _writeSate : MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    val writeState get() = _writeSate
+
+    val radioChecked : MutableStateFlow<Int> = MutableStateFlow(R.id.allTab)
+    val content : MutableStateFlow<String> = MutableStateFlow("")
+    val joinRunnerCount : MutableStateFlow<Int> = MutableStateFlow(2)
+    val isAllAgeChecked : MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val recruitmentStartAge : MutableStateFlow<Int> = MutableStateFlow(20)
+    val recruitmentEndAge : MutableStateFlow<Int> = MutableStateFlow(40)
+    val locationInfo : MutableStateFlow<String> = MutableStateFlow("확인 불가")
+
+    val recruitmentAge = combine(recruitmentStartAge, recruitmentEndAge) { start, end ->
+        RunnerBeApplication.ApplicationContext().resources.getString(R.string.display_recruitment_age_setting, start.toString(), end.toString())
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(1000L),
+        initialValue = ""
+    )
+
+    fun joinRunnerPlus() {
+        joinRunnerCount.value = joinRunnerCount.value + 1
+    }
+
+    fun joinRunnerMinus() {
+        joinRunnerCount.value = joinRunnerCount.value - 1
+    }
+
+    fun writeRunning(userId: Int) = viewModelScope.launch {
+        writeUseCase(userId, WriteRunningRequest(
+            runningTitle = oneData.value.runningTitle,
+            runningTag = oneData.value.runningTag.tag,
+            gatheringTime = oneData.value.runningDate.toString(),
+            runningTime = oneData.value.runningDisplayTime.getTransferType(),
+            numberOfRunner = joinRunnerCount.value,
+            gender = when (radioChecked.value) {
+                R.id.maleTab -> GenderTag.MALE
+                R.id.femaleTab -> GenderTag.FEMALE
+                else -> GenderTag.ALL
+            }.tag,
+            minAge = if(isAllAgeChecked.value) 0 else recruitmentStartAge.value,
+            maxAge = if(isAllAgeChecked.value) 100 else recruitmentEndAge.value,
+            latitude = oneData.value.coordinate.latitude,
+            longitude = oneData.value.coordinate.longitude,
+            locationInfo = locationInfo.value,
+            contents = content.value.ifEmpty { null }
+        )).collect {
+            _writeSate.emit(
+                when(it) {
+                    is CommonResponse.Success<*> -> {
+                        if(it.body is BaseResponse) {
+                            if(it.body.isSuccess) UiState.Success(it.code)
+                            else UiState.Failed(it.body.message?:"error")
+                        } else UiState.Failed("서버에 문제가 발생했습니다.")
+                    }
+                    is CommonResponse.Failed -> UiState.Failed(it.message)
+                    is CommonResponse.Loading -> UiState.Loading
+                    else -> UiState.Empty
+                }
+            )
+        }
+
+    }
 }

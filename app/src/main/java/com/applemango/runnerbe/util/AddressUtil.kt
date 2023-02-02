@@ -23,7 +23,7 @@ object AddressUtil {
                 // 주소 받아오기 (-시 -구)
                 Log.e("address", address.toString())
                 val currentLocationAddress =
-                    "${if (address[0].locality == null) address[0].subLocality else address[0].locality} ${address[0].thoroughfare}"
+                    "${if (address[0].locality == null) address[0].subLocality else address[0].locality?:""} ${address[0].thoroughfare?:""}"
                 addressResult = currentLocationAddress
             }
         } catch (e: IOException) {

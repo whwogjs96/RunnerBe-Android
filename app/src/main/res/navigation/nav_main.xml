@@ -69,5 +69,10 @@
         android:id="@+id/runningWriteTwoFragment"
         tools:layout="@layout/fragment_running_write_two"
         android:name="com.applemango.runnerbe.presentation.screen.fragment.map.write.RunningWriteTwoFragment"
-        android:label="RunningWriteTwoFragment" />
+        android:label="RunningWriteTwoFragment" >
+
+        <argument
+            android:name="data"
+            app:argType="com.applemango.runnerbe.data.vo.RunningWriteTransferData" />
+    </fragment>
 </navigation>

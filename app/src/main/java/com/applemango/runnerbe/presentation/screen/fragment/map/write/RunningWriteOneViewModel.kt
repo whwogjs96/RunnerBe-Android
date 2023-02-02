@@ -1,11 +1,14 @@
 package com.applemango.runnerbe.presentation.screen.fragment.map.write
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
 import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectData
 import com.naver.maps.geometry.LatLng
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.*
+import okhttp3.internal.wait
 import java.util.*
 
 class RunningWriteOneViewModel : ViewModel() {
@@ -16,6 +19,13 @@ class RunningWriteOneViewModel : ViewModel() {
     val runningDisplayDate : MutableStateFlow<DateSelectData> = MutableStateFlow(DateSelectData.defaultNowDisplayDate())
     val runningDisplayTime : MutableStateFlow<TimeSelectData> = MutableStateFlow(TimeSelectData.getDefaultTimeData())
 
-//    val coordinate : MutableStateFlow<LatLng> = MutableStateFlow(LatLng(0.0, 0.0))
+    val onNext = combine(runningTitle, runningDisplayTime) { title, time ->
+        title.replace("\\s".toRegex(), "").isNotEmpty() && (time.hour.toInt() + time.minute.toInt()) > 0
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(1000L),
+        initialValue = false
+    )
+
     var coordinate = LatLng(0.0, 0.0)
 }

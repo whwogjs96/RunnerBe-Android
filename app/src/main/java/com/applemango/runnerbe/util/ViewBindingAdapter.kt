@@ -3,6 +3,7 @@ package com.applemango.runnerbe.util
 import android.content.ContentValues.TAG
 import android.location.Address
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -62,4 +63,9 @@ fun bindImageFromURLRounded(imageView: ImageView, imageURL: String?) {
             .transform(CenterCrop(), RoundedCorners(50))
             .into(imageView)
     }
+}
+
+@BindingAdapter("isEnabled")
+fun View.isEnabled(isEnable : Boolean) {
+    this.isEnabled = isEnable
 }

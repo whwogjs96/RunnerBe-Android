@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.domain.usecase
+package com.applemango.runnerbe.domain.usecase.post
 
 import com.applemango.runnerbe.data.network.response.GetBookmarkResponse
 import com.applemango.runnerbe.domain.repository.PostRepository

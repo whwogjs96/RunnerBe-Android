@@ -3,16 +3,32 @@ package com.applemango.runnerbe.presentation.screen.fragment.map.write
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentRunningWriteTwoBinding
+import com.applemango.runnerbe.presentation.model.GenderTag
+import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
+import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
+import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
+import com.applemango.runnerbe.presentation.state.UiState
+import com.applemango.runnerbe.util.AddressUtil
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.RangeSlider.OnChangeListener
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * @author niaka
@@ -27,14 +43,56 @@ class RunningWriteTwoFragment :
     private var centerMarker : Marker? = null
 
     private val viewModel: RunningWriteTwoViewModel by viewModels()
+    private val args : RunningWriteTwoFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.mapView.getMapAsync(this)
-
+        viewModel.oneData.value = args.data
+        binding.vm = viewModel
         binding.backBtn.setOnClickListener(this)
+        binding.ageSlider.addOnChangeListener(OnChangeListener { slider, _, _ ->
+            val ages = slider.values
+            viewModel.recruitmentStartAge.value = ages[0].toInt()
+            viewModel.recruitmentEndAge.value = ages[1].toInt()
+        })
+        binding.postButton.setOnClickListener(this)
+        observeBind()
     }
 
+    private fun observeBind() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.writeState.collect {
+                context?.let { context ->
+                    if (it is UiState.Loading) showLoadingDialog(context)
+                    else dismissLoadingDialog()
+                }
+                when (it) {
+                    is UiState.NetworkError -> {
+                        //오프라인 발생 어쩌구 다이얼로그
+                    }
+                    is UiState.Failed -> {
+                        context?.let { context ->
+                            MessageDialog.createShow(
+                                context = context,
+                                message = it.message,
+                                buttonText = resources.getString(R.string.confirm)
+                            )
+                        }
+                    }
+                    is UiState.Success -> {
+                        Toast.makeText(
+                            context,
+                            resources.getString(R.string.complete_running_write),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("테스트", "잘 되는 디?")
+                        navPopStack(R.id.mainFragment)
+                    }
+                }
+            }
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -63,7 +121,6 @@ class RunningWriteTwoFragment :
     }
 
     override fun onMapReady(map: NaverMap) {
-        Log.e("TAG", map.toString())
         mNaverMap = map
         mNaverMap.uiSettings.isScrollGesturesEnabled = false
         mNaverMap.uiSettings.isZoomControlEnabled = false
@@ -72,20 +129,42 @@ class RunningWriteTwoFragment :
 
     private fun createCenterMarker() {
         centerMarker = Marker()
+        val lat = viewModel.oneData.value.coordinate.latitude
+        val lng = viewModel.oneData.value.coordinate.longitude
         centerMarker?.apply {
-            position = LatLng(
-                mNaverMap.cameraPosition.target.latitude,
-                mNaverMap.cameraPosition.target.longitude
-            )
+            position = LatLng(lat, lng)
             map = mNaverMap
             icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
         }
 
+        mNaverMap.moveCamera(CameraUpdate.scrollTo(viewModel.oneData.value.coordinate))
+        context?.let {
+            viewModel.locationInfo.value = AddressUtil.getAddress(it, lat, lng)
+        }
     }
 
     override fun onClick(v: View?) {
         when(v) {
             binding.backBtn -> navPopStack()
+            binding.postButton -> {
+                context?.let {
+                    TwoButtonDialog.createShow(
+                        it,
+                        title = resources.getString(R.string.question_running_write),
+                        firstButtonText = resources.getString(R.string.no),
+                        secondButtonText = resources.getString(R.string.yes),
+                        firstEvent = {},
+                        secondEvent = {
+                            with(RunnerBeApplication.mTokenPreference.getUserId()) {
+                                if(this > -1) {
+                                    viewModel.writeRunning(this)
+                                }
+                            }
+                        }
+                    )
+                }
+
+            }
         }
     }
 

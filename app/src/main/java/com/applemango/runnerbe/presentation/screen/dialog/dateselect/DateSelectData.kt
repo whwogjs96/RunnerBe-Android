@@ -1,16 +1,19 @@
 package com.applemango.runnerbe.presentation.screen.dialog.dateselect
 
+import android.os.Parcelable
 import com.applemango.runnerbe.presentation.model.RunningTag
+import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import kotlin.math.min
 
+@Parcelize
 data class DateSelectData(
     val formatDate: String,
     val AMAndPM: String,
     val hour: String,
     val minute: String
-) {
+) : Parcelable {
     fun getFullDisplayDate() = "$formatDate $AMAndPM $hour:$minute"
 
     companion object {
