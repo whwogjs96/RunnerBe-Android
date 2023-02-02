@@ -48,6 +48,13 @@
     <string name="msg_network_error_title">오프라인 상태예요!</string>
     <string name="msg_network_error_content">네트워크를 연결해주세요.</string>
     <string name="ready">준비됐어요!</string>
+
+    <!-- 메인 화면 -->
+    <string name="by_distance">거리순</string>
+    <string name="newest">최신순</string>
+    <string name="with_finish">마감 포함</string>
+    <string name="empty_post">현재 모임이 없어요!</string>
+    <string name="empty_post_filter">조건에 맞는 검색 결과가 없어요.</string>
     
     <!-- 북마크 -->
     <string name="before_work">출근 전</string>
