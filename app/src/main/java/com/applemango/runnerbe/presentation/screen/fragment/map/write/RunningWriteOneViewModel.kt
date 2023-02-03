@@ -1,13 +1,17 @@
 package com.applemango.runnerbe.presentation.screen.fragment.map.write
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
 import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectData
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.naver.maps.geometry.LatLng
+import kotlinx.coroutines.flow.*
+import okhttp3.internal.wait
 import java.util.*
 
-class RunningWriteViewModel : ViewModel() {
+class RunningWriteOneViewModel : ViewModel() {
 
     val radioChecked : MutableStateFlow<Int> = MutableStateFlow(R.id.beforeTab)
     val runningTitle : MutableStateFlow<String> = MutableStateFlow("")
@@ -15,4 +19,13 @@ class RunningWriteViewModel : ViewModel() {
     val runningDisplayDate : MutableStateFlow<DateSelectData> = MutableStateFlow(DateSelectData.defaultNowDisplayDate())
     val runningDisplayTime : MutableStateFlow<TimeSelectData> = MutableStateFlow(TimeSelectData.getDefaultTimeData())
 
+    val onNext = combine(runningTitle, runningDisplayTime) { title, time ->
+        title.replace("\\s".toRegex(), "").isNotEmpty() && (time.hour.toInt() + time.minute.toInt()) > 0
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(1000L),
+        initialValue = false
+    )
+
+    var coordinate = LatLng(0.0, 0.0)
 }

@@ -10,7 +10,12 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentRunnerMapBinding
 import com.applemango.runnerbe.presentation.model.CachingObject
+import com.applemango.runnerbe.presentation.model.PriorityFilterTag
+import com.applemango.runnerbe.presentation.model.RunningTag
 import com.applemango.runnerbe.presentation.screen.dialog.NoAdditionalInfoDialog
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemDialog
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemParameter
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
 import com.applemango.runnerbe.presentation.screen.fragment.MainFragmentDirections
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.AddressUtil
@@ -39,8 +44,10 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.addClick = writeClickEvent()
         binding.vm = viewModel
+        binding.postListLayout.vm = viewModel
+        binding.postListLayout.fragment = this
+        binding.fragment = this
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
@@ -88,7 +95,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
 
 
     override fun onMapReady(map: NaverMap) {
-        Log.i(TAG, "onMapReady")
         mNaverMap = map
         mNaverMap.locationSource = locationSource
         mNaverMap.locationTrackingMode = LocationTrackingMode.Follow
@@ -107,9 +113,48 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                 text = AddressUtil.getAddress(requireContext(), location.latitude, location.longitude)
             }
         }
+
+        mNaverMap.addOnCameraChangeListener { _, _ ->
+            val center = LatLng(
+                mNaverMap.cameraPosition.target.latitude,
+                mNaverMap.cameraPosition.target.longitude
+            )
+            viewModel.coordinator = center
+        }
     }
 
-    private fun writeClickEvent() = View.OnClickListener {
+    fun writeClickEvent() {
         navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
+    }
+
+    fun filterRunningTagClick() {
+        val tagList = listOf(
+            SelectItemParameter(resources.getString(RunningTag.Before.getTagNameResource())) {
+                viewModel.filterRunningTag.value = RunningTag.Before
+            },
+            SelectItemParameter(resources.getString(RunningTag.After.getTagNameResource())) {
+                viewModel.filterRunningTag.value = RunningTag.After
+            },
+            SelectItemParameter(resources.getString(RunningTag.Holiday.getTagNameResource())) {
+                viewModel.filterRunningTag.value = RunningTag.Holiday
+            }
+        )
+        context?.let {
+            SelectItemDialog.createShow(it, tagList)
+        }
+    }
+
+    fun filterPriorityTagClick() {
+        val tagList = listOf(
+            SelectItemParameter(resources.getString(PriorityFilterTag.BY_DISTANCE.getTagNameResource())) {
+                viewModel.filterPriorityTag.value = PriorityFilterTag.BY_DISTANCE
+            },
+            SelectItemParameter(resources.getString(PriorityFilterTag.NEWEST.getTagNameResource())) {
+                viewModel.filterPriorityTag.value = PriorityFilterTag.NEWEST
+            }
+        )
+        context?.let {
+            SelectItemDialog.createShow(it, tagList)
+        }
     }
 }

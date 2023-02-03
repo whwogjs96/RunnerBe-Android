@@ -16,6 +16,10 @@ import retrofit2.Retrofit
 @HiltAndroidApp
 class RunnerBeApplication: Application() {
 
+    init{
+        instance = this
+    }
+
     //두루 코드 사용
     companion object {
         // 만들어져있는 SharedPreferences 를 사용해야합니다. 재생성하지 않도록 유념해주세요
@@ -29,7 +33,10 @@ class RunnerBeApplication: Application() {
 
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
-
+        lateinit var instance: RunnerBeApplication
+        fun ApplicationContext() : Context {
+            return instance.applicationContext
+        }
     }
 
     override fun onCreate() {

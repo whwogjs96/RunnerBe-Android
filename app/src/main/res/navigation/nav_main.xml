@@ -59,6 +59,20 @@
     <fragment
         android:id="@+id/runningWriteFragment"
         tools:layout="@layout/fragment_running_write"
-        android:name="com.applemango.runnerbe.presentation.screen.fragment.map.write.RunningWriteFragment"
-        android:label="RunningWriteFragment" />
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.map.write.RunningWriteOneFragment"
+        android:label="RunningWriteFragment" >
+        <action
+            android:id="@+id/action_runningWriteFragment_to_runningWriteTwoFragment"
+            app:destination="@id/runningWriteTwoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/runningWriteTwoFragment"
+        tools:layout="@layout/fragment_running_write_two"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.map.write.RunningWriteTwoFragment"
+        android:label="RunningWriteTwoFragment" >
+
+        <argument
+            android:name="data"
+            app:argType="com.applemango.runnerbe.data.vo.RunningWriteTransferData" />
+    </fragment>
 </navigation>

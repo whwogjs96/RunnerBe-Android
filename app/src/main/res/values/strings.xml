@@ -32,6 +32,11 @@
 
     <string name="confirm">확인</string>
     <string name="next">다음</string>
+    <string name="enrollment">등록</string>
+
+    <string name="all">전체</string>
+    <string name="female">여성</string>
+    <string name="male">남성</string>
 
     <string name="question_logout">로그아웃 하시겠어요?</string>
     <string name="question_withdrawal">회원탈퇴 하시겠어요?</string>
@@ -43,6 +48,13 @@
     <string name="msg_network_error_title">오프라인 상태예요!</string>
     <string name="msg_network_error_content">네트워크를 연결해주세요.</string>
     <string name="ready">준비됐어요!</string>
+
+    <!-- 메인 화면 -->
+    <string name="by_distance">거리순</string>
+    <string name="newest">최신순</string>
+    <string name="with_finish">마감 포함</string>
+    <string name="empty_post">현재 모임이 없어요!</string>
+    <string name="empty_post_filter">조건에 맞는 검색 결과가 없어요.</string>
     
     <!-- 북마크 -->
     <string name="before_work">출근 전</string>
@@ -55,6 +67,18 @@
     <string name="play_time">소요 시간</string>
     <string name="hint_running_title">ex) A 직군 모여라, 묵언 러닝 하실 분, 마라톤 완주!</string>
     <string name="timeFormat">%s 시간 %2d 분</string>
+    <string name="recruitment_gender">모집 성별</string>
+    <string name="recruitment_count">모집 인원</string>
+    <string name="recruitment_age">모집 연령</string>
+    <string name="all_age">모든 연령</string>
+    <string name="recruitment_content">하고싶은 말 (선택)</string>
+    <string name="msg_recruitment_count_minimum">모임 인원은 최소 2명부터 가능해요!</string>
+    <string name="hint_content_write">함께할 러너들에게 하실 말씀이 있나요?\nex) ㅇㅇ마트 앞에서 만나요~</string>
+    <string name="limit_five_hundred">%s/500</string>
+    <string name="display_recruitment_age_setting">%s세 - %s세</string>
+    <string name="question_running_write">글을 등록하시겠어요?</string>
+    <string name="complete_running_write">글이 등록되었어요!</string>
+
 
     <!-- 내정보 수정  -->
     <string name="msg_impossible_nickname_change">* 닉네임 변경이 완료되어 추가 변경은 불가능해요!</string>

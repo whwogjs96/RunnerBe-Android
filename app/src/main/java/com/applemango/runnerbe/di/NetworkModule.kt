@@ -102,4 +102,9 @@ object NetworkModule {
     @Singleton
     fun provideGetBookmarkApi(retrofit: Retrofit) : GetBookmarkApi =
         retrofit.create(GetBookmarkApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWriteRunningApi(retrofit: Retrofit) : WriteRunningApi =
+        retrofit.create(WriteRunningApi::class.java)
 }
