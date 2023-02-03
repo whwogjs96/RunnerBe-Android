@@ -5,6 +5,7 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
@@ -40,7 +41,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     private lateinit var mNaverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
 
-    private val viewModel : RunnerMapViewModel by viewModels()
+    private val viewModel : RunnerMapViewModel by viewModels({requireParentFragment()})
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,6 +53,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
         checkAdditionalUserInfo()
+
     }
 
     private fun checkAdditionalUserInfo() {
@@ -125,6 +127,10 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
 
     fun writeClickEvent() {
         navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
+    }
+
+    fun filterClick() {
+        navigate(MainFragmentDirections.actionMainFragmentToRunningFilterFragment())
     }
 
     fun filterRunningTagClick() {

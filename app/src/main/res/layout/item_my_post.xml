@@ -59,40 +59,44 @@
                     android:id="@+id/userProfileOneView"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
+                    android:visibility="@{holderModel.profileUrlList.empty ? View.GONE : View.VISIBLE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:image_from_url_rounded="@{holderModel.profileUrlList.get(0).profileImageUrl}"/>
+                    app:image_from_url_rounded="@{!holderModel.profileUrlList.empty ? holderModel.profileUrlList.get(0).profileImageUrl : null}"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/userProfileTwoView"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="24dp"
+                    android:visibility="@{holderModel.profileUrlList.size() > 1 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:image_from_url_rounded="@{holderModel.profileUrlList.get(1).profileImageUrl}"/>
+                    app:image_from_url_rounded="@{holderModel.profileUrlList.size() > 1 ? holderModel.profileUrlList.get(1).profileImageUrl : null}"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/userProfileThreeView"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="48dp"
+                    android:visibility="@{holderModel.profileUrlList.size() > 2 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:image_from_url_rounded="@{holderModel.profileUrlList.get(2).profileImageUrl}"/>
+                    app:image_from_url_rounded="@{holderModel.profileUrlList.size() > 2 ? holderModel.profileUrlList.get(2).profileImageUrl : null}"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/userProfileFourView"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="72dp"
+                    android:visibility="@{holderModel.profileUrlList.size() > 3 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:image_from_url_rounded="@{holderModel.profileUrlList.get(3).profileImageUrl}"/>
+                    app:image_from_url_rounded="@{holderModel.profileUrlList.size() > 3 ? holderModel.profileUrlList.get(3).profileImageUrl : null}"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -100,7 +104,7 @@
                     android:layout_marginLeft="8dp"
                     tools:text="외 1명"
                     android:text="외 1명"
-                    android:visibility="@{holderModel.profileUrlList.size() > 5 ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{holderModel.profileUrlList.size() > 4 ? View.VISIBLE : View.GONE}"
                     android:textSize="12sp"
                     android:textColor="@color/dark_g3_5"
                     app:layout_constraintLeft_toRightOf="@id/userProfileFourView"
@@ -121,7 +125,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="6dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:src="@drawable/ic_calender"/>
 
@@ -174,7 +177,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/date_main"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="4dp">
+                >
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/time_img"
