@@ -130,7 +130,13 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     }
 
     fun filterClick() {
-        navigate(MainFragmentDirections.actionMainFragmentToRunningFilterFragment())
+        val filter = viewModel.filterData.value
+        navigate(MainFragmentDirections.actionMainFragmentToRunningFilterFragment(
+            gender = filter.genderTag,
+            job = filter.jobTag,
+            minAge = filter.minAge,
+            maxAge = filter.maxAge
+        ))
     }
 
     fun filterRunningTagClick() {

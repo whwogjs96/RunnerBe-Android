@@ -82,5 +82,19 @@
         android:id="@+id/runningFilterFragment"
         tools:layout="@layout/fragment_running_filter"
         android:name="com.applemango.runnerbe.presentation.screen.fragment.map.filter.RunningFilterFragment"
-        android:label="RunningFilterFragment" />
+        android:label="RunningFilterFragment" >
+
+        <argument
+            android:name="gender"
+            app:argType="string"/>
+        <argument
+            android:name="job"
+            app:argType="string" />
+        <argument
+            android:name="maxAge"
+            app:argType="integer"/>
+        <argument
+            android:name="minAge"
+            app:argType="integer" />
+    </fragment>
 </navigation>

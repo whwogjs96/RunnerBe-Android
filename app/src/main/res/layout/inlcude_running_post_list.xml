@@ -95,7 +95,7 @@
                 android:text="@string/with_finish"
                 android:textSize="12sp"
                 android:textColor="@color/tc_checked_black_g3"
-                android:checked="true"
+                android:checked="@={vm.includeFinish}"
                 android:textStyle="bold"
                 android:button="@null"
                 android:background="@drawable/selector_filter"
@@ -122,6 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_update_dot"
+                android:visibility="@{vm.filterData.isFilterApply() ? View.VISIBLE : View.GONE}"
                 app:layout_constraintTop_toTopOf="@id/filterButton"
                 app:layout_constraintRight_toRightOf="@id/filterButton"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

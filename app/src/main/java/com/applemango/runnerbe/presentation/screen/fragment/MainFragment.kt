@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentMainBinding
 import com.applemango.runnerbe.databinding.ItemTabListBinding
+import com.applemango.runnerbe.presentation.model.GenderTag
 import com.applemango.runnerbe.presentation.model.MainBottomTab
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapViewModel
@@ -33,8 +34,14 @@ class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pageSetting()
-        setFragmentResultListener("filter") {  requestKey, bundle ->
+        setFragmentResultListener("filter") {  _, bundle ->
             Log.e("bundle", bundle.toString())
+            viewModel.setFilter(
+                gender = bundle.getString("gender"),
+                jobTag = bundle.getString("job"),
+                minAge = bundle.getInt("minAge"),
+                maxAge = bundle.getInt("maxAge")
+            )
         }
     }
 
