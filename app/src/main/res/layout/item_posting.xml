@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:onClickListener="@{clickListener}"
             android:padding="16dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
@@ -45,7 +46,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/post_name"
                 app:layout_constraintRight_toRightOf="parent"
                 android:src="@drawable/ic_book_mark_off"
-                android:tint="@{item.bookmarkCheck() ? @color/logo_yellow : @color/dark_g5_5}"
+                android:tint="@{item.bookmarkCheck() ? @color/logo_yellow : @color/dark_g4}"
                 tools:ignore="UseAppTint"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,40 +60,44 @@
                     android:id="@+id/userProfileOneView"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
+                    android:visibility="@{item.profileUrlList.isEmpty ? View.GONE : View.VISIBLE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:image_from_url_rounded="@{item.profileUrlList.get(0).profileImageUrl}"/>
+                    app:image_from_url_rounded="@{item.profileImageUrl.isEmpty ? null : item.profileUrlList.get(0).profileImageUrl}"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/userProfileTwoView"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="24dp"
+                    android:visibility="@{item.profileUrlList.size() > 1 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:image_from_url_rounded="@{item.profileUrlList.get(1).profileImageUrl}"/>
+                    app:image_from_url_rounded="@{item.profileUrlList.size() > 1 ? item.profileUrlList.get(1).profileImageUrl : null}"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/userProfileThreeView"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="48dp"
+                    android:visibility="@{item.profileUrlList.size() > 2 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:image_from_url_rounded="@{item.profileUrlList.get(2).profileImageUrl}"/>
+                    app:image_from_url_rounded="@{item.profileUrlList.size() > 2 ? item.profileUrlList.get(2).profileImageUrl : null}"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/userProfileFourView"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="72dp"
+                    android:visibility="@{item.profileUrlList.size() > 3 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:image_from_url_rounded="@{item.profileUrlList.get(3).profileImageUrl}"/>
+                    app:image_from_url_rounded="@{item.profileUrlList.size() > 3 ? item.profileUrlList.get(3).profileImageUrl : null}"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -100,7 +105,7 @@
                     android:layout_marginLeft="8dp"
                     tools:text="외 1명"
                     android:text="외 1명"
-                    android:visibility="@{item.profileUrlList.size() > 5 ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{item.profileUrlList.size() > 4 ? View.VISIBLE : View.GONE}"
                     android:textSize="12sp"
                     android:textColor="@color/dark_g3_5"
                     app:layout_constraintLeft_toRightOf="@id/userProfileFourView"

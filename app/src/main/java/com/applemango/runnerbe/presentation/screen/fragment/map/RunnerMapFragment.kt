@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentRunnerMapBinding
@@ -28,6 +29,7 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,13 +55,23 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
         checkAdditionalUserInfo()
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isRefresh.collect {
+                Log.e("될 줄 알았는데", it.toString())
+                refresh()
+            }
+        }
     }
-
     private fun checkAdditionalUserInfo() {
         if(RunnerBeApplication.mTokenPreference.getUserId() <= 0 && CachingObject.isColdStart) {
             showAdditionalInfoDialog()
         }
+    }
+
+    private fun refresh() {
+        viewModel.postList.clear()
+        val userId = RunnerBeApplication.mTokenPreference.getUserId()
+        viewModel.getRunningList(if(userId > 0) userId else null)
     }
 
     private fun showAdditionalInfoDialog() {
@@ -89,12 +101,10 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         binding.mapView.onStop()
     }
 
-
     override fun onLowMemory() {
         super.onLowMemory()
         binding.mapView.onLowMemory()
     }
-
 
     override fun onMapReady(map: NaverMap) {
         mNaverMap = map
