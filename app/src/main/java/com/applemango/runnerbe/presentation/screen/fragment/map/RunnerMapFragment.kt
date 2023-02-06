@@ -5,7 +5,6 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
@@ -18,9 +17,8 @@ import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.dialog.NoAdditionalInfoDialog
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemDialog
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemParameter
-import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
-import com.applemango.runnerbe.presentation.screen.fragment.MainFragmentDirections
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
+import com.applemango.runnerbe.presentation.screen.fragment.main.MainFragmentDirections
 import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.util.AddressUtil
 import com.applemango.runnerbe.util.setHeight
