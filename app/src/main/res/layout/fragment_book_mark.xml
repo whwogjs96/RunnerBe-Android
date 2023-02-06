@@ -102,6 +102,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
             postListAdapter="@{vm.bookmarkList}"
+            bookmarkEvent="@{vm.getChangeBookMarkStatusListener()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/countView"/>

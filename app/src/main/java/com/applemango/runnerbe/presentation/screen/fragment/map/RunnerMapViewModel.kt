@@ -4,22 +4,21 @@ import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.applemango.runnerbe.R
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.data.network.request.GetRunningListRequest
 import com.applemango.runnerbe.data.network.response.GetRunningListResponse
 import com.applemango.runnerbe.data.vo.MapFilterData
 import com.applemango.runnerbe.domain.usecase.post.GetRunningListUseCase
-import com.applemango.runnerbe.presentation.model.GenderTag
 import com.applemango.runnerbe.presentation.model.PriorityFilterTag
 import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.overlay.Marker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import org.apache.commons.lang3.mutable.Mutable
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,8 +29,10 @@ class RunnerMapViewModel @Inject constructor(
     val postList : ObservableArrayList<Posting> = ObservableArrayList()
     var coordinator : LatLng = LatLng(37.5666805, 126.9784147) //서울시청 디폴트
 
-    private val _uiState : MutableSharedFlow<UiState> = MutableSharedFlow()
-    val uiState get() : SharedFlow<UiState> = _uiState
+    private val _listUpdateUiState : MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    val listUpdateUiState get() : MutableStateFlow<UiState> = _listUpdateUiState
+
+    val clickedPost : MutableStateFlow<Posting?> = MutableStateFlow(null)
 
     //stateFlow는 같은 값인 경우 변경이 일어나지 않네...
     var refresh = false
@@ -54,6 +55,13 @@ class RunnerMapViewModel @Inject constructor(
         filterData.value = MapFilterData(gender?:"A", jobTag?:"N", minAge?:0, maxAge?:100)
     }
 
+    fun getChangeBookMarkStatusListener() = object : BookMarkClickListener{
+        override fun onClick(post: Posting) {
+            //TODO
+            //여기에 북마크 옵션 달아줘야 함
+        }
+    }
+
     fun getRunningList(userId : Int?) = viewModelScope.launch{
         val request = GetRunningListRequest(
             userLat = coordinator.latitude,
@@ -71,7 +79,7 @@ class RunnerMapViewModel @Inject constructor(
             if(it is CommonResponse.Success<*> && it.body is GetRunningListResponse) {
                 postList.addAll(it.body.runningList)
             }
-            _uiState.emit(
+            _listUpdateUiState.emit(
                 when(it) {
                     is CommonResponse.Success<*> -> UiState.Success(it.code)
                     is CommonResponse.Failed -> {
@@ -83,5 +91,9 @@ class RunnerMapViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    fun clickPost(posting: Posting?) {
+        clickedPost.value = posting
     }
 }

@@ -14,12 +14,14 @@ import com.applemango.runnerbe.databinding.FragmentRunnerMapBinding
 import com.applemango.runnerbe.presentation.model.CachingObject
 import com.applemango.runnerbe.presentation.model.PriorityFilterTag
 import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.dialog.NoAdditionalInfoDialog
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemDialog
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemParameter
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
 import com.applemango.runnerbe.presentation.screen.fragment.MainFragmentDirections
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
+import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.util.AddressUtil
 import com.applemango.runnerbe.util.setHeight
 import com.naver.maps.geometry.LatLng
@@ -27,8 +29,10 @@ import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
@@ -43,6 +47,9 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     private lateinit var mNaverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
 
+    private val markerList : ArrayList<Marker> = arrayListOf()
+    private var clickedMarker : Marker? = null
+
     private val viewModel : RunnerMapViewModel by viewModels({requireParentFragment()})
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,15 +57,32 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         binding.vm = viewModel
         binding.postListLayout.vm = viewModel
         binding.postListLayout.fragment = this
+        context?.let {
+            binding.postListLayout.postRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
+        }
         binding.fragment = this
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
         checkAdditionalUserInfo()
+        observeBind()
+    }
+
+    private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isRefresh.collect {
-                Log.e("될 줄 알았는데", it.toString())
                 refresh()
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.clickedPost.collectLatest {
+                if(it == null) {
+                    //TODO
+                    //여기에 떠있는 바텀 시트를 제거
+                } else {
+                    //TODO
+                    //여기에 게시글 바텀 시트 띄우기 기능
+                }
             }
         }
     }
@@ -133,8 +157,55 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
             )
             viewModel.coordinator = center
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.listUpdateUiState.collect {
+                when(it) {
+                    is UiState.Success -> {
+                        markerUpdate()
+                    }
+                }
+            }
+        }
     }
 
+    private fun markerClear() {
+        markerList.forEach { marker -> marker.map = null }
+        clickedMarker = null
+        markerList.clear()
+    }
+
+    private fun markerUpdate() {
+        markerClear()
+        viewModel.postList.forEach { post ->
+            runCatching {
+                val lat = post.gatherLatitude?.toDouble()
+                val lng = post.gatherLongitude?.toDouble()
+                if(lat != null && lng != null) {
+                    val marker = Marker().apply {
+                        position = LatLng(lat, lng)
+                        map = mNaverMap
+                        icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
+                        setOnClickListener {
+                            val overlay = it as Marker
+                            if(overlay == clickedMarker) {
+                                overlay.icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
+                                clickedMarker = null
+                            } else {
+                                clickedMarker?.icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
+                                overlay.icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
+                                clickedMarker = overlay
+                            }
+                            viewModel.clickPost(if(clickedMarker == null) null else post)
+                            true
+                        }
+                    }
+                    markerList.add(marker)
+                }
+            }.onFailure {
+                it.printStackTrace()
+            }
+        }
+    }
     fun writeClickEvent() {
         navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
     }

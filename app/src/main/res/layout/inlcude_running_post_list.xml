@@ -128,12 +128,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="12dp"
             android:paddingBottom="16dp"
             android:paddingTop="20dp"
             postListAdapter="@{vm.postList}"
+            bookmarkEvent="@{vm.getChangeBookMarkStatusListener()}"
             android:visibility="@{vm.postList.empty ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/filterLayout"

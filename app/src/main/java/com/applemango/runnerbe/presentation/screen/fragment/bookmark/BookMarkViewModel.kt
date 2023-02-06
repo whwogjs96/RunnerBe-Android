@@ -1,5 +1,6 @@
 package com.applemango.runnerbe.presentation.screen.fragment.bookmark
 
+import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,7 @@ import com.applemango.runnerbe.domain.usecase.post.GetAfterBookmarkListUseCase
 import com.applemango.runnerbe.domain.usecase.post.GetBeforeBookmarkListUseCase
 import com.applemango.runnerbe.domain.usecase.post.GetHolidayBookmarkListUseCase
 import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,6 +46,12 @@ class BookMarkViewModel @Inject constructor(
                 bookmarkList.clear()
                 bookmarkList.addAll(it.body.result.bookMarkList)
             }
+        }
+    }
+
+    fun getChangeBookMarkStatusListener() = object : BookMarkClickListener {
+        override fun onClick(post: Posting) {
+            Log.e("확인 작업", post.toString())
         }
     }
 }

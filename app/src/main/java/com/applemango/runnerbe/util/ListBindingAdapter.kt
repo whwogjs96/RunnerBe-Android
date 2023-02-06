@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
 import com.applemango.runnerbe.data.dto.Room
+import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListItemAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
@@ -55,10 +56,10 @@ fun setSelectListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayLi
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
-@BindingAdapter("postListAdapter")
-fun setPostListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Posting>) {
+@BindingAdapter("postListAdapter", "bookmarkEvent")
+fun setPostListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Posting>, bookMarkListener : BookMarkClickListener) {
     if(recyclerView.adapter == null) {
-        recyclerView.adapter = BookMarkAdapter(dataList)
+        recyclerView.adapter = BookMarkAdapter(dataList, bookMarkListener)
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }
