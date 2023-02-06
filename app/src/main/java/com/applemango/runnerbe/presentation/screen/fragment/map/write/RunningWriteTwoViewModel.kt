@@ -19,6 +19,7 @@ import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -69,7 +70,7 @@ class RunningWriteTwoViewModel @Inject constructor(
         writeUseCase(userId, WriteRunningRequest(
             runningTitle = oneData.value.runningTitle,
             runningTag = oneData.value.runningTag.tag,
-            gatheringTime = oneData.value.runningDate.toString(),
+            gatheringTime = SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(oneData.value.runningDate),
             runningTime = oneData.value.runningDisplayTime.getTransferType(),
             numberOfRunner = joinRunnerCount.value,
             gender = when (radioChecked.value) {

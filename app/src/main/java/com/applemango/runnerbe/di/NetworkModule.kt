@@ -107,4 +107,9 @@ object NetworkModule {
     @Singleton
     fun provideWriteRunningApi(retrofit: Retrofit) : WriteRunningApi =
         retrofit.create(WriteRunningApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideGetRunningListApi(retrofit: Retrofit) : GetRunningListApi =
+        retrofit.create(GetRunningListApi::class.java)
 }

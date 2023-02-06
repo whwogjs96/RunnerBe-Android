@@ -55,8 +55,8 @@ fun setSelectListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayLi
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
-@BindingAdapter("bookmarkAdapter")
-fun setBookmarkAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Posting>) {
+@BindingAdapter("postListAdapter")
+fun setPostListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Posting>) {
     if(recyclerView.adapter == null) {
         recyclerView.adapter = BookMarkAdapter(dataList)
     }

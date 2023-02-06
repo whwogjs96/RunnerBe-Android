@@ -1,14 +1,19 @@
 package com.applemango.runnerbe.presentation.screen.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentMainBinding
 import com.applemango.runnerbe.databinding.ItemTabListBinding
+import com.applemango.runnerbe.presentation.model.GenderTag
 import com.applemango.runnerbe.presentation.model.MainBottomTab
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
+import com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapViewModel
 import com.applemango.runnerbe.util.MainFragmentPageAdapter
 import com.applemango.runnerbe.util.imageSrcCompatResource
 import com.google.android.material.tabs.TabLayoutMediator
@@ -24,9 +29,20 @@ class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private var tabIconIdList = MainBottomTab.values().map { it.iconResourceId }
     private val fragmentTag = "MainFragment"
 
+    private val viewModel : RunnerMapViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pageSetting()
+        setFragmentResultListener("filter") {  _, bundle ->
+            Log.e("bundle", bundle.toString())
+            viewModel.setFilter(
+                gender = bundle.getString("gender"),
+                jobTag = bundle.getString("job"),
+                minAge = bundle.getInt("minAge"),
+                maxAge = bundle.getInt("maxAge")
+            )
+        }
     }
 
 
