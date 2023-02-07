@@ -7,8 +7,12 @@ import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.data.dto.Posting
+import com.applemango.runnerbe.presentation.model.listener.MyPostClickListener
 
-class MyPostAdapter(private val dataList: ObservableArrayList<Posting>) :
+class MyPostAdapter(
+    private val dataList: ObservableArrayList<Posting>,
+    private val myPostClickListener: MyPostClickListener
+) :
     RecyclerView.Adapter<MyPostViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPostViewHolder {
         return MyPostViewHolder(
@@ -18,6 +22,7 @@ class MyPostAdapter(private val dataList: ObservableArrayList<Posting>) :
                 parent,
                 false
             )
+       , myPostClickListener
         )
     }
 

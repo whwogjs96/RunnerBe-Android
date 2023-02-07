@@ -26,6 +26,12 @@
         <action
             android:id="@+id/action_mainFragment_to_runningFilterFragment"
             app:destination="@id/runningFilterFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_myPostAttendanceSeeFragment"
+            app:destination="@id/myPostAttendanceSeeFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_myPostAttendanceAccessionFragment"
+            app:destination="@id/myPostAttendanceAccessionFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -97,4 +103,19 @@
             android:name="minAge"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/myPostAttendanceSeeFragment"
+        tools:layout="@layout/fragment_my_post_attendance_see"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.see.MyPostAttendanceSeeFragment"
+        android:label="MyPostAttendanceSeeFragment" >
+
+        <argument
+            android:name="users"
+            app:argType="com.applemango.runnerbe.data.dto.UserInfo[]"/>
+    </fragment>
+    <fragment
+        android:id="@+id/myPostAttendanceAccessionFragment"
+        tools:layout="@layout/fragment_my_post_attendance_accession"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.assession.MyPostAttendanceAccessionFragment"
+        android:label="MyPostAttendanceAccessionFragment" />
 </navigation>

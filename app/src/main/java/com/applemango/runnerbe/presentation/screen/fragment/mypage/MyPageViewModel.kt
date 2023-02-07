@@ -46,6 +46,8 @@ class MyPageViewModel @Inject constructor(
                         if (it.body is UserDataResponse) {
                             val result = it.body.result
                             userInfo.postValue(result.userInfo)
+                            joinPosts.clear()
+                            myPosts.clear()
                             joinPosts.addAll(result.myRunning)
                             myPosts.addAll(result.posting)
                         }

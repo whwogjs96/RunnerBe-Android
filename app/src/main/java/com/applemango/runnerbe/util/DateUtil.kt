@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.util
 
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -29,6 +30,19 @@ fun DateString(dateString: String): String {
 }
 
 fun DateStringInT(dateString: String) : String = dateString.substring(0, dateString.indexOf("T"))
+
+fun dateStringToLongTime(dateString: String) : Long {
+    val temp = dateString.replace("T", " ").replace("Z", " ")
+    val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    formatter.timeZone = TimeZone.getTimeZone("KST")
+    val date = formatter.parse(temp)
+    return date?.time?:0L
+}
+
+fun timeStringToLongTime(timeString: String) : Long {
+    val timeSplit = timeString.split(":")
+    return ((timeSplit[0].toInt() * 60 * 60) + (timeSplit[1].toInt() * 60)).toLong()
+}
 
 fun TimeString(dateString: String): String {
     val res = dateString.split(":")

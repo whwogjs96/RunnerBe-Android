@@ -200,16 +200,17 @@
                     android:layout_marginLeft="4dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/checkButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/time_main"
-                android:text="러닝 후에 출석을 관리해주세요"
+                android:text="@{holderModel.myPostAttendanceMessageResource}"
                 android:textSize="14dp"
                 android:gravity="center"
                 android:padding="12dp"
-                android:textColor="@color/dark_g3_5"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/tc_enable_dark3_5g_black"
                 android:background="@drawable/bg_my_page_yet_running_custom"
                 android:layout_marginTop="20dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

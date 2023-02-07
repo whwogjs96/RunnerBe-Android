@@ -86,6 +86,14 @@
     <string name="complete_running_write">글이 등록되었어요!</string>
 
 
+    <!-- 마이 페이지 -->
+    <string name="attendance_managing">출석 관리하기</string>
+    <string name="attendance_see">출석 확인하기</string>
+    <string name="msg_attendance_waiting">러닝 후에 출석을 관리해주세요</string>
+    <string name="msg_attendance_complete">출석을 완료했어요 😎</string>
+    <string name="msg_not_attendance_check">출석을 체크하지 않았어요 😣</string>
+    <string name="msg_not_attendance_complete">불참했어요 😭</string>
+
     <!-- 내정보 수정  -->
     <string name="msg_impossible_nickname_change">* 닉네임 변경이 완료되어 추가 변경은 불가능해요!</string>
     <string name="msg_possible_nickname_change">* 닉네임은 딱 한 번만 바꿀 수 있어요!</string>

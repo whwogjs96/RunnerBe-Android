@@ -6,27 +6,44 @@ import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
 import com.applemango.runnerbe.data.dto.Room
+import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
+import com.applemango.runnerbe.presentation.model.listener.MyPostClickListener
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListItemAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.JoinPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.see.AttendanceSeeAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.creator.CreatorAdapter
 
-@BindingAdapter("myPostAdapter")
-fun setMyPostAdapter(recyclerView: RecyclerView, dataList : ObservableArrayList<Posting>) {
-    recyclerView.adapter = MyPostAdapter(dataList)
+@BindingAdapter("myPostAdapter", "myPostEvent")
+fun setMyPostAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<Posting>,
+    myPostClickListener: MyPostClickListener
+) {
+    if (recyclerView.adapter == null) {
+        recyclerView.adapter = MyPostAdapter(dataList, myPostClickListener)
+    }
+    recyclerView.adapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("attendanceSeeAdapter")
+fun setAttendanceSeeAdapter(
+    recyclerView: RecyclerView,
+    dataList : ObservableArrayList<UserInfo>
+) {
     if(recyclerView.adapter == null) {
-        recyclerView.adapter = MyPostAdapter(dataList)
+        recyclerView.adapter = AttendanceSeeAdapter(dataList)
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
 @BindingAdapter("joinPostAdapter")
-fun setJoinPostAdapter(recyclerView: RecyclerView, dataList : ObservableArrayList<Posting>) {
-    if(recyclerView.adapter == null) {
+fun setJoinPostAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Posting>) {
+    if (recyclerView.adapter == null) {
         recyclerView.adapter = JoinPostAdapter(dataList)
     }
     recyclerView.adapter?.notifyDataSetChanged()
@@ -34,7 +51,7 @@ fun setJoinPostAdapter(recyclerView: RecyclerView, dataList : ObservableArrayLis
 
 @BindingAdapter("creatorAdapter")
 fun setCreatorAdapter(recyclerView: RecyclerView, dataList: List<CreatorImageAndPosition>) {
-    if(recyclerView.adapter == null) {
+    if (recyclerView.adapter == null) {
         recyclerView.adapter = CreatorAdapter(dataList)
     }
     recyclerView.adapter?.notifyDataSetChanged()
@@ -49,16 +66,23 @@ fun setRunningTalkListAdapter(recyclerView: RecyclerView, dataList: ObservableAr
 }
 
 @BindingAdapter("selectListAdapter")
-fun setSelectListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<SelectListData>) {
-    if(recyclerView.adapter == null) {
+fun setSelectListAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<SelectListData>
+) {
+    if (recyclerView.adapter == null) {
         recyclerView.adapter = SelectListItemAdapter(dataList)
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
 @BindingAdapter("postListAdapter", "bookmarkEvent")
-fun setPostListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Posting>, bookMarkListener : BookMarkClickListener) {
-    if(recyclerView.adapter == null) {
+fun setPostListAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<Posting>,
+    bookMarkListener: BookMarkClickListener
+) {
+    if (recyclerView.adapter == null) {
         recyclerView.adapter = BookMarkAdapter(dataList, bookMarkListener)
     }
     recyclerView.adapter?.notifyDataSetChanged()

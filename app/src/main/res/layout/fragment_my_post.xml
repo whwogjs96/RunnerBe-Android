@@ -6,6 +6,10 @@
 
     <data>
         <import type="android.view.View"/>
+
+        <variable
+            name="fragment"
+            type="com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostFragment" />
         <variable
             name="vm"
             type="com.applemango.runnerbe.presentation.screen.fragment.mypage.MyPageViewModel" />
@@ -24,6 +28,7 @@
             android:paddingHorizontal="12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             myPostAdapter="@{vm.myPosts}"
+            myPostEvent="@{fragment.myPostClickListener}"
             android:visibility="@{vm.myPosts.size() > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toTopOf="parent"
             android:overScrollMode="never">
@@ -60,8 +65,6 @@
             android:layout_marginTop="20dp"
             android:textColor="@color/logo_yellow">
         </TextView>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

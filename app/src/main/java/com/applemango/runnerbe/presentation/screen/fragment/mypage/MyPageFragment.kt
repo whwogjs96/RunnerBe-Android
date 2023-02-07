@@ -88,10 +88,7 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.moveTab.collect {
-                Log.e("???", it.toString())
-                mainViewModel.setTab(it)
-            }
+            viewModel.moveTab.collect { mainViewModel.setTab(it) }
         }
     }
     private fun getData() {
