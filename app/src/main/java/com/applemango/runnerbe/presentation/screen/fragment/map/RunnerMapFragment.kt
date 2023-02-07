@@ -1,9 +1,6 @@
 package com.applemango.runnerbe.presentation.screen.fragment.map
 
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,8 +29,6 @@ import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -90,7 +85,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         }
     }
 
-    private fun refresh() {
+    fun refresh() {
         viewModel.postList.clear()
         val userId = RunnerBeApplication.mTokenPreference.getUserId()
         viewModel.getRunningList(if(userId > 0) userId else null)
@@ -153,10 +148,15 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                 mNaverMap.cameraPosition.target.latitude,
                 mNaverMap.cameraPosition.target.longitude
             )
+            viewModel.refreshThisLocation.value = mNaverMap.locationTrackingMode != LocationTrackingMode.Follow
             viewModel.coordinator = center
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.listUpdateUiState.collect {
+                context?.let { context ->
+                    if (it is UiState.Loading) showLoadingDialog(context)
+                    else dismissLoadingDialog()
+                }
                 when(it) {
                     is UiState.Success -> {
                         markerUpdate()

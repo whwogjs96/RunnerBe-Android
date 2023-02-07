@@ -60,6 +60,7 @@
     <string name="with_finish">마감 포함</string>
     <string name="empty_post">현재 모임이 없어요!</string>
     <string name="empty_post_filter">조건에 맞는 검색 결과가 없어요.</string>
+    <string name="refresh_this_location">이 지역 재검색</string>
     
     <!-- 북마크 -->
     <string name="before_work">출근 전</string>

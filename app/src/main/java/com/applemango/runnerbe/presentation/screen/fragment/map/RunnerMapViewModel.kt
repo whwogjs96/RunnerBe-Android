@@ -33,6 +33,7 @@ class RunnerMapViewModel @Inject constructor(
     val listUpdateUiState get() : MutableStateFlow<UiState> = _listUpdateUiState
 
     val clickedPost : MutableStateFlow<Posting?> = MutableStateFlow(null)
+    val refreshThisLocation : MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     //stateFlow는 같은 값인 경우 변경이 일어나지 않네...
     var refresh = false
@@ -42,7 +43,6 @@ class RunnerMapViewModel @Inject constructor(
     val includeFinish : MutableStateFlow<Boolean> = MutableStateFlow(true)
     val filterData : MutableStateFlow<MapFilterData> = MutableStateFlow(MapFilterData("A", "N", 0, 100))
     val isRefresh : StateFlow<Boolean> = combine(filterRunningTag, filterPriorityTag, includeFinish, filterData) { _: RunningTag, _: PriorityFilterTag, _: Boolean, _: MapFilterData ->
-        Log.e("뭔가 안되나?","이유가 뭐지..")
         refresh = !refresh
         refresh
     }.stateIn(
