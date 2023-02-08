@@ -11,7 +11,7 @@ import java.util.Calendar
 // 메인페이지(postingResult), 찜목록 조회(bookMarkList), 마이페이지(myPosting, myRunning)
 // 게시글 상세(postingInfo)
 data class Posting(
-    @SerializedName("postId") val postId: Int?,
+    @SerializedName("postId") val postId: Int,
     @SerializedName("postingTime") val postingTime: String?,
     @SerializedName("postUserId") val postUserId: Int?,
     @SerializedName("nickName") val nickName: String?,

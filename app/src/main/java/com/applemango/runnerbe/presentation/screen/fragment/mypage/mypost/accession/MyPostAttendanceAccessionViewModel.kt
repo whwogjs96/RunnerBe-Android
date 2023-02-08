@@ -4,9 +4,15 @@ import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModel
 import com.applemango.runnerbe.data.dto.UserInfo
+import com.applemango.runnerbe.domain.usecase.post.AttendanceAccessionUseCase
 import com.applemango.runnerbe.presentation.model.listener.AttendanceAccessionClickListener
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MyPostAttendanceAccessionViewModel : ViewModel() {
+@HiltViewModel
+class MyPostAttendanceAccessionViewModel @Inject constructor(
+    private val attendanceAccessionUseCase: AttendanceAccessionUseCase
+) : ViewModel() {
 
     val userList : ObservableArrayList<UserInfo> = ObservableArrayList()
 
@@ -23,6 +29,5 @@ class MyPostAttendanceAccessionViewModel : ViewModel() {
         override fun onRefuseClick(userInfo: UserInfo) {
             Log.e("refuse", userInfo.toString())
         }
-
     }
 }

@@ -35,7 +35,7 @@ class MyPostFragment : BaseFragment<FragmentMyPostBinding>(R.layout.fragment_my_
         }
 
         override fun attendanceManagingOnClick(post: Posting) {
-            navigate(MainFragmentDirections.actionMainFragmentToMyPostAttendanceAccessionFragment(post.runnerList?.toTypedArray()?: arrayOf()))
+            navigate(MainFragmentDirections.actionMainFragmentToMyPostAttendanceAccessionFragment(post.postId, post.runnerList?.toTypedArray()?: arrayOf()))
         }
 
     }

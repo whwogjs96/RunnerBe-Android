@@ -120,6 +120,10 @@
         android:label="MyPostAttendanceAccessionFragment">
 
         <argument
+            android:name="postId"
+            app:argType="integer"/>
+
+        <argument
             android:name="users"
             app:argType="com.applemango.runnerbe.data.dto.UserInfo[]"/>
 

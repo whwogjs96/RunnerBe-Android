@@ -7,7 +7,9 @@ import androidx.navigation.fragment.navArgs
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentMyPostAttendanceAccessionBinding
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyPostAttendanceAccessionFragment : BaseFragment<FragmentMyPostAttendanceAccessionBinding>(R.layout.fragment_my_post_attendance_accession) {
 
     private val viewModel : MyPostAttendanceAccessionViewModel by viewModels()

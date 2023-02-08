@@ -1,8 +1,10 @@
 package com.applemango.runnerbe.data.repositoryimpl
 
+import com.applemango.runnerbe.data.network.api.AttendanceAccessionApi
 import com.applemango.runnerbe.data.network.api.GetBookmarkApi
 import com.applemango.runnerbe.data.network.api.GetRunningListApi
 import com.applemango.runnerbe.data.network.api.WriteRunningApi
+import com.applemango.runnerbe.data.network.request.AttendanceAccessionRequest
 import com.applemango.runnerbe.data.network.request.GetRunningListRequest
 import com.applemango.runnerbe.data.network.request.WriteRunningRequest
 import com.applemango.runnerbe.domain.repository.PostRepository
@@ -12,7 +14,8 @@ import javax.inject.Inject
 class PostRepositoryImpl @Inject constructor(
     private val getBookmarkApi: GetBookmarkApi,
     private val writeRunningApi: WriteRunningApi,
-    private val getRunningListApi: GetRunningListApi
+    private val getRunningListApi: GetRunningListApi,
+    private val attendanceAccessionApi: AttendanceAccessionApi
 ) : PostRepository {
     override suspend fun getBookmarkList(userId: Int): CommonResponse {
         return try {
@@ -67,6 +70,26 @@ class PostRepositoryImpl @Inject constructor(
                 userLng = request.userLng,
                 whetherEnd = request.whetherEnd
             )
+            if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
+                CommonResponse.Success(response.body()!!.code, response.body()!!)
+            } else {
+                CommonResponse.Failed(
+                    response.body()?.code ?: response.code(),
+                    response.body()?.message ?: response.message()
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CommonResponse.Failed(999, e.message ?: "error")
+        }
+    }
+
+    override suspend fun attendanceAccession(
+        postId: Int,
+        request: AttendanceAccessionRequest
+    ): CommonResponse {
+        return try {
+            val response = attendanceAccessionApi.attendanceAccession(postId, request)
             if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
                 CommonResponse.Success(response.body()!!.code, response.body()!!)
             } else {
