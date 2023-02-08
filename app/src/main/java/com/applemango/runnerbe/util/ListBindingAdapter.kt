@@ -7,6 +7,7 @@ import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
 import com.applemango.runnerbe.data.dto.Room
 import com.applemango.runnerbe.data.dto.UserInfo
+import com.applemango.runnerbe.presentation.model.listener.AttendanceAccessionClickListener
 import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
 import com.applemango.runnerbe.presentation.model.listener.MyPostClickListener
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
@@ -15,6 +16,7 @@ import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAda
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.JoinPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.accession.AttendanceAccessionAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.see.AttendanceSeeAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.creator.CreatorAdapter
 
@@ -41,6 +43,17 @@ fun setAttendanceSeeAdapter(
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
+@BindingAdapter("attendanceAccessionAdapter", "attendanceAccessionClickListener")
+fun setAttendanceAccessionAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<UserInfo>,
+    accessionClickListener: AttendanceAccessionClickListener
+) {
+    if(recyclerView.adapter == null) {
+        recyclerView.adapter = AttendanceAccessionAdapter(dataList, accessionClickListener)
+    }
+    recyclerView.adapter?.notifyDataSetChanged()
+}
 @BindingAdapter("joinPostAdapter")
 fun setJoinPostAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Posting>) {
     if (recyclerView.adapter == null) {

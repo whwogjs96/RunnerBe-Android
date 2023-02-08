@@ -73,7 +73,7 @@ data class Posting(
     //리사이클러뷰의 이동이 없는 경우 무한으로 메소드가 동작, why?
     fun myPostAttendanceMessageResource() : Int {
         val now = Calendar.getInstance().time
-        val threeHour = 3 * 60 * 60
+        val threeHour = 3 * 60 * 60 * 1000
         if(gatheringTime != null && runningTime != null) {
             val startTime = dateStringToLongTime(gatheringTime)
             val runningTime = timeStringToLongTime(this.runningTime)

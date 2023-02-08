@@ -116,6 +116,12 @@
     <fragment
         android:id="@+id/myPostAttendanceAccessionFragment"
         tools:layout="@layout/fragment_my_post_attendance_accession"
-        android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.assession.MyPostAttendanceAccessionFragment"
-        android:label="MyPostAttendanceAccessionFragment" />
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.accession.MyPostAttendanceAccessionFragment"
+        android:label="MyPostAttendanceAccessionFragment">
+
+        <argument
+            android:name="users"
+            app:argType="com.applemango.runnerbe.data.dto.UserInfo[]"/>
+
+    </fragment>
 </navigation>

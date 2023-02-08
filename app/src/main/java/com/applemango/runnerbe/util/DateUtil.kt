@@ -34,7 +34,7 @@ fun DateStringInT(dateString: String) : String = dateString.substring(0, dateStr
 fun dateStringToLongTime(dateString: String) : Long {
     val temp = dateString.replace("T", " ").replace("Z", " ")
     val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    formatter.timeZone = TimeZone.getTimeZone("KST")
+//    formatter.timeZone = TimeZone.getTimeZone("KST")
     val date = formatter.parse(temp)
     return date?.time?:0L
 }
