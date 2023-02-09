@@ -5,7 +5,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.AgreeToTermsFragment" />
+            type="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.terms.AgreeToTermsFragment" />
         <variable
             name="vm"
             type="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.terms.AgreeToTermsViewModel" />
@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@color/dark_g7">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/termsTopLayout"
@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_back"
+                android:onClick="@{() -> fragment.goBack()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -62,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_x_out"
+                android:onClick="@{() -> fragment.activityFinish()}"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -244,6 +246,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:enabled="@{vm.allCheck}"
+            android:onClick="@{() -> fragment.moveToNext()}"
             android:text="@string/next"
             android:textColor="@color/tc_enable_dark3_5g_black"
             android:fontFamily="sans-serif-light"

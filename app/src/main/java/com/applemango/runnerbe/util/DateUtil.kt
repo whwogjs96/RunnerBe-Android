@@ -1,7 +1,6 @@
 package com.applemango.runnerbe.util
 
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -84,12 +83,27 @@ fun getDateList(range : Int) : List<String> {
     }
 }
 
-fun getYearList(range: Int) : List<String> {
+fun getYearListByDay(range: Int) : List<String> {
     val format = SimpleDateFormat("yyyy")
     val cal = Calendar.getInstance()
     cal.add(Calendar.DATE, -1)
     return IntRange(0, range).map {
         cal.add(Calendar.DATE, 1)
+        format.format(cal.time)
+    }
+}
+
+/**
+ * @param
+ * untilYear : 몇년 전까지 불러올 것인지(20이면 20년 전부터 가져옴)
+ * range: untilYear ~ range만큼 가져옴
+ */
+fun getYearListByYear(untilYear: Int, range : Int) : List<String> {
+    val format = SimpleDateFormat("yyyy")
+    val cal = Calendar.getInstance()
+    cal.add(Calendar.YEAR, 1 - untilYear)
+    return IntRange(0, range).map {
+        cal.add(Calendar.YEAR, -1)
         format.format(cal.time)
     }
 }

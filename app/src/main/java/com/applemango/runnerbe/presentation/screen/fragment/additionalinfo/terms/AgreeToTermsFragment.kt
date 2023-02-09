@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.presentation.screen.fragment.additionalinfo
+package com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.terms
 
 import android.content.Intent
 import android.net.Uri
@@ -46,5 +46,9 @@ class AgreeToTermsFragment :BaseFragment<FragmentAgreeToTermsBinding>(R.layout.f
     fun moveToLocationServiceUseTerms() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://runnerbe.xyz/policy/location.txt"))
         startActivity(intent)
+    }
+
+    fun moveToNext() {
+        navigate(AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToYearInfoFragment())
     }
 }
