@@ -53,6 +53,11 @@
     <string name="msg_network_error_content">네트워크를 연결해주세요.</string>
     <string name="ready">준비됐어요!</string>
 
+    <!-- 추가 정보 입력 화면 -->
+    <string name="msg_terms_all_check">모든 약관을 읽었으며, 이에 동의해요.</string>
+    <string name="terms_of_use_a_service_agreement">[필수] 서비스 이용약관 동의</string>
+    <string name="terms_of_use_a_privacy_agreement">[필수] 개인정보 수집/이용 동의</string>
+    <string name="terms_of_use_a_location_service_agreement">[필수] 위치기반 서비스 이용약관 동의</string>
 
     <!-- 메인 화면 -->
     <string name="by_distance">거리순</string>

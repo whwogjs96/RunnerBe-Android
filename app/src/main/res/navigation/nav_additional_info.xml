@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_additional_info">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_additional_info"
+    app:startDestination="@id/agreeToTermsFragment">
 
+    <fragment
+        android:id="@+id/agreeToTermsFragment"
+        tools:layout="@layout/fragment_agree_to_terms"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.AgreeToTermsFragment"
+        android:label="AgreeToTermsFragment" />
 </navigation>
