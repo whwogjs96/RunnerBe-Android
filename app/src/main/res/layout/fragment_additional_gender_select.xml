@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="fragment"
             type="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.gender.AdditionalGenderSelectFragment" />
+
+        <variable
+            name="vm"
+            type="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.AdditionalInfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +19,7 @@
         android:background="@color/dark_g7">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/termsTopLayout"
+            android:id="@+id/genderSelectTopLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -65,6 +70,80 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:text="@string/msg_gender_select"
+            android:textSize="26sp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/sb_aggro_otf_light"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genderSelectTopLayout"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@={vm.genderRadioChecked}"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="102dp"
+            app:layout_constraintTop_toBottomOf="@id/titleView">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/femaleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="19dp"
+                android:paddingRight="19dp"
+                android:paddingTop="8dp"
+                android:text="@string/female"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginLeft="6dp"
+                android:textColor="@drawable/tc_job_radio"
+                android:paddingBottom="8dp"
+                android:button="@null"
+                android:background="@drawable/bg_job_radio"/>
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/maleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="19dp"
+                android:paddingRight="19dp"
+                android:paddingTop="8dp"
+                android:text="@string/male"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginLeft="6dp"
+                android:textColor="@drawable/tc_job_radio"
+                android:paddingBottom="8dp"
+                android:button="@null"
+                android:background="@drawable/bg_job_radio"/>
+
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="@{() -> fragment.moveToNext()}"
+            android:text="@string/next"
+            android:textColor="@color/tc_enable_dark3_5g_black"
+            android:fontFamily="sans-serif-medium"
+            android:paddingTop="12dp"
+            android:paddingBottom="14dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/selector_main_primary_button"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
