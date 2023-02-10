@@ -448,10 +448,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:onClick="@{() -> fragment.moveToNext()}"
+            android:onClick="@{() -> vm.register()}"
             android:text="@string/already_run"
             android:textColor="@color/tc_enable_dark3_5g_black"
             android:fontFamily="sans-serif-medium"

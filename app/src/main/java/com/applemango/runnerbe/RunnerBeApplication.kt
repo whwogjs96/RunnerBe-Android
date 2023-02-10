@@ -58,8 +58,7 @@ class RunnerBeApplication: Application() {
             task.result
 
             Log.d("fcm_response!", token!!)
-            mTokenPreference.editor.putString("deviceToken", token)
-            mTokenPreference.editor.commit()
+            mTokenPreference.setDeviceToken(token)
         })
     }
 }
