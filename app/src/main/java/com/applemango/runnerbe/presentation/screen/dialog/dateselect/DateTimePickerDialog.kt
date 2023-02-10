@@ -3,7 +3,6 @@ package com.applemango.runnerbe.presentation.screen.dialog.dateselect
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.DialogDateSelectBinding
@@ -11,7 +10,7 @@ import com.applemango.runnerbe.presentation.model.DateResultListener
 import com.applemango.runnerbe.util.NumberUtil
 import com.applemango.runnerbe.util.TimeUtil
 import com.applemango.runnerbe.util.getDateList
-import com.applemango.runnerbe.util.getYearList
+import com.applemango.runnerbe.util.getYearListByDay
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +28,7 @@ class DateTimePickerDialog(context: Context) : Dialog(context, R.style.confirmDi
     var isAm = true
     var currentDate: DateSelectData? = null
     lateinit var result: DateResultListener
-    private val yearList = getYearList(DEFAULT_DATE_SIZE)
+    private val yearList = getYearListByDay(DEFAULT_DATE_SIZE)
 
     companion object {
 

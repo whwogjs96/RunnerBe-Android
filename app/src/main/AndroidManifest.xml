@@ -63,6 +63,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.screen.activity.AdditionalInfoActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

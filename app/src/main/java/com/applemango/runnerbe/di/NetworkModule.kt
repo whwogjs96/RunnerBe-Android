@@ -112,4 +112,9 @@ object NetworkModule {
     @Singleton
     fun provideGetRunningListApi(retrofit: Retrofit) : GetRunningListApi =
         retrofit.create(GetRunningListApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAttendanceAccessionApi(retrofit: Retrofit) : AttendanceAccessionApi =
+        retrofit.create(AttendanceAccessionApi::class.java)
 }

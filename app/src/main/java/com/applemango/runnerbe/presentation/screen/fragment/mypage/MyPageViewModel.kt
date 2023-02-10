@@ -15,6 +15,7 @@ import com.applemango.runnerbe.domain.usecase.PatchUserImageUseCase
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.data.network.response.UserDataResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ class MyPageViewModel @Inject constructor(
     val userInfo: MutableLiveData<UserInfo> = MutableLiveData()
     val joinPosts: ObservableArrayList<Posting> = ObservableArrayList()
     val myPosts: ObservableArrayList<Posting> = ObservableArrayList()
+    val moveTab : MutableSharedFlow<Int> = MutableSharedFlow()
 
     private var _updateUserImageState : MutableLiveData<UiState> = MutableLiveData()
     val updateUserImageState get() = _updateUserImageState
@@ -44,6 +46,8 @@ class MyPageViewModel @Inject constructor(
                         if (it.body is UserDataResponse) {
                             val result = it.body.result
                             userInfo.postValue(result.userInfo)
+                            joinPosts.clear()
+                            myPosts.clear()
                             joinPosts.addAll(result.myRunning)
                             myPosts.addAll(result.posting)
                         }
@@ -85,5 +89,9 @@ class MyPageViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    fun setTab(index : Int) = viewModelScope.launch {
+        moveTab.emit(index)
     }
 }

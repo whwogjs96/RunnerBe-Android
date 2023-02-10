@@ -18,24 +18,11 @@ class RunningTalkViewModel @Inject constructor(
 
     val roomList : ObservableArrayList<Room> = ObservableArrayList()
 
-    fun getRunningTalkList() = viewModelScope.launch {
+    fun getRunningTalkList(isRefresh : Boolean) = viewModelScope.launch {
         runningTalkUseCase().collect {
             if(it is CommonResponse.Success<*> && it.body is RunningTalksResponse) {
+                if(isRefresh) roomList.clear()
                 roomList.addAll(it.body.result)
-//                roomList.add(Room(
-//                    roomId = 1,
-//                    profileImageUrl = "",
-//                    recentMessage = "러닝 준비 되셨나요",
-//                    repUserName = "아라리",
-//                    title = "신림 러닝"
-//                ))
-//                roomList.add(Room(
-//                    roomId = 2,
-//                    profileImageUrl = "",
-//                    recentMessage = "러닝 팟 구합니다.",
-//                    repUserName = "맹고",
-//                    title = "한강 러닝!"
-//                ))
             }
         }
     }

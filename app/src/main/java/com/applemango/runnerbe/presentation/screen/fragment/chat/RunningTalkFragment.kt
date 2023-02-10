@@ -22,7 +22,7 @@ class RunningTalkFragment: BaseFragment<FragmentRunningTalkBinding>(R.layout.fra
     }
     private fun refresh() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getRunningTalkList()
+            viewModel.getRunningTalkList(true)
         }
     }
 }

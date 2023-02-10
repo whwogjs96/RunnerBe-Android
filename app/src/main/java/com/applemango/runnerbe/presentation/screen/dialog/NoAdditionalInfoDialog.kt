@@ -1,10 +1,12 @@
 package com.applemango.runnerbe.presentation.screen.dialog
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.DialogNoAdditionalInfoBinding
 import com.applemango.runnerbe.presentation.model.CachingObject
+import com.applemango.runnerbe.presentation.screen.activity.AdditionalInfoActivity
 
 class NoAdditionalInfoDialog: CustomBottomSheetDialog<DialogNoAdditionalInfoBinding>(R.layout.dialog_no_additional_info){
 
@@ -15,8 +17,7 @@ class NoAdditionalInfoDialog: CustomBottomSheetDialog<DialogNoAdditionalInfoBind
             dismiss()
         }
         binding.infoInputButton.setOnClickListener{
-            //TODO
-            //여기에 화면 이동 작업!
+            context?.startActivity(Intent(context, AdditionalInfoActivity::class.java))
             dismiss()
         }
     }

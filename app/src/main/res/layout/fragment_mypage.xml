@@ -64,8 +64,8 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/user_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="77dp"
+                android:layout_height="26dp"
                 android:layout_marginTop="4dp"
                 android:text="@{@string/comma_text(myPageViewModel.userInfo.gender, myPageViewModel.userInfo.age)}"
                 android:textColor="@color/dark_g3_5"

@@ -53,6 +53,14 @@
     <string name="msg_network_error_content">네트워크를 연결해주세요.</string>
     <string name="ready">준비됐어요!</string>
 
+    <!-- 추가 정보 입력 화면 -->
+    <string name="msg_terms_all_check">모든 약관을 읽었으며, 이에 동의해요.</string>
+    <string name="terms_of_use_a_service_agreement">[필수] 서비스 이용약관 동의</string>
+    <string name="terms_of_use_a_privacy_agreement">[필수] 개인정보 수집/이용 동의</string>
+    <string name="terms_of_use_a_location_service_agreement">[필수] 위치기반 서비스 이용약관 동의</string>
+    <string name="msg_year_enter">출생년도를 입력해주세요.</string>
+    <string name="msg_year_use_description">정확한 나이는 공개되지 않아요!\n20대 초반, 30대 중반 등으로 표기될 거예요.</string>
+    <string name="description_age_limit">19세 미만은 이용할 수 없어요!</string>
 
     <!-- 메인 화면 -->
     <string name="by_distance">거리순</string>
@@ -60,6 +68,7 @@
     <string name="with_finish">마감 포함</string>
     <string name="empty_post">현재 모임이 없어요!</string>
     <string name="empty_post_filter">조건에 맞는 검색 결과가 없어요.</string>
+    <string name="refresh_this_location">이 지역 재검색</string>
     
     <!-- 북마크 -->
     <string name="before_work">출근 전</string>
@@ -84,6 +93,14 @@
     <string name="question_running_write">글을 등록하시겠어요?</string>
     <string name="complete_running_write">글이 등록되었어요!</string>
 
+
+    <!-- 마이 페이지 -->
+    <string name="attendance_managing">출석 관리하기</string>
+    <string name="attendance_see">출석 확인하기</string>
+    <string name="msg_attendance_waiting">러닝 후에 출석을 관리해주세요</string>
+    <string name="msg_attendance_complete">출석을 완료했어요 😎</string>
+    <string name="msg_not_attendance_check">출석을 체크하지 않았어요 😣</string>
+    <string name="msg_not_attendance_complete">불참했어요 😭</string>
 
     <!-- 내정보 수정  -->
     <string name="msg_impossible_nickname_change">* 닉네임 변경이 완료되어 추가 변경은 불가능해요!</string>

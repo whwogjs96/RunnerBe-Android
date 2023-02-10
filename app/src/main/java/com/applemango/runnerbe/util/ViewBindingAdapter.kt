@@ -40,7 +40,7 @@ fun bindProfileImageFromUrl(view: ImageView, url: String?) {
 fun bindDate(textView: TextView, dateString: String?) {
     if (dateString.isNullOrEmpty().not()) {
         textView.text = DateStringInT(dateString!!)
-    }
+    } else textView.text = ""
 }
 
 @BindingAdapter("time_string")

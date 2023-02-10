@@ -5,6 +5,9 @@
     <data>
         <import type="android.view.View"/>
         <variable
+            name="bookMarkClickListener"
+            type="com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener" />
+        <variable
             name="item"
             type="com.applemango.runnerbe.data.dto.Posting" />
     </data>
@@ -20,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:onClickListener="@{clickListener}"
             android:padding="16dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
@@ -42,6 +44,7 @@
                 android:id="@+id/bookmark_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> bookMarkClickListener.onClick(item)}"
                 app:layout_constraintTop_toTopOf="@id/post_name"
                 app:layout_constraintBottom_toBottomOf="@id/post_name"
                 app:layout_constraintRight_toRightOf="parent"

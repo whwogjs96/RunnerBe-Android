@@ -4,9 +4,11 @@ import android.Manifest
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentMypageBinding
@@ -14,8 +16,9 @@ import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemDialog
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemParameter
-import com.applemango.runnerbe.presentation.screen.fragment.MainFragmentDirections
+import com.applemango.runnerbe.presentation.screen.fragment.main.MainFragmentDirections
 import com.applemango.runnerbe.presentation.screen.fragment.base.ImageBaseFragment
+import com.applemango.runnerbe.presentation.screen.fragment.main.MainViewModel
 import com.applemango.runnerbe.util.toUri
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.ktx.Firebase
@@ -24,6 +27,8 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.io.File
 
 @AndroidEntryPoint
@@ -32,6 +37,9 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
 
     private val viewModel: MyPageViewModel by viewModels()
 
+    private val mainViewModel : MainViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
 
     lateinit var viewpagerFragmentAdapter: MyPageAdapter
 
@@ -44,10 +52,13 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
         binding.myPageViewModel = viewModel
         tabInit()
         getData()
+        observeBind()
         binding.settingButton.setOnClickListener(this)
         binding.userEditBtn.setOnClickListener(this)
         binding.userImgEdit.setOnClickListener(this)
+    }
 
+    private fun observeBind() {
         viewModel.updateUserImageState.observe(viewLifecycleOwner) {
             context?.let { context ->
                 if (it is UiState.Loading) showLoadingDialog(context)
@@ -76,8 +87,10 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.moveTab.collect { mainViewModel.setTab(it) }
+        }
     }
-
     private fun getData() {
         val userId = RunnerBeApplication.mTokenPreference.getUserId()
         if (userId > -1) {
