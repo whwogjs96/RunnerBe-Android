@@ -15,15 +15,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.presentation.viewmodel.NavigationViewModel
 import com.applemango.runnerbe.presentation.screen.dialog.LoadingDialog
+import com.applemango.runnerbe.presentation.screen.dialog.NoAdditionalInfoDialog
 
 /**
  * 프래그먼트의 공통 명세는 여기에 작성해주세요.
  */
 open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: Int) :
     Fragment() {
-
+    var TAG = "Runnerbe"
     private var _binding: T? = null
     protected val binding: T get() = _binding!!
 
@@ -52,7 +54,6 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
         super.onViewCreated(view, savedInstanceState)
         navigationAction()
     }
-
     @CallSuper
     override fun onPause() {
         super.onPause()
@@ -113,6 +114,17 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
             mLoadingDialog?.dismiss()
         }
     }
-
+    fun checkAdditionalUserInfo() {
+        if(RunnerBeApplication.mTokenPreference.getUserId() <= 0) {
+            showAdditionalInfoDialog()
+        }
+    }
+    private fun showAdditionalInfoDialog() {
+        val prev = parentFragmentManager.findFragmentByTag(TAG)
+        if (prev != null) {
+            parentFragmentManager.also { it.beginTransaction().remove(prev).commit() }
+        }
+        NoAdditionalInfoDialog().show(childFragmentManager, TAG)
+    }
 
 }

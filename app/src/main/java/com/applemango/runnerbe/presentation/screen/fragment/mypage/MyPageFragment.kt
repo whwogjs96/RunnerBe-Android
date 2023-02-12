@@ -57,6 +57,10 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
         binding.userEditBtn.setOnClickListener(this)
         binding.userImgEdit.setOnClickListener(this)
     }
+    override fun onResume() {
+        super.onResume()
+        checkAdditionalUserInfo()
+    }
 
     private fun observeBind() {
         viewModel.updateUserImageState.observe(viewLifecycleOwner) {

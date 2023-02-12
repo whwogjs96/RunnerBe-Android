@@ -270,7 +270,7 @@
                         android:paddingLeft="19dp"
                         android:paddingRight="19dp"
                         android:paddingTop="8dp"
-                        android:text="🏫  공무원"
+                        android:text="@string/psv_and_icon"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
                         android:layout_marginRight="6dp"

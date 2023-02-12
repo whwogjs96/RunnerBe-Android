@@ -35,7 +35,6 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragment_runner_map),
     OnMapReadyCallback {
-    var TAG = "Runnerbe"
     var userId = -1
     private val PERMISSION_REQUEST_CODE = 100
     private lateinit var mNaverMap: NaverMap
@@ -58,7 +57,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
-        checkAdditionalUserInfo()
         observeBind()
     }
 
@@ -80,11 +78,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
             }
         }
     }
-    private fun checkAdditionalUserInfo() {
-        if(RunnerBeApplication.mTokenPreference.getUserId() <= 0 && CachingObject.isColdStart) {
-            showAdditionalInfoDialog()
-        }
-    }
 
     fun refresh() {
         viewModel.postList.clear()
@@ -92,13 +85,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         viewModel.getRunningList(if(userId > 0) userId else null)
     }
 
-    private fun showAdditionalInfoDialog() {
-        val prev = parentFragmentManager.findFragmentByTag(TAG)
-        if (prev != null) {
-            parentFragmentManager.also { it.beginTransaction().remove(prev).commit() }
-        }
-        NoAdditionalInfoDialog().show(childFragmentManager, TAG)
-    }
     override fun onStart() {
         super.onStart()
         binding.mapView.onStart()
@@ -107,6 +93,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
+        checkAdditionalUserInfo()
     }
 
     override fun onPause() {

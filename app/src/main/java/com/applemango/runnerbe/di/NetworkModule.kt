@@ -117,4 +117,9 @@ object NetworkModule {
     @Singleton
     fun provideAttendanceAccessionApi(retrofit: Retrofit) : AttendanceAccessionApi =
         retrofit.create(AttendanceAccessionApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRegisterUserApi(retrofit: Retrofit) : RegisterUserApi =
+        retrofit.create(RegisterUserApi::class.java)
 }

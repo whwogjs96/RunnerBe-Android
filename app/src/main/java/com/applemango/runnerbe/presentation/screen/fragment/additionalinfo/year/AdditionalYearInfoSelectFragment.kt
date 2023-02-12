@@ -8,7 +8,9 @@ import com.applemango.runnerbe.databinding.FragmentAdditionalYearInfoSelectBindi
 import com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.AdditionalInfoViewModel
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.util.getYearListByYear
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AdditionalYearInfoSelectFragment: BaseFragment<FragmentAdditionalYearInfoSelectBinding>(R.layout.fragment_additional_year_info_select) {
 
     private val viewModel : AdditionalInfoViewModel by activityViewModels()

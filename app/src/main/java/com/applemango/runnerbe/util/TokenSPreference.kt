@@ -33,6 +33,14 @@ class TokenSPreference(private val applicationContext : Context) {
         editor.remove("X-ACCESS-TOKEN").commit()
     }
 
+    fun getDeviceToken() : String? {
+        return sSharedPreferences.getString("deviceToken", null)
+    }
+
+    fun setDeviceToken(deviceToken : String) {
+        editor.putString("deviceToken", deviceToken)
+    }
+
     fun setRefreshToken(refreshToken : String) {
         editor.putString("refresh-token",refreshToken).commit()
     }

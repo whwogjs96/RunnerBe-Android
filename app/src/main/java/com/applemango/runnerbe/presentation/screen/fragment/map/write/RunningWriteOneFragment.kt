@@ -42,8 +42,6 @@ class RunningWriteOneFragment :
     BaseFragment<FragmentRunningWriteBinding>(R.layout.fragment_running_write),
     OnMapReadyCallback, View.OnClickListener {
 
-    var TAG = "Runnerbe"
-
     private var centerMarker: Marker? = null
     private var markerInfoView: InfoWindow = InfoWindow()
 
@@ -121,7 +119,6 @@ class RunningWriteOneFragment :
 
 
     override fun onMapReady(map: NaverMap) {
-        Log.e(TAG, map.toString())
         mNaverMap = map
         createCenterMarker()
         initMarkerInfoView()

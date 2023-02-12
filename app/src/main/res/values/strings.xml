@@ -61,6 +61,13 @@
     <string name="msg_year_enter">출생년도를 입력해주세요.</string>
     <string name="msg_year_use_description">정확한 나이는 공개되지 않아요!\n20대 초반, 30대 중반 등으로 표기될 거예요.</string>
     <string name="description_age_limit">19세 미만은 이용할 수 없어요!</string>
+    <string name="msg_gender_select">성별을 선택해주세요.</string>
+    <string name="msg_job_select">어떤 직군에서 활동하시나요?</string>
+    <string name="description_job_select">추후 마이페이지에서 수정할 수 있어요!</string>
+    <string name="msg_additional_info_complete">나를 충분히 소개했어요.\n달릴 준비 완료!</string>
+    <string name="msg_additional_info_complete_description">이제 러너비에서 함께 달려볼까요?</string>
+    <string name="already_run">달릴 준비 완료!</string>
+    
 
     <!-- 메인 화면 -->
     <string name="by_distance">거리순</string>
@@ -127,5 +134,8 @@
     <string name="sheave">시브</string>
     <string name="joy">조이</string>
     <string name="chanho">찬호</string>
+
+    <!-- 직군 선택 버튼 -->
+    <string name="psv_and_icon">🏫  공무원</string>
 
 </resources>

@@ -249,7 +249,7 @@
             android:onClick="@{() -> fragment.moveToNext()}"
             android:text="@string/next"
             android:textColor="@color/tc_enable_dark3_5g_black"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="sans-serif-medium"
             android:paddingTop="12dp"
             android:paddingBottom="14dp"
             android:layout_marginHorizontal="16dp"
