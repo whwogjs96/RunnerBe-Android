@@ -57,8 +57,6 @@ class AdditionalJobSelectFragment: BaseFragment<FragmentAdditionalJobSelectBindi
     }
 
     fun moveToNext() {
-        //TODO
-        //다음 화면으로 이동
-        Log.e("moveToNext", "test")
+        navigate(AdditionalJobSelectFragmentDirections.actionAdditionalJobSelectFragmentToRegisterCompleteFragment())
     }
 }

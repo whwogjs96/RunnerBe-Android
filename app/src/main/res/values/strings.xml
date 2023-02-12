@@ -64,7 +64,10 @@
     <string name="msg_gender_select">성별을 선택해주세요.</string>
     <string name="msg_job_select">어떤 직군에서 활동하시나요?</string>
     <string name="description_job_select">추후 마이페이지에서 수정할 수 있어요!</string>
+    <string name="msg_additional_info_complete">나를 충분히 소개했어요.\n달릴 준비 완료!</string>
+    <string name="msg_additional_info_complete_description">이제 러너비에서 함께 달려볼까요?</string>
     <string name="already_run">달릴 준비 완료!</string>
+    
 
     <!-- 메인 화면 -->
     <string name="by_distance">거리순</string>

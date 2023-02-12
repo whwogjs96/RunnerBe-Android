@@ -36,5 +36,14 @@
         android:id="@+id/additionalJobSelectFragment"
         tools:layout="@layout/fragment_additional_job_select"
         android:name="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.job.AdditionalJobSelectFragment"
-        android:label="AdditionalJobSelectFragment" />
+        android:label="AdditionalJobSelectFragment" >
+        <action
+            android:id="@+id/action_additionalJobSelectFragment_to_registerCompleteFragment"
+            app:destination="@id/registerCompleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerCompleteFragment"
+        tools:layout="@layout/fragment_adiitional_register_complete"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.complete.RegisterCompleteFragment"
+        android:label="RegisterCompleteFragment" />
 </navigation>
