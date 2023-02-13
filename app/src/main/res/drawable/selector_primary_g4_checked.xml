@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/bg_primary_solid_radius_20"
+        android:state_checked="true"/>
+    <item
+        android:drawable="@drawable/bg_dark_g4_stroke_radius_20"
+        android:state_checked="false"/>
+</selector>

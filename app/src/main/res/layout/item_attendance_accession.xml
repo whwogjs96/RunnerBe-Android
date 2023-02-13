@@ -4,10 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="click"
-            type="com.applemango.runnerbe.presentation.model.listener.AttendanceAccessionClickListener" />
         <variable
             name="userInfo"
             type="com.applemango.runnerbe.data.dto.UserInfo" />
@@ -135,11 +131,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{() -> click.onRefuseClick(userInfo)}"
                 android:paddingVertical="6dp"
                 android:layout_marginRight="12dp"
                 android:background="@drawable/bg_dark_g4_stroke_radius_20"
-                android:text="거절하기"
+                android:text="@string/absent"
                 android:textSize="14sp"
                 android:textColor="@color/dark_g3"
                 android:fontFamily="sans-serif-medium"/>
@@ -150,10 +145,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{() -> click.onAcceptClick(userInfo)}"
                 android:paddingVertical="6dp"
                 android:background="@drawable/bg_primary_solid_radius_20"
-                android:text="수락하기"
+                android:text="@string/present"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:fontFamily="sans-serif-medium"/>

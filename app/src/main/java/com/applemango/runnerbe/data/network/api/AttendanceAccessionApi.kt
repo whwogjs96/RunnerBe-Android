@@ -11,7 +11,7 @@ import retrofit2.http.Path
 interface AttendanceAccessionApi {
 
     @PATCH("runnings/{postId}/attend")
-    fun attendanceAccession(
+    suspend fun attendanceAccession(
         @Path("postId") postId: Int,
         @Body request: AttendanceAccessionRequest
     ): Response<BaseResponse>
