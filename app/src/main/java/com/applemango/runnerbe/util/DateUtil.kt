@@ -40,7 +40,7 @@ fun dateStringToLongTime(dateString: String) : Long {
 
 fun timeStringToLongTime(timeString: String) : Long {
     val timeSplit = timeString.split(":")
-    return ((timeSplit[0].toInt() * 60 * 60) + (timeSplit[1].toInt() * 60)).toLong()
+    return ((timeSplit[0].toInt() * 60 * 60 * 1000) + (timeSplit[1].toInt() * 60 * 1000)).toLong()
 }
 
 fun TimeString(dateString: String): String {
