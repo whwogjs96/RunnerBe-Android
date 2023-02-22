@@ -30,6 +30,11 @@ class MyPostFragment : BaseFragment<FragmentMyPostBinding>(R.layout.fragment_my_
     }
 
     fun getMyPostClickListener() = object : MyPostClickListener {
+        override fun bodyOnClick(post: Posting) {
+            //TODO
+            //여기에 다이얼로그 생성 부분
+        }
+
         override fun attendanceSeeOnClick(post: Posting) {
             navigate(MainFragmentDirections.actionMainFragmentToMyPostAttendanceSeeFragment(post.runnerList?.toTypedArray()?: arrayOf()))
         }

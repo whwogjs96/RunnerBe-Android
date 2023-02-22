@@ -32,7 +32,6 @@ class RunnerMapViewModel @Inject constructor(
     private val _listUpdateUiState : MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val listUpdateUiState get() : MutableStateFlow<UiState> = _listUpdateUiState
 
-    val clickedPost : MutableStateFlow<Posting?> = MutableStateFlow(null)
     val refreshThisLocation : MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     //stateFlow는 같은 값인 경우 변경이 일어나지 않네...
@@ -53,13 +52,6 @@ class RunnerMapViewModel @Inject constructor(
 
     fun setFilter(gender: String?, jobTag: String?, minAge: Int? = 0, maxAge : Int?) {
         filterData.value = MapFilterData(gender?:"A", jobTag?:"N", minAge?:0, maxAge?:100)
-    }
-
-    fun getChangeBookMarkStatusListener() = object : BookMarkClickListener{
-        override fun onClick(post: Posting) {
-            //TODO
-            //여기에 북마크 옵션 달아줘야 함
-        }
     }
 
     fun getRunningList(userId : Int?) = viewModelScope.launch{
@@ -93,7 +85,4 @@ class RunnerMapViewModel @Inject constructor(
         }
     }
 
-    fun clickPost(posting: Posting?) {
-        clickedPost.value = posting
-    }
 }

@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.applemango.runnerbe.presentation.screen.dialog.postdetail.PostDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
