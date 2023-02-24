@@ -17,6 +17,7 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemD
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemParameter
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.screen.fragment.main.MainFragmentDirections
+import com.applemango.runnerbe.presentation.screen.fragment.main.MainViewModel
 import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.util.AddressUtil
 import com.applemango.runnerbe.util.setHeight
@@ -44,11 +45,13 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     private var clickedMarker : Marker? = null
 
     private val viewModel : RunnerMapViewModel by viewModels({requireParentFragment()})
+    private val mainViewModel :MainViewModel by viewModels({requireParentFragment()})
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         binding.postListLayout.vm = viewModel
+        binding.postListLayout.mainVm = mainViewModel
         binding.postListLayout.fragment = this
         context?.let {
             binding.postListLayout.postRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
@@ -64,17 +67,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isRefresh.collect {
                 refresh()
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.clickedPost.collectLatest {
-                if(it == null) {
-                    //TODO
-                    //여기에 떠있는 바텀 시트를 제거
-                } else {
-                    //TODO
-                    //여기에 게시글 바텀 시트 띄우기 기능
-                }
             }
         }
     }
@@ -181,7 +173,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                                 overlay.icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
                                 clickedMarker = overlay
                             }
-                            viewModel.clickPost(if(clickedMarker == null) null else post)
+                            mainViewModel.clickPost(if(clickedMarker == null) null else post)
                             true
                         }
                     }

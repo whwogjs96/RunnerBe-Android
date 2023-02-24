@@ -50,8 +50,12 @@ class BookMarkViewModel @Inject constructor(
     }
 
     fun getChangeBookMarkStatusListener() = object : BookMarkClickListener {
-        override fun onClick(post: Posting) {
+        override fun onBookMarkClick(post: Posting) {
             Log.e("확인 작업", post.toString())
+        }
+
+        override fun onClick(post: Posting) {
+
         }
     }
 }

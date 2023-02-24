@@ -24,7 +24,6 @@ class JoinPostFragment : BaseFragment<FragmentJoinPostBinding>(R.layout.fragment
             binding.runningRecycler.addItemDecoration(RecyclerViewItemDeco(it, 12))
         }
         binding.emptyButton.setOnClickListener {
-            Log.e("???", "뜨는데...")
             viewModel.setTab(0)
         }
     }

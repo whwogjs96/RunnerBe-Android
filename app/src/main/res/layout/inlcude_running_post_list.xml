@@ -10,6 +10,9 @@
         <variable
             name="vm"
             type="com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapViewModel" />
+        <variable
+            name="mainVm"
+            type="com.applemango.runnerbe.presentation.screen.fragment.main.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,7 +138,7 @@
             android:paddingBottom="16dp"
             android:paddingTop="20dp"
             postListAdapter="@{vm.postList}"
-            bookmarkEvent="@{vm.getChangeBookMarkStatusListener()}"
+            bookmarkEvent="@{mainVm.getChangeBookMarkStatusListener()}"
             android:visibility="@{vm.postList.empty ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/filterLayout"
