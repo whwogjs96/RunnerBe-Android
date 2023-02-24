@@ -13,10 +13,10 @@ import java.util.Calendar
 data class Posting(
     @SerializedName("postId") val postId: Int,
     @SerializedName("postingTime") val postingTime: String?,
-    @SerializedName("postUserId") val postUserId: Int?,
+    @SerializedName("postUserId") val postUserId: Int,
     @SerializedName("nickName") val nickName: String?,
     @SerializedName("profileImageUrl") val profileImageUrl: String?,
-    @SerializedName("title") val title: String?,
+    @SerializedName("title") val title: String,
     @SerializedName("runningTime") val runningTime: String?,
     @SerializedName("gatheringTime") val gatheringTime: String?,
     @SerializedName("gatherLongitude") val gatherLongitude: String?,
@@ -29,13 +29,13 @@ data class Posting(
     // N: 마감X, Y: 마감O
     @SerializedName("whetherEnd") val whetherEnd: String?,
     @SerializedName("job") val job: String?,
-    @SerializedName("peopleNum") val peopleNum: Int?,
+    @SerializedName("peopleNum") val peopleNum: Int,
     @SerializedName("contents") val contents: String?,
     @SerializedName("userId") val userId: Int?,
     // 0이면 찜X, 1이면 찜O
     @SerializedName("bookMark") val bookMark: Int?,
     @SerializedName("attendance") val attendance: Int?,
-    // 출석처리 여부 Y: 반장이 출석체크O, N: 반장이 출석체크X
+    // 출석처리 여부 Y: 반장이 출석체크, N: 반장이 출석체크X
     @SerializedName("whetherCheck") val whetherCheck: String?,
     @SerializedName("profileUrlList") val profileUrlList: List<ProfileUrlList>?,
     @SerializedName("runnerList") val runnerList: List<UserInfo>?,

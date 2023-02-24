@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.presentation.screen.fragment.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -61,17 +62,13 @@ class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 if(it == null) {
                     //여기에 떠있는 바텀 시트를 제거
                     postDetailDialog?.dismiss()
+                    postDetailDialog = null
                 } else {
                     //여기에 게시글 바텀 시트 띄우기 기능
-                    if(postDetailDialog != null) {
-                        postDetailDialog!!.setPost(it)
-                    } else {
-                        postDetailDialog = PostDetailSheetDialog(it, object : DialogCloseListener {
-                            override fun dismiss() {
-                                mainViewModel.clickedPost.value = null
-                            }
-                        })
-                    }
+                    if(postDetailDialog != null) postDetailDialog = null
+                    postDetailDialog = PostDetailSheetDialog(it, object : DialogCloseListener {
+                        override fun dismiss() { mainViewModel.clickedPost.value = null }
+                    })
                     postDetailDialog!!.show(childFragmentManager, "PostDetailDialog")
                 }
             }

@@ -122,4 +122,9 @@ object NetworkModule {
     @Singleton
     fun provideRegisterUserApi(retrofit: Retrofit) : RegisterUserApi =
         retrofit.create(RegisterUserApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostDetailApi(retrofit: Retrofit) : GetPostDetailApi =
+        retrofit.create(GetPostDetailApi::class.java)
 }

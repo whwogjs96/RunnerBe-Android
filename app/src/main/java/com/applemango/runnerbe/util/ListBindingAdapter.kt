@@ -10,6 +10,7 @@ import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.presentation.model.listener.AttendanceAccessionClickListener
 import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
 import com.applemango.runnerbe.presentation.model.listener.MyPostClickListener
+import com.applemango.runnerbe.presentation.screen.dialog.postdetail.RunnerInfoAdapter
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListItemAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
@@ -98,5 +99,14 @@ fun setPostListAdapter(
     if (recyclerView.adapter == null) {
         recyclerView.adapter = BookMarkAdapter(dataList, bookMarkListener)
     }
+    recyclerView.adapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("runnerInfoAdapter")
+fun setRunnerInfoAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<UserInfo>
+) {
+    if (recyclerView.adapter == null) recyclerView.adapter = RunnerInfoAdapter(dataList)
     recyclerView.adapter?.notifyDataSetChanged()
 }

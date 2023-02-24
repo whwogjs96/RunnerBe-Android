@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.presentation.screen.fragment.map
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +30,7 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
@@ -65,8 +67,19 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
 
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isRefresh.collect {
-                refresh()
+            launch {
+                viewModel.isRefresh.collect {
+                    refresh()
+                }
+            }
+            launch {
+                mainViewModel.clickedPost.collect {
+                    runCatching {
+                        val index = viewModel.postList.indexOf(it)
+                        if(index != -1) onClickMarker(markerList[index])
+                        else clickedMarker?.let { marker -> onClickMarker(marker) }
+                    }
+                }
             }
         }
     }
@@ -164,16 +177,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                         map = mNaverMap
                         icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
                         setOnClickListener {
-                            val overlay = it as Marker
-                            if(overlay == clickedMarker) {
-                                overlay.icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
-                                clickedMarker = null
-                            } else {
-                                clickedMarker?.icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
-                                overlay.icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
-                                clickedMarker = overlay
-                            }
-                            mainViewModel.clickPost(if(clickedMarker == null) null else post)
+                            mainViewModel.clickPost(post)
                             true
                         }
                     }
@@ -182,6 +186,17 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
             }.onFailure {
                 it.printStackTrace()
             }
+        }
+    }
+
+    private fun onClickMarker(overlay : Marker) {
+        if(overlay == clickedMarker) {
+            overlay.icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
+            clickedMarker = null
+        } else {
+            clickedMarker?.icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
+            overlay.icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
+            clickedMarker = overlay
         }
     }
     fun writeClickEvent() {

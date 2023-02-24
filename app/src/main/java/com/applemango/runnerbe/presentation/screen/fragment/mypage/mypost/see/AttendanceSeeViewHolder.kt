@@ -13,21 +13,6 @@ class AttendanceSeeViewHolder(private val binding : ItemAttendanceSeeBinding) : 
         binding.vh = this
     }
 
-    fun getRunnerDiligenceImage(diligence: String?) = when (diligence) {
-        RunnerDiligence.EFFORT_RUNNER.value -> {
-            R.drawable.ic_effort_runner_face
-        }
-        RunnerDiligence.ERROR_RUNNER.value -> {
-            R.drawable.ic_error_runner_face
-        }
-        RunnerDiligence.SINCERITY_RUNNER.value -> {
-            R.drawable.ic_sincerity_runner_face
-        }
-        else -> {
-            R.drawable.ic_effort_runner_face
-        }
-    }
-
     fun getAttendanceMessageResource(userInfo: UserInfo) : Int {
         return if(userInfo.whetherCheck == "Y") {
             if(userInfo.attendance == 1) R.string.msg_attendance_complete
