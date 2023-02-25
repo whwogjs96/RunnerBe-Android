@@ -4,6 +4,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.data.network.response.GetRunningListResponse
@@ -38,4 +39,6 @@ class PostDetailViewModel @Inject constructor(private val getPostDetailUseCase: 
             }
         }
     }
+    fun isWaitingButtonVisible() : Boolean = RunnerBeApplication.mTokenPreference.getUserId() == post.value?.postUserId
+    fun isWaitingUserExist() : Boolean = isWaitingButtonVisible() && waitingInfo.size > 0
 }
