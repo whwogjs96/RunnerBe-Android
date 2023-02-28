@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.presentation.screen.dialog
 
 import android.app.Dialog
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,9 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class CustomBottomSheetDialog<T : ViewDataBinding>(@LayoutRes private val layoutId: Int) : BottomSheetDialogFragment(){
+abstract class CustomBottomSheetDialog<T : ViewDataBinding>(
+    @LayoutRes private val layoutId: Int
+) : BottomSheetDialogFragment() {
 
     private var _binding: T? = null
     val binding get() = _binding!!
@@ -35,10 +38,11 @@ abstract class CustomBottomSheetDialog<T : ViewDataBinding>(@LayoutRes private v
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val sheetDialog = super.onCreateDialog(savedInstanceState)
         sheetDialog.setOnShowListener {
-            val bottomSheet = sheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            val bottomSheet =
+                sheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             val params = bottomSheet.layoutParams
             bottomSheet.setBackgroundResource(android.R.color.transparent)
-//            params.height = getScreenHeight()
+//            if(screenHeightPercent != 0) params.height = getScreenHeight()
             bottomSheet.layoutParams = params
             BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
             BottomSheetBehavior.from(bottomSheet).isDraggable = true
@@ -47,7 +51,7 @@ abstract class CustomBottomSheetDialog<T : ViewDataBinding>(@LayoutRes private v
     }
 
 //    private fun getScreenHeight(): Int {
-//        return Resources.getSystem().displayMetrics.heightPixels * 90 / 100
+//        return Resources.getSystem().displayMetrics.heightPixels * screenHeightPercent / 100
 //    }
 
 }

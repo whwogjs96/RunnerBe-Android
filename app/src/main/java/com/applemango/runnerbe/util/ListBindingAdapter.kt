@@ -10,6 +10,7 @@ import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.presentation.model.listener.AttendanceAccessionClickListener
 import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
 import com.applemango.runnerbe.presentation.model.listener.MyPostClickListener
+import com.applemango.runnerbe.presentation.screen.dialog.appliedrunner.WaitingRunnerInfoAdapter
 import com.applemango.runnerbe.presentation.screen.dialog.postdetail.RunnerInfoAdapter
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListItemAdapter
@@ -108,5 +109,14 @@ fun setRunnerInfoAdapter(
     dataList: ObservableArrayList<UserInfo>
 ) {
     if (recyclerView.adapter == null) recyclerView.adapter = RunnerInfoAdapter(dataList)
+    recyclerView.adapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("waitingUserInfoAdapter")
+fun setWaitingUserInfoAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<UserInfo>
+) {
+    if(recyclerView.adapter == null) recyclerView.adapter = WaitingRunnerInfoAdapter(dataList)
     recyclerView.adapter?.notifyDataSetChanged()
 }
