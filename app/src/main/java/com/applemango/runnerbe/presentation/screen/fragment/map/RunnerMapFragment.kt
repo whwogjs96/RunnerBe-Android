@@ -87,7 +87,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     fun refresh() {
         viewModel.postList.clear()
         val userId = RunnerBeApplication.mTokenPreference.getUserId()
-        viewModel.getRunningList(if(userId > 0) userId else null)
+        viewModel.getRunningList(if(userId > 0) userId else null, isRefresh = true)
     }
 
     override fun onStart() {

@@ -86,7 +86,6 @@ class RunningWriteTwoFragment :
                             resources.getString(R.string.complete_running_write),
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.e("테스트", "잘 되는 디?")
                         navPopStack(R.id.mainFragment)
                     }
                 }

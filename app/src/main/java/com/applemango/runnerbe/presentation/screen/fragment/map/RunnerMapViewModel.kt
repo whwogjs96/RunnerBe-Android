@@ -54,7 +54,7 @@ class RunnerMapViewModel @Inject constructor(
         filterData.value = MapFilterData(gender?:"A", jobTag?:"N", minAge?:0, maxAge?:100)
     }
 
-    fun getRunningList(userId : Int?) = viewModelScope.launch{
+    fun getRunningList(userId : Int?, isRefresh : Boolean = false) = viewModelScope.launch{
         val request = GetRunningListRequest(
             userLat = coordinator.latitude,
             userLng = coordinator.longitude,
@@ -69,13 +69,16 @@ class RunnerMapViewModel @Inject constructor(
         )
         getRunningListUseCase(filterRunningTag.value, request).collect {
             if(it is CommonResponse.Success<*> && it.body is GetRunningListResponse) {
-                postList.addAll(it.body.runningList)
+                if(isRefresh) postList.clear()
+                it.body.runningList.forEach { post ->
+                    if(!postList.contains(post)) postList.add(post)
+                }
             }
             _listUpdateUiState.emit(
                 when(it) {
                     is CommonResponse.Success<*> -> UiState.Success(it.code)
                     is CommonResponse.Failed -> {
-                        if (it.code <= 999) UiState.NetworkError
+                        if (it.code >= 999) UiState.NetworkError
                         else UiState.Failed(it.message)
                     }
                     is CommonResponse.Loading -> UiState.Loading

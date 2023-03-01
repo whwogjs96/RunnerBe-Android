@@ -13,7 +13,8 @@ class PostRepositoryImpl @Inject constructor(
     private val writeRunningApi: WriteRunningApi,
     private val getRunningListApi: GetRunningListApi,
     private val attendanceAccessionApi: AttendanceAccessionApi,
-    private val getPostDetailApi: GetPostDetailApi
+    private val getPostDetailApi: GetPostDetailApi,
+    private val postClosingApi: PostClosingApi
 ) : PostRepository {
     override suspend fun getBookmarkList(userId: Int): CommonResponse {
         return try {
@@ -105,6 +106,23 @@ class PostRepositoryImpl @Inject constructor(
     override suspend fun getPostDetail(postId: Int, userId: Int): CommonResponse {
         return try {
             val response = getPostDetailApi.getPostDetail(postId, userId)
+            if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
+                CommonResponse.Success(response.body()!!.code, response.body()!!)
+            } else {
+                CommonResponse.Failed(
+                    response.body()?.code ?: response.code(),
+                    response.body()?.message ?: response.message()
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CommonResponse.Failed(999, e.message ?: "error")
+        }
+    }
+
+    override suspend fun postClosing(postId: Int): CommonResponse {
+        return try {
+            val response = postClosingApi.postClose(postId)
             if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
                 CommonResponse.Success(response.body()!!.code, response.body()!!)
             } else {

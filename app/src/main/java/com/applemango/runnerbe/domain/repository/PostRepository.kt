@@ -12,4 +12,5 @@ interface PostRepository {
     suspend fun getRunningList(runningTag: String, request: GetRunningListRequest) : CommonResponse
     suspend fun attendanceAccession(postId: Int, request: AttendanceAccessionRequest) : CommonResponse
     suspend fun getPostDetail(postId : Int, userId: Int) : CommonResponse
+    suspend fun postClosing(postId: Int) : CommonResponse
 }
