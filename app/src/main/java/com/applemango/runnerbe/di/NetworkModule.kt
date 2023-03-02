@@ -132,4 +132,9 @@ object NetworkModule {
     @Singleton
     fun providePostClosing(retrofit: Retrofit) : PostClosingApi =
         retrofit.create(PostClosingApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostApply(retrofit: Retrofit) : PostApplyApi =
+        retrofit.create(PostApplyApi::class.java)
 }

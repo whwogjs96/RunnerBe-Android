@@ -13,4 +13,5 @@ interface PostRepository {
     suspend fun attendanceAccession(postId: Int, request: AttendanceAccessionRequest) : CommonResponse
     suspend fun getPostDetail(postId : Int, userId: Int) : CommonResponse
     suspend fun postClosing(postId: Int) : CommonResponse
+    suspend fun postApply(postId: Int, userId: Int) : CommonResponse
 }

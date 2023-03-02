@@ -277,7 +277,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_red_dot_14"
-            android:visibility="@{vm.waitingUserExist ? View.VISIBLE : View.GONE}"
+            android:visibility="@{vm.isWaitingUserExist(vm.waitingInfo) ? View.VISIBLE : View.GONE}"
             android:layout_marginTop="1dp"
             app:layout_constraintRight_toRightOf="@+id/moveToWaitingUserButton"
             app:layout_constraintTop_toTopOf="@id/moveToWaitingUserButton"/>
@@ -303,7 +303,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:onClick="@{() -> dialog.clickBottomButton()}"
-                isEnabled="@{!vm.post.whetherEnd.equals(String.valueOf('Y'))}"
+                isEnabled="@{vm.isBottomButtonEnabled(vm.post.whetherEnd)}"
                 android:background="@drawable/selector_main_primary_button"
                 android:paddingTop="8dp"
                 android:paddingBottom="10dp"

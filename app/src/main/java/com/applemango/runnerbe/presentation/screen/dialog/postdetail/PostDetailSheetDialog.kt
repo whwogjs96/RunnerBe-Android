@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.databinding.DialogPostDetailBinding
 import com.applemango.runnerbe.presentation.model.JobButtonId
@@ -33,7 +34,7 @@ class PostDetailSheetDialog(var posting: Posting, private val closeListener : Di
         observeBind()
     }
     fun refresh() {
-        viewModel.getPostDetail(posting.postId, posting.postUserId)
+        viewModel.getPostDetail(posting.postId, RunnerBeApplication.mTokenPreference.getUserId())
     }
     fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {

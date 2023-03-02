@@ -93,7 +93,7 @@
     <string name="do_post_close">마감하기</string>
     <string name="do_post_apply">신청하기</string>
     <string name="apply_complete">신청완료</string>
-    <string name="post_close_complete">마감완료</string>
+    <string name="post_close_complete">모집완료</string>
     
     <!-- 북마크 -->
     <string name="before_work">출근 전</string>
