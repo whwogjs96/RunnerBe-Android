@@ -7,8 +7,9 @@ import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.data.dto.UserInfo
+import com.applemango.runnerbe.presentation.model.listener.PostAcceptListener
 
-class WaitingRunnerInfoAdapter(private val dataList: ObservableArrayList<UserInfo>) :
+class WaitingRunnerInfoAdapter(private val dataList: ObservableArrayList<UserInfo>, private val listener : PostAcceptListener) :
     RecyclerView.Adapter<WaitingRunnerInfoViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WaitingRunnerInfoViewHolder {
         return WaitingRunnerInfoViewHolder(
@@ -17,7 +18,7 @@ class WaitingRunnerInfoAdapter(private val dataList: ObservableArrayList<UserInf
                 R.layout.item_waiting_runner_info,
                 parent,
                 false
-            )
+            ), listener
         )
     }
 

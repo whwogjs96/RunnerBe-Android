@@ -20,22 +20,28 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PostDetailSheetDialog(var posting: Posting, private val closeListener : DialogCloseListener) :
+class PostDetailSheetDialog(var posting: Posting, private val closeListener: DialogCloseListener) :
     CustomBottomSheetDialog<DialogPostDetailBinding>(R.layout.dialog_post_detail) {
 
-        private val viewModel: PostDetailViewModel by viewModels()
+    private val viewModel: PostDetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.post.value = posting
         binding.vm = viewModel
         binding.dialog = this
-        refresh()
         observeBind()
     }
+
+    override fun onResume() {
+        super.onResume()
+        refresh()
+    }
+
     fun refresh() {
         viewModel.getPostDetail(posting.postId, RunnerBeApplication.mTokenPreference.getUserId())
     }
+
     fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
@@ -44,11 +50,11 @@ class PostDetailSheetDialog(var posting: Posting, private val closeListener : Di
                         if (it is UiState.Loading) showLoadingDialog(context)
                         else dismissLoadingDialog()
                     }
-                    when(it) {
+                    when (it) {
                         is UiState.Success -> {
                             Toast.makeText(
                                 context,
-                                resources.getString(if(viewModel.isMyPost()) R.string.msg_post_close else R.string.msg_post_apply),
+                                resources.getString(if (viewModel.isMyPost()) R.string.msg_post_close else R.string.msg_post_apply),
                                 Toast.LENGTH_SHORT
                             ).show()
                             refresh()
@@ -67,11 +73,12 @@ class PostDetailSheetDialog(var posting: Posting, private val closeListener : Di
             }
         }
     }
+
     fun clickBottomButton() {
         context?.let {
             TwoButtonDialog.createShow(
                 context = it,
-                title = resources.getString(if(viewModel.isMyPost())R.string.question_post_close else R.string.question_post_apply),
+                title = resources.getString(if (viewModel.isMyPost()) R.string.question_post_close else R.string.question_post_apply),
                 firstButtonText = resources.getString(R.string.no),
                 secondButtonText = resources.getString(R.string.yes),
                 firstEvent = {},
@@ -92,6 +99,9 @@ class PostDetailSheetDialog(var posting: Posting, private val closeListener : Di
     }
 
     fun showAppliedRunnerListDialog() {
-        WaitingRunnerListDialog(viewModel.waitingInfo).show(childFragmentManager, "appliedRunner")
+        WaitingRunnerListDialog(viewModel.waitingInfo, viewModel).show(
+            childFragmentManager,
+            "appliedRunner"
+        )
     }
 }

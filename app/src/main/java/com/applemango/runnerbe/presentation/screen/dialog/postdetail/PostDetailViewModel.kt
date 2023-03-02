@@ -32,7 +32,7 @@ class PostDetailViewModel @Inject constructor(
     val post: MutableLiveData<Posting> = MutableLiveData()
     val waitingInfo: ObservableArrayList<UserInfo> = ObservableArrayList()
     val runnerInfo: ObservableArrayList<UserInfo> = ObservableArrayList()
-    val _processUiState : MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    private val _processUiState : MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val processUiState get() = _processUiState
 
     fun getJoinRunnerCount(joinRunnerCount: Int, maxRunnerCount: Int) =

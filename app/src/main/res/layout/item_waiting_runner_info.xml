@@ -8,6 +8,9 @@
         <variable
             name="userInfo"
             type="com.applemango.runnerbe.data.dto.UserInfo" />
+        <variable
+            name="listener"
+            type="com.applemango.runnerbe.presentation.model.listener.PostAcceptListener" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/userLayout"
@@ -125,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="@{() -> listener.onRefuseClick(userInfo)}"
                 android:paddingVertical="6dp"
                 android:layout_marginRight="12dp"
                 android:background="@drawable/bg_dark_g4_stroke_radius_20"
@@ -139,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="@{() -> listener.onAcceptClick(userInfo)}"
                 android:paddingVertical="6dp"
                 android:background="@drawable/bg_primary_solid_radius_20"
                 android:text="@string/do_accept"

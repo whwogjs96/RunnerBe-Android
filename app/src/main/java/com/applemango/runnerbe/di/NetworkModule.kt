@@ -137,4 +137,9 @@ object NetworkModule {
     @Singleton
     fun providePostApply(retrofit: Retrofit) : PostApplyApi =
         retrofit.create(PostApplyApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWaitingRunnerAccept(retrofit: Retrofit) : WhetherAcceptHandlingApi =
+        retrofit.create(WhetherAcceptHandlingApi::class.java)
 }

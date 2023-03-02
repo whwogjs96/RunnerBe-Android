@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             waitingUserInfoAdapter="@{vm.waitingInfo}"
+            postAcceptListener="@{vm.acceptListener}"
             android:visibility="@{vm.waitingInfo.size() > 0 ? View.VISIBLE : View.GONE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/bottomButtonLayout"

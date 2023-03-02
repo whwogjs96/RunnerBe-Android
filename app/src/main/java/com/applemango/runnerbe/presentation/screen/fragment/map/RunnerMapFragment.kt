@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.presentation.screen.fragment.map
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -66,9 +67,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
-                viewModel.isRefresh.collect {
-                    refresh()
-                }
+                viewModel.isRefresh.collect { refresh() }
             }
             launch {
                 mainViewModel.clickedPost.collect {
