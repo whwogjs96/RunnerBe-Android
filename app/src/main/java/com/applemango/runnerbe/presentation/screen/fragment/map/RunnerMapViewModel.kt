@@ -57,9 +57,7 @@ class RunnerMapViewModel @Inject constructor(
         prePriorityTag = currentPriorityTag
         preIncludeFinish = currentIncludeFinish
         preFilterData = currentMapFilterData
-        if(result) {
-            ++refreshCount
-        }
+        if(result) ++refreshCount
         else refreshCount
     }.stateIn(
         scope = viewModelScope,

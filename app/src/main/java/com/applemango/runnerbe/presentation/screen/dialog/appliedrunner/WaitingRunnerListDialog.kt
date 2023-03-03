@@ -20,6 +20,7 @@ import com.applemango.runnerbe.presentation.model.listener.PostAcceptListener
 import com.applemango.runnerbe.presentation.screen.dialog.CustomBottomSheetDialog
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.dialog.postdetail.PostDetailViewModel
+import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.presentation.state.UiState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,8 @@ class WaitingRunnerListDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+        binding.detailViewModel = detailViewModel
+        binding.dialog = this
         if(detailViewModel.post.value != null) viewModel.post =detailViewModel.post.value!!
         else dismiss()
         viewModel.waitingInfo.addAll(waitingList)
@@ -66,6 +69,25 @@ class WaitingRunnerListDialog(
                 }
             }
         }
+    }
+
+    fun clickBottomButton() {
+        context?.let {
+            TwoButtonDialog.createShow(
+                context = it,
+                title = resources.getString(if (detailViewModel.isMyPost()) R.string.question_post_close else R.string.question_post_apply),
+                firstButtonText = resources.getString(R.string.no),
+                secondButtonText = resources.getString(R.string.yes),
+                firstEvent = {},
+                secondEvent = {
+                    detailViewModel.bottomProcess()
+                }
+            )
+        }
+    }
+
+    fun goBack() {
+        dismiss()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
