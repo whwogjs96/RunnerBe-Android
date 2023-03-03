@@ -168,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_g1"
                 android:textSize="14sp"
-                android:text="@{vm.post.age}"
+                android:text="@{dialog.ageString(vm.post)}"
                 tools:text="20-35" />
 
             <androidx.appcompat.widget.AppCompatImageView

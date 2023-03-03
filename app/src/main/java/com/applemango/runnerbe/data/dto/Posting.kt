@@ -23,7 +23,7 @@ data class Posting(
     @SerializedName("gatherLatitude") val gatherLatitude: String?,
     @SerializedName("locationInfo") val locationInfo: String?,
     @SerializedName("runningTag") val runningTag: String?,
-    @SerializedName("age") val age: String?,
+    @SerializedName("age") val age: String,
     @SerializedName("DISTANCE") val DISTANCE: String?,
     @SerializedName("gender") val gender: String?,
     // N: 마감X, Y: 마감O
@@ -33,7 +33,7 @@ data class Posting(
     @SerializedName("contents") val contents: String?,
     @SerializedName("userId") val userId: Int?,
     // 0이면 찜X, 1이면 찜O
-    @SerializedName("bookMark") val bookMark: Int?,
+    @SerializedName("bookMark") var bookMark: Int?,
     @SerializedName("attendance") val attendance: Int?,
     // 출석처리 여부 Y: 반장이 출석체크, N: 반장이 출석체크X
     @SerializedName("whetherCheck") val whetherCheck: String?,

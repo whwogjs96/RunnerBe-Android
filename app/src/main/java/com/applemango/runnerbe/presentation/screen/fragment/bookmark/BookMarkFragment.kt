@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentBookMarkBinding
 import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,9 @@ class BookMarkFragment: BaseFragment<FragmentBookMarkBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         observeBind()
+        context?.let {
+            binding.bookmarkRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
+        }
     }
 
     private fun observeBind() {

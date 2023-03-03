@@ -142,4 +142,9 @@ object NetworkModule {
     @Singleton
     fun provideWaitingRunnerAccept(retrofit: Retrofit) : WhetherAcceptHandlingApi =
         retrofit.create(WhetherAcceptHandlingApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideBookmarkStatusChange(retrofit: Retrofit) : BookMarkStatusChangeApi =
+        retrofit.create(BookMarkStatusChangeApi::class.java)
 }

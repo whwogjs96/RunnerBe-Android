@@ -36,8 +36,8 @@ class SplashViewModel @Inject constructor(
     fun isTokenCheck() {
         viewModelScope.launch {
             // userId = -1, uuid = ""
-            var userId = RunnerBeApplication.mTokenPreference.getUserId()
-            var uuid = RunnerBeApplication.mTokenPreference.getUuid()
+            val userId = RunnerBeApplication.mTokenPreference.getUserId()
+            val uuid = RunnerBeApplication.mTokenPreference.getUuid()
 
             if (userId == -1 && uuid.isNullOrEmpty()) {
                 _isTokenLogin.postValue(false)

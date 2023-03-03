@@ -78,6 +78,12 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                     }
                 }
             }
+            launch {
+                mainViewModel.bookmarkPost.collect {
+                    val index = viewModel.postList.indexOf(it)
+                    if(index != -1 ) viewModel.postList[index] = it.copy()
+                }
+            }
         }
     }
 

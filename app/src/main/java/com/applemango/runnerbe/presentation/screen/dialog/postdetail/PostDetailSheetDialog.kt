@@ -98,6 +98,18 @@ class PostDetailSheetDialog(var posting: Posting, private val closeListener: Dia
         viewModel.post.value = changePosting
     }
 
+    fun ageString(posting: Posting) : String {
+        val age = viewModel.post.value?.age
+        var result = resources.getString(R.string.all_age)
+        age?.let {
+            runCatching {
+                val ageSplit = age.split("-")
+                if(!(ageSplit[0].toInt() < 20 || ageSplit[1].toInt() > 65)) result = it
+            }
+        }
+        return result
+    }
+
     fun showAppliedRunnerListDialog() {
         WaitingRunnerListDialog(viewModel.waitingInfo, viewModel).show(
             childFragmentManager,

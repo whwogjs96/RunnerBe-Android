@@ -78,7 +78,7 @@ class RunningWriteTwoViewModel @Inject constructor(
                 R.id.femaleTab -> GenderTag.FEMALE
                 else -> GenderTag.ALL
             }.tag,
-            minAge = if(isAllAgeChecked.value) 0 else recruitmentStartAge.value,
+            minAge = if(isAllAgeChecked.value) 10 else recruitmentStartAge.value,
             maxAge = if(isAllAgeChecked.value) 100 else recruitmentEndAge.value,
             latitude = oneData.value.coordinate.latitude,
             longitude = oneData.value.coordinate.longitude,
