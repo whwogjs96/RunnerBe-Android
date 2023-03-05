@@ -24,58 +24,79 @@ import javax.inject.Inject
 @HiltViewModel
 class RunnerMapViewModel @Inject constructor(
     private val getRunningListUseCase: GetRunningListUseCase
-): ViewModel() {
+) : ViewModel() {
 
-    val postList : ObservableArrayList<Posting> = ObservableArrayList()
-    var coordinator : LatLng = LatLng(37.5666805, 126.9784147) //서울시청 디폴트
+    val postList: ObservableArrayList<Posting> = ObservableArrayList()
+    var coordinator: LatLng = LatLng(37.5666805, 126.9784147) //서울시청 디폴트
 
-    private val _listUpdateUiState : MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    private val _listUpdateUiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val listUpdateUiState get() : MutableStateFlow<UiState> = _listUpdateUiState
 
-    val refreshThisLocation : MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val refreshThisLocation: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    //stateFlow는 같은 값인 경우 변경이 일어나지 않네...
-    var refresh = false
-
-    val filterRunningTag : MutableStateFlow<RunningTag> = MutableStateFlow(RunningTag.Before)
-    val filterPriorityTag: MutableStateFlow<PriorityFilterTag> = MutableStateFlow(PriorityFilterTag.BY_DISTANCE)
-    val includeFinish : MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val filterData : MutableStateFlow<MapFilterData> = MutableStateFlow(MapFilterData("A", "N", 0, 100))
-    val isRefresh : StateFlow<Boolean> = combine(filterRunningTag, filterPriorityTag, includeFinish, filterData) { _: RunningTag, _: PriorityFilterTag, _: Boolean, _: MapFilterData ->
-        refresh = !refresh
-        refresh
+    var refreshCount = 0
+    val filterRunningTag: MutableStateFlow<RunningTag> = MutableStateFlow(RunningTag.Before)
+    private var preFilterRunningTag: RunningTag = filterRunningTag.value
+    val filterPriorityTag: MutableStateFlow<PriorityFilterTag> =
+        MutableStateFlow(PriorityFilterTag.BY_DISTANCE)
+    private var prePriorityTag = filterPriorityTag.value
+    val includeFinish: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    private var preIncludeFinish = includeFinish.value
+    val filterData: MutableStateFlow<MapFilterData> =
+        MutableStateFlow(MapFilterData("A", "N", 0, 100))
+    private var preFilterData = filterData.value
+    val isRefresh: StateFlow<Int> = combine(
+        filterRunningTag,
+        filterPriorityTag,
+        includeFinish,
+        filterData
+    ) { currentRunningTag: RunningTag, currentPriorityTag: PriorityFilterTag, currentIncludeFinish: Boolean, currentMapFilterData: MapFilterData ->
+        val result =
+            preFilterRunningTag != currentRunningTag || prePriorityTag != currentPriorityTag || preIncludeFinish != currentIncludeFinish || preFilterData != currentMapFilterData
+        preFilterRunningTag = currentRunningTag
+        prePriorityTag = currentPriorityTag
+        preIncludeFinish = currentIncludeFinish
+        preFilterData = currentMapFilterData
+        if(result) ++refreshCount
+        else refreshCount
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(1000L),
-        initialValue = false
+        initialValue = 0
     )
 
-    fun setFilter(gender: String?, jobTag: String?, minAge: Int? = 0, maxAge : Int?) {
-        filterData.value = MapFilterData(gender?:"A", jobTag?:"N", minAge?:0, maxAge?:100)
+    fun setFilter(gender: String?, jobTag: String?, minAge: Int? = 0, maxAge: Int?) {
+        filterData.value = MapFilterData(gender ?: "A", jobTag ?: "N", minAge ?: 0, maxAge ?: 100)
     }
 
-    fun getRunningList(userId : Int?) = viewModelScope.launch{
+    fun getRunningList(userId: Int?, isRefresh: Boolean = false) = viewModelScope.launch {
         val request = GetRunningListRequest(
             userLat = coordinator.latitude,
             userLng = coordinator.longitude,
             jobFilter = filterData.value.jobTag,
             gender = filterData.value.genderTag,
             distanceFilter = "N",
-            minAge = if(filterData.value.minAge ==0)"N" else filterData.value.minAge.toString(),
-            maxAge = if(filterData.value.maxAge > 65) "N" else filterData.value.maxAge.toString(),
+            minAge = if (filterData.value.minAge == 0) "N" else filterData.value.minAge.toString(),
+            maxAge = if (filterData.value.maxAge > 65) "N" else filterData.value.maxAge.toString(),
             priorityFilter = filterPriorityTag.value.tag,
             userId = userId,
-            whetherEnd = if(includeFinish.value) "Y" else "N"
+            whetherEnd = if (includeFinish.value) "Y" else "N"
         )
         getRunningListUseCase(filterRunningTag.value, request).collect {
-            if(it is CommonResponse.Success<*> && it.body is GetRunningListResponse) {
-                postList.addAll(it.body.runningList)
+            if (it is CommonResponse.Success<*> && it.body is GetRunningListResponse) {
+                if (it.body.isSuccess) {
+                    if (isRefresh) postList.clear()
+                    it.body.runningList.forEach { post ->
+                        Log.e(post.postId.toString(), post.profileUrlList.toString())
+                        if (!postList.contains(post)) postList.add(post)
+                    }
+                }
             }
             _listUpdateUiState.emit(
-                when(it) {
+                when (it) {
                     is CommonResponse.Success<*> -> UiState.Success(it.code)
                     is CommonResponse.Failed -> {
-                        if (it.code <= 999) UiState.NetworkError
+                        if (it.code >= 999) UiState.NetworkError
                         else UiState.Failed(it.message)
                     }
                     is CommonResponse.Loading -> UiState.Loading

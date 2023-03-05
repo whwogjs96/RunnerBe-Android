@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
+import com.applemango.runnerbe.data.network.response.BaseResponse
 import com.applemango.runnerbe.data.network.response.GetBookmarkResponse
-import com.applemango.runnerbe.domain.usecase.post.GetAfterBookmarkListUseCase
-import com.applemango.runnerbe.domain.usecase.post.GetBeforeBookmarkListUseCase
-import com.applemango.runnerbe.domain.usecase.post.GetHolidayBookmarkListUseCase
+import com.applemango.runnerbe.domain.usecase.bookmark.BookMarkStatusChangeUseCase
+import com.applemango.runnerbe.domain.usecase.bookmark.GetAfterBookmarkListUseCase
+import com.applemango.runnerbe.domain.usecase.bookmark.GetBeforeBookmarkListUseCase
+import com.applemango.runnerbe.domain.usecase.bookmark.GetHolidayBookmarkListUseCase
 import com.applemango.runnerbe.presentation.model.RunningTag
 import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
 import com.applemango.runnerbe.presentation.state.CommonResponse
@@ -23,7 +25,8 @@ import javax.inject.Inject
 class BookMarkViewModel @Inject constructor(
     private val getBeforeBookmarkListUseCase: GetBeforeBookmarkListUseCase,
     private val getAfterBookmarkListUseCase: GetAfterBookmarkListUseCase,
-    private val getHolidayBookmarkListUseCase: GetHolidayBookmarkListUseCase
+    private val getHolidayBookmarkListUseCase: GetHolidayBookmarkListUseCase,
+    private val bookMarkStatusChangeUseCase: BookMarkStatusChangeUseCase
 ): ViewModel() {
 
     val radioChecked : MutableStateFlow<Int> = MutableStateFlow(R.id.beforeTab)
@@ -51,11 +54,33 @@ class BookMarkViewModel @Inject constructor(
 
     fun getChangeBookMarkStatusListener() = object : BookMarkClickListener {
         override fun onBookMarkClick(post: Posting) {
-            Log.e("확인 작업", post.toString())
+            bookmarkStatusChange(post)
         }
 
         override fun onClick(post: Posting) {
 
         }
+    }
+
+    fun bookmarkStatusChange(post: Posting) = viewModelScope.launch {
+        bookMarkStatusChangeUseCase(
+            RunnerBeApplication.mTokenPreference.getUserId(),
+            post.postId,
+            if (!post.bookmarkCheck()) "Y" else "N"
+        ).collect {
+            when(it) {
+                is CommonResponse.Success<*> -> {
+                    if(it.body is BaseResponse && it.body.isSuccess) {
+                        post.bookMark = if(post.bookmarkCheck()) 0 else 1
+                        postChange(post)
+                    }
+                }
+            }
+        }
+    }
+
+    fun postChange(posting: Posting) {
+        val index = bookmarkList.indexOf(posting)
+        if(index != -1 ) bookmarkList[index] = posting
     }
 }

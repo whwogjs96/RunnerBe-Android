@@ -19,6 +19,7 @@
 
     <string name="creators">만든 사람들</string>
 
+    <string name="join_runner">참여한 러너</string>
     <string name="written_post">작성한 글</string>
     <string name="join_running">참여 러닝</string>
     <string name="running_list">러닝 목록</string>
@@ -41,6 +42,9 @@
     <string name="all">전체</string>
     <string name="female">여성</string>
     <string name="male">남성</string>
+
+    <string name="max_people_count">최대 %s명</string>
+    <string name="gender_string">%s만</string>
 
     <string name="question_logout">로그아웃 하시겠어요?</string>
     <string name="question_withdrawal">회원탈퇴 하시겠어요?</string>
@@ -76,6 +80,20 @@
     <string name="empty_post">현재 모임이 없어요!</string>
     <string name="empty_post_filter">조건에 맞는 검색 결과가 없어요.</string>
     <string name="refresh_this_location">이 지역 재검색</string>
+
+    <string name="question_post_close">신청을 마감하시겠어요?</string>
+    <string name="msg_post_close">신청이 마감되었어요!</string>
+    <string name="question_post_apply">신청하시겠어요?</string>
+    <string name="msg_post_apply">모임에 신청하셨어요!</string>
+
+    <!-- 신청한 러너 -->
+    <string name="applied_runner">신청한 러너</string>
+    <string name="do_refuse">거절하기</string>
+    <string name="do_accept">수락하기</string>
+    <string name="do_post_close">마감하기</string>
+    <string name="do_post_apply">신청하기</string>
+    <string name="apply_complete">신청완료</string>
+    <string name="post_close_complete">모집완료</string>
     
     <!-- 북마크 -->
     <string name="before_work">출근 전</string>

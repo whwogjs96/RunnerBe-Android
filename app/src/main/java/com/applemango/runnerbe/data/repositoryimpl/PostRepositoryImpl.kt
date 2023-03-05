@@ -1,9 +1,6 @@
 package com.applemango.runnerbe.data.repositoryimpl
 
-import com.applemango.runnerbe.data.network.api.AttendanceAccessionApi
-import com.applemango.runnerbe.data.network.api.GetBookmarkApi
-import com.applemango.runnerbe.data.network.api.GetRunningListApi
-import com.applemango.runnerbe.data.network.api.WriteRunningApi
+import com.applemango.runnerbe.data.network.api.*
 import com.applemango.runnerbe.data.network.request.AttendanceAccessionRequest
 import com.applemango.runnerbe.data.network.request.GetRunningListRequest
 import com.applemango.runnerbe.data.network.request.WriteRunningRequest
@@ -15,7 +12,11 @@ class PostRepositoryImpl @Inject constructor(
     private val getBookmarkApi: GetBookmarkApi,
     private val writeRunningApi: WriteRunningApi,
     private val getRunningListApi: GetRunningListApi,
-    private val attendanceAccessionApi: AttendanceAccessionApi
+    private val attendanceAccessionApi: AttendanceAccessionApi,
+    private val getPostDetailApi: GetPostDetailApi,
+    private val postClosingApi: PostClosingApi,
+    private val postApplyApi: PostApplyApi,
+    private val postWhetherAcceptHandlingApi: WhetherAcceptHandlingApi
 ) : PostRepository {
     override suspend fun getBookmarkList(userId: Int): CommonResponse {
         return try {
@@ -90,6 +91,78 @@ class PostRepositoryImpl @Inject constructor(
     ): CommonResponse {
         return try {
             val response = attendanceAccessionApi.attendanceAccession(postId, request)
+            if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
+                CommonResponse.Success(response.body()!!.code, response.body()!!)
+            } else {
+                CommonResponse.Failed(
+                    response.body()?.code ?: response.code(),
+                    response.body()?.message ?: response.message()
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CommonResponse.Failed(999, e.message ?: "error")
+        }
+    }
+
+    override suspend fun getPostDetail(postId: Int, userId: Int): CommonResponse {
+        return try {
+            val response = getPostDetailApi.getPostDetail(postId, userId)
+            if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
+                CommonResponse.Success(response.body()!!.code, response.body()!!)
+            } else {
+                CommonResponse.Failed(
+                    response.body()?.code ?: response.code(),
+                    response.body()?.message ?: response.message()
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CommonResponse.Failed(999, e.message ?: "error")
+        }
+    }
+
+    override suspend fun postClosing(postId: Int): CommonResponse {
+        return try {
+            val response = postClosingApi.postClose(postId)
+            if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
+                CommonResponse.Success(response.body()!!.code, response.body()!!)
+            } else {
+                CommonResponse.Failed(
+                    response.body()?.code ?: response.code(),
+                    response.body()?.message ?: response.message()
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CommonResponse.Failed(999, e.message ?: "error")
+        }
+    }
+
+    override suspend fun postApply(postId: Int, userId: Int): CommonResponse {
+        return try {
+            val response = postApplyApi.postApply(postId, userId)
+            if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
+                CommonResponse.Success(response.body()!!.code, response.body()!!)
+            } else {
+                CommonResponse.Failed(
+                    response.body()?.code ?: response.code(),
+                    response.body()?.message ?: response.message()
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CommonResponse.Failed(999, e.message ?: "error")
+        }
+    }
+
+    override suspend fun postWhetherAccept(
+        postId: Int,
+        applicantId: Int,
+        whetherAccept: String
+    ): CommonResponse {
+        return try {
+            val response = postWhetherAcceptHandlingApi.whetherAccept(postId, applicantId, whetherAccept)
             if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
                 CommonResponse.Success(response.body()!!.code, response.body()!!)
             } else {

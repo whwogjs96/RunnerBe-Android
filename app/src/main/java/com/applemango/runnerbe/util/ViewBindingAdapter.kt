@@ -8,11 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.naver.maps.geometry.LatLng
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 @BindingAdapter("imageDrawable")
 fun bindImageFromRes(view: ImageView, drawableId: Int) {
@@ -21,7 +25,7 @@ fun bindImageFromRes(view: ImageView, drawableId: Int) {
 
 @BindingAdapter("profileImageFromUrl")
 fun bindProfileImageFromUrl(view: ImageView, url: String?) {
-    if(url.isNullOrEmpty() || url =="null") {
+    if (url.isNullOrEmpty() || url == "null") {
         Glide.with(view.context)
             .load(R.drawable.ic_user_default)
             .into(view)
@@ -38,9 +42,23 @@ fun bindProfileImageFromUrl(view: ImageView, url: String?) {
 
 @BindingAdapter("date_string")
 fun bindDate(textView: TextView, dateString: String?) {
-    if (dateString.isNullOrEmpty().not()) {
-        textView.text = DateStringInT(dateString!!)
-    } else textView.text = ""
+    runCatching {
+        val temp = dateString?.replace("T", " ")?.replace("Z", " ")
+        val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(temp)
+        val calendar = Calendar.getInstance()
+        calendar.time = date!!
+        val format = SimpleDateFormat("M/d (E)-k-mm").format(date).split("-")
+        val hour = format[1]
+        textView.text = DateSelectData(
+            formatDate = format[0],
+            AMAndPM = if(hour.toInt() in 12 ..23) "PM" else "AM",
+            hour = if(hour.toInt() >= 24) "0" else if (hour.toInt() <= 12) hour else "${hour.toInt() - 12}",
+            minute = "${if(format[2].toInt() in 0..9) "0" else ""}${format[2].toInt()}"
+        ).getFullDisplayDate()
+    }.onFailure {
+        textView.text = ""
+        it.printStackTrace()
+    }
 }
 
 @BindingAdapter("time_string")
@@ -50,9 +68,20 @@ fun bindTime(textView: TextView, dateString: String?) {
     }
 }
 
+@BindingAdapter("running_tag_string")
+fun bindRunningTag(textView: TextView, runningTag: String?) {
+    runningTag?.let {
+        textView.text = textView.context.resources.getString(
+            RunningTag.getByTag(it)?.getTagNameResource() ?: R.string.before_work
+        )
+    } ?: run {
+        textView.text = textView.context.resources.getString(R.string.before_work)
+    }
+}
+
 @BindingAdapter("image_from_url_rounded")
 fun bindImageFromURLRounded(imageView: ImageView, imageURL: String?) {
-    if(imageURL.isNullOrEmpty()) {
+    if (imageURL.isNullOrEmpty()) {
         Glide.with(imageView.context)
             .load(R.drawable.ic_user_default)
             .into(imageView)
@@ -66,6 +95,16 @@ fun bindImageFromURLRounded(imageView: ImageView, imageURL: String?) {
 }
 
 @BindingAdapter("isEnabled")
-fun View.isEnabled(isEnable : Boolean) {
+fun View.isEnabled(isEnable: Boolean) {
     this.isEnabled = isEnable
+}
+
+@BindingAdapter("runner_count")
+fun runnerCountText(textView: TextView, peopleNum: Int) {
+    textView.text = textView.context.resources.getString(R.string.max_people_count, peopleNum.toString())
+}
+
+@BindingAdapter("gender_string")
+fun genderString(textView: TextView, gender : String) {
+    textView.text = if(gender == "전체") gender else textView.context.resources.getString(R.string.gender_string, gender)
 }

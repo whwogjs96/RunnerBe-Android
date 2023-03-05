@@ -71,7 +71,6 @@ class AdditionalInfoViewModel @Inject constructor(
                                 is CommonResponse.Success<*> -> {
                                     if(it.body is JoinUserResponse) {
                                         if(it.body.isSuccess) {
-                                            Log.e("확인 작업", it.body.toString())
                                             RunnerBeApplication.mTokenPreference.apply {
                                                 setUserId(it.body.result.insertedUserId)
                                                 setToken(it.body.result.token)

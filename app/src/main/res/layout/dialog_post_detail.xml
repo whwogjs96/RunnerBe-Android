@@ -5,6 +5,11 @@
 
     <data>
 
+        <import type="com.applemango.runnerbe.presentation.model.RunningTag"/>
+        <import type="android.view.View"/>
+        <variable
+            name="dialog"
+            type="com.applemango.runnerbe.presentation.screen.dialog.postdetail.PostDetailSheetDialog" />
         <variable
             name="vm"
             type="com.applemango.runnerbe.presentation.screen.dialog.postdetail.PostDetailViewModel" />
@@ -21,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="출근 전"
+            running_tag_string="@{vm.post.runningTag}"
             android:paddingHorizontal="6dp"
             android:layout_marginHorizontal="16dp"
             android:paddingVertical="4dp"
@@ -35,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             tools:text="새벽에 달리기 하실 분 있으신가요?"
+            android:text="@{vm.post.title}"
             android:textColor="@color/dark_g1"
             android:textSize="22sp"
             android:layout_marginTop="9dp"
@@ -46,6 +53,7 @@
             android:id="@+id/recruitmentCompleteView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{vm.post.whetherEnd.equals(String.valueOf('Y')) ? View.VISIBLE : View.GONE}"
             android:paddingHorizontal="8dp"
             android:paddingVertical="6dp"
             android:layout_marginTop="12dp"
@@ -88,6 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
+                date_string="@{vm.post.gatheringTime}"
                 tools:text="3/31 (금) AM 6:00"
                 android:textColor="@color/dark_g1"
                 android:textSize="12sp"/>
@@ -116,6 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 tools:text="1시간 20분"
+                time_string="@{vm.post.runningTime}"
                 android:textColor="@color/dark_g1"
                 android:textSize="12sp"/>
 
@@ -125,10 +135,10 @@
             android:id="@+id/peopleLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timeLayout">
@@ -136,41 +146,44 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_people_18"/>
+                android:src="@drawable/ic_people_18" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                tools:text="여성만"
                 android:textColor="@color/dark_g1"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                gender_string="@{vm.post.gender}"
+                tools:text="여성만" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="7dp"
-                android:src="@drawable/ic_dot_g3_5"/>
+                android:src="@drawable/ic_dot_g3_5" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="20-35"
                 android:textColor="@color/dark_g1"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:text="@{dialog.ageString(vm.post)}"
+                tools:text="20-35" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="7dp"
-                android:src="@drawable/ic_dot_g3_5"/>
+                android:src="@drawable/ic_dot_g3_5" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="최대 8명"
                 android:textColor="@color/dark_g1"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                runner_count="@{vm.post.peopleNum}"
+                tools:text="최대 8명" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -192,6 +205,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginHorizontal="16dp"
             tools:text="하루를 보람차게 시작해요~"
+            android:text="@{vm.post.contents}"
             android:textColor="@color/dark_g2_5"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -219,7 +233,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="참여한 러너"
+                android:text="@string/join_runner"
                 android:textSize="16sp"
                 android:textColor="@color/dark_g1"/>
 
@@ -227,7 +241,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                tools:text="(2/8)"
+                tools:text="@{vm.getJoinRunnerCount(vm.runnerInfo.size(), vm.post.peopleNum)}"
                 android:textColor="@color/dark_g2"
                 android:textSize="16sp"/>
 
@@ -239,12 +253,34 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="20dp"
+            runnerInfoAdapter="@{vm.runnerInfo}"
             app:layout_constraintTop_toBottomOf="@id/joinCountLayout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/bottomButtonLayout"
             android:layout_marginHorizontal="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/moveToWaitingUserButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_waiting_user"
+            android:onClick="@{() -> dialog.showAppliedRunnerListDialog()}"
+            android:visibility="@{vm.myPost ? View.VISIBLE : View.GONE}"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="12dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottomButtonLayout"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_red_dot_14"
+            android:visibility="@{vm.isWaitingUserExist(vm.waitingInfo) ? View.VISIBLE : View.GONE}"
+            android:layout_marginTop="1dp"
+            app:layout_constraintRight_toRightOf="@+id/moveToWaitingUserButton"
+            app:layout_constraintTop_toTopOf="@id/moveToWaitingUserButton"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/bottomButtonLayout"
@@ -266,10 +302,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="@{() -> dialog.clickBottomButton()}"
+                isEnabled="@{vm.isBottomButtonEnabled(vm.post.whetherEnd)}"
                 android:background="@drawable/selector_main_primary_button"
                 android:paddingTop="8dp"
                 android:paddingBottom="10dp"
-                android:text="마감하기"
+                android:text="@{vm.setBottomButtonText(vm.post)}"
                 android:textSize="14sp"
                 android:textColor="@color/tc_enable_dark3_5g_black"/>
 

@@ -122,4 +122,29 @@ object NetworkModule {
     @Singleton
     fun provideRegisterUserApi(retrofit: Retrofit) : RegisterUserApi =
         retrofit.create(RegisterUserApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostDetailApi(retrofit: Retrofit) : GetPostDetailApi =
+        retrofit.create(GetPostDetailApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostClosing(retrofit: Retrofit) : PostClosingApi =
+        retrofit.create(PostClosingApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePostApply(retrofit: Retrofit) : PostApplyApi =
+        retrofit.create(PostApplyApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWaitingRunnerAccept(retrofit: Retrofit) : WhetherAcceptHandlingApi =
+        retrofit.create(WhetherAcceptHandlingApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideBookmarkStatusChange(retrofit: Retrofit) : BookMarkStatusChangeApi =
+        retrofit.create(BookMarkStatusChangeApi::class.java)
 }

@@ -45,7 +45,9 @@ fun timeStringToLongTime(timeString: String) : Long {
 
 fun TimeString(dateString: String): String {
     val res = dateString.split(":")
-    return res[0]+"시"+res[1]+"분"
+    val hourString = if(res[0] != "00")"${res[0]}시 " else ""
+    val minuteString = "${res[1]}분"
+    return "$hourString$minuteString"
 }
 
 fun BeforeTimeString(dateString: String): String {

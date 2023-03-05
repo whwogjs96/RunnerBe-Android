@@ -14,4 +14,5 @@ interface UserRepository {
     suspend fun nicknameChange(userId: Int, nickname : String) : CommonResponse
     suspend fun jobChange(userId: Int, job : String) : CommonResponse
     suspend fun patchUserImage(imageUrl : String?) : CommonResponse
+    suspend fun bookMarkStatusChange(userId: Int, postId : Int, whetherAdd : String) : CommonResponse
 }
