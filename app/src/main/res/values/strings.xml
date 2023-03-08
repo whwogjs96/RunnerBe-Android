@@ -118,6 +118,8 @@
     <string name="question_running_write">글을 등록하시겠어요?</string>
     <string name="complete_running_write">글이 등록되었어요!</string>
 
+    <!-- 러닝톡 -->
+    <string name="report">신고</string>
 
     <!-- 마이 페이지 -->
     <string name="attendance_managing">출석 관리하기</string>
