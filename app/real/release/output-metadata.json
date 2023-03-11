@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.applemango.runnerbe",
+  "variantName": "realRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 2023031114,
+      "versionName": "0.0.1-beta",
+      "outputFile": "app-real-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

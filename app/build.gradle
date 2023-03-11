@@ -11,6 +11,14 @@ plugins {
 def buildVersionCode = Integer.parseInt(new Date().format("yyyyMMddHH"))
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\JJH\\Desktop\\runnerBe-Key.jks')
+            storePassword 'runnerbe2023'
+            keyAlias 'key0'
+            keyPassword 'runnerbe2023'
+        }
+    }
     compileSdk 33
 
     defaultConfig {
@@ -30,6 +38,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
