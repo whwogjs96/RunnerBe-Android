@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_mainFragment_to_myPostAttendanceAccessionFragment"
             app:destination="@id/myPostAttendanceAccessionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_runningTalkDetailFragment"
+            app:destination="@id/runningTalkDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -127,5 +130,15 @@
             android:name="users"
             app:argType="com.applemango.runnerbe.data.dto.UserInfo[]"/>
 
+    </fragment>
+    <fragment
+        android:id="@+id/runningTalkDetailFragment"
+        tools:layout="@layout/fragment_running_talk_detail"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailFragment"
+        android:label="RunningTalkDetailFragment" >
+
+        <argument
+            android:name="roomId"
+            app:argType="integer"/>
     </fragment>
 </navigation>

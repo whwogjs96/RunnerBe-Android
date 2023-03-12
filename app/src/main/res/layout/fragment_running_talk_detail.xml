@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="fragment"
+            type="com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailFragment" />
+        <variable
+            name="vm"
+            type="com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,6 +31,7 @@
                 android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> fragment.goBack()}"
                 android:padding="10dp"
                 android:src="@drawable/ic_arrow_left"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -73,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="출근 전"
+                android:text="@{vm.roomInfo.runningTag}"
                 android:paddingHorizontal="6dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="12dp"
@@ -88,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@{vm.roomInfo.talkTitle}"
                 tools:text="불금에 달리기 하실 분!"
                 android:textColor="@color/dark_g2_5"
                 android:textSize="16sp"/>
@@ -103,6 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingHorizontal="16dp"
+            android:paddingVertical="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/titleLayout"
             app:layout_constraintBottom_toTopOf="@id/messageSendLayout"/>

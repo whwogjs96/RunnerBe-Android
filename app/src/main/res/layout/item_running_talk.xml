@@ -6,11 +6,16 @@
         <variable
             name="item"
             type="com.applemango.runnerbe.data.dto.Room" />
+
+        <variable
+            name="clickListener"
+            type="com.applemango.runnerbe.presentation.model.listener.RoomClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.moveToRunningTalkRoom(item)}"
         android:paddingVertical="12dp"
         android:paddingHorizontal="16dp">
 

@@ -7,10 +7,7 @@ import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
 import com.applemango.runnerbe.data.dto.Room
 import com.applemango.runnerbe.data.dto.UserInfo
-import com.applemango.runnerbe.presentation.model.listener.AttendanceAccessionClickListener
-import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
-import com.applemango.runnerbe.presentation.model.listener.MyPostClickListener
-import com.applemango.runnerbe.presentation.model.listener.PostAcceptListener
+import com.applemango.runnerbe.presentation.model.listener.*
 import com.applemango.runnerbe.presentation.screen.dialog.appliedrunner.WaitingRunnerInfoAdapter
 import com.applemango.runnerbe.presentation.screen.dialog.postdetail.RunnerInfoAdapter
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
@@ -38,9 +35,9 @@ fun setMyPostAdapter(
 @BindingAdapter("attendanceSeeAdapter")
 fun setAttendanceSeeAdapter(
     recyclerView: RecyclerView,
-    dataList : ObservableArrayList<UserInfo>
+    dataList: ObservableArrayList<UserInfo>
 ) {
-    if(recyclerView.adapter == null) {
+    if (recyclerView.adapter == null) {
         recyclerView.adapter = AttendanceSeeAdapter(dataList)
     }
     recyclerView.adapter?.notifyDataSetChanged()
@@ -52,11 +49,12 @@ fun setAttendanceAccessionAdapter(
     dataList: ObservableArrayList<UserInfo>,
     accessionClickListener: AttendanceAccessionClickListener
 ) {
-    if(recyclerView.adapter == null) {
+    if (recyclerView.adapter == null) {
         recyclerView.adapter = AttendanceAccessionAdapter(dataList, accessionClickListener)
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }
+
 @BindingAdapter("joinPostAdapter")
 fun setJoinPostAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Posting>) {
     if (recyclerView.adapter == null) {
@@ -73,10 +71,14 @@ fun setCreatorAdapter(recyclerView: RecyclerView, dataList: List<CreatorImageAnd
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
-@BindingAdapter("runningTalkListAdapter")
-fun setRunningTalkListAdapter(recyclerView: RecyclerView, dataList: ObservableArrayList<Room>) {
+@BindingAdapter("runningTalkListAdapter", "runningTalkClickListener")
+fun setRunningTalkListAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<Room>,
+    roomClickListener: RoomClickListener
+) {
     if (recyclerView.adapter == null) {
-        recyclerView.adapter = RunningTalkAdapter(dataList)
+        recyclerView.adapter = RunningTalkAdapter(dataList, roomClickListener)
     }
     recyclerView.adapter?.notifyDataSetChanged()
 }
@@ -119,6 +121,7 @@ fun setWaitingUserInfoAdapter(
     dataList: ObservableArrayList<UserInfo>,
     listener: PostAcceptListener
 ) {
-    if(recyclerView.adapter == null) recyclerView.adapter = WaitingRunnerInfoAdapter(dataList, listener)
+    if (recyclerView.adapter == null) recyclerView.adapter =
+        WaitingRunnerInfoAdapter(dataList, listener)
     recyclerView.adapter?.notifyDataSetChanged()
 }
