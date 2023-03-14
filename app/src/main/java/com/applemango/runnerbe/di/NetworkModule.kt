@@ -147,4 +147,9 @@ object NetworkModule {
     @Singleton
     fun provideBookmarkStatusChange(retrofit: Retrofit) : BookMarkStatusChangeApi =
         retrofit.create(BookMarkStatusChangeApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRunningTalkDetail(retrofit: Retrofit) : GetRunningTalkDetailApi =
+        retrofit.create(GetRunningTalkDetailApi::class.java)
 }

@@ -131,6 +131,7 @@ fun KakaoLoginView(modifier: Modifier) {
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             Log.e("response!!", error.toString())
+            Log.e("젠장",Utility.getKeyHash(mContext))
             val errorMessage = when(error.toString()) {
                 AuthErrorCause.AccessDenied.toString() -> "접근이 거부 됨(동의 취소)"
                 AuthErrorCause.InvalidClient.toString() -> "유효하지 않은 앱"
@@ -140,7 +141,10 @@ fun KakaoLoginView(modifier: Modifier) {
                 AuthErrorCause.Misconfigured.toString() -> "설정이 올바르지 않음(android key hash)"
                 AuthErrorCause.ServerError.toString() -> "서버 내부 에러"
                 AuthErrorCause.Unauthorized.toString() -> "앱이 요청 권한이 없음"
-                else -> "카카오톡의 미로그인" // Unknown
+                else -> {
+                    error.toString()
+                }// Unknown
+
             }
             Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
         } else if (token != null) {

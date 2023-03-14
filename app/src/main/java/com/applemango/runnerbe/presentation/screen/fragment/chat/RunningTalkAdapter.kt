@@ -7,8 +7,12 @@ import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.data.dto.Room
+import com.applemango.runnerbe.presentation.model.listener.RoomClickListener
 
-class RunningTalkAdapter(private val dataList : ObservableArrayList<Room>) : RecyclerView.Adapter<RunningTalkViewHolder>(){
+class RunningTalkAdapter(
+    private val dataList: ObservableArrayList<Room>,
+    private val roomClickListener: RoomClickListener
+) : RecyclerView.Adapter<RunningTalkViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunningTalkViewHolder {
         return RunningTalkViewHolder(
             DataBindingUtil.inflate(
@@ -16,7 +20,7 @@ class RunningTalkAdapter(private val dataList : ObservableArrayList<Room>) : Rec
                 R.layout.item_running_talk,
                 parent,
                 false
-            )
+            ), roomClickListener
         )
     }
 

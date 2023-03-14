@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentMyPostAttendanceSeeBinding
+import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 
 class MyPostAttendanceSeeFragment : BaseFragment<FragmentMyPostAttendanceSeeBinding>(R.layout.fragment_my_post_attendance_see) {
@@ -16,5 +17,8 @@ class MyPostAttendanceSeeFragment : BaseFragment<FragmentMyPostAttendanceSeeBind
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         viewModel.userListUpdate(args.users.toList())
+        context?.let {
+            binding.attendanceSeeRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 18))
+        }
     }
 }
