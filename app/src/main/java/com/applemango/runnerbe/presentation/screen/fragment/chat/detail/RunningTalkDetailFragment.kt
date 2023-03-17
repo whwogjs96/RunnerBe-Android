@@ -9,6 +9,7 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.data.dto.Room
 import com.applemango.runnerbe.databinding.FragmentRunningTalkDetailBinding
 import com.applemango.runnerbe.presentation.model.listener.RoomClickListener
+import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.screen.fragment.main.MainFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,9 @@ class RunningTalkDetailFragment : BaseFragment<FragmentRunningTalkDetailBinding>
         binding.vm = viewModel
         binding.fragment = this
         viewModel.roomId = args.roomId
+        context?.let {
+            binding.messageRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
+        }
         refresh()
     }
 

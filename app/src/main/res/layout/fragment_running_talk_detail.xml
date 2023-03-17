@@ -108,10 +108,12 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messageRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="20dp"
+            messageAdapter="@{vm.messageList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/titleLayout"
             app:layout_constraintBottom_toTopOf="@id/messageSendLayout"/>
@@ -130,11 +132,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginLeft="14dp"
+                    android:maxLines="1"
                     android:paddingTop="6dp"
                     android:paddingBottom="8dp"
                     android:paddingHorizontal="12dp"
                     android:background="@drawable/bg_dark_5g_solid_radius_20"
                     android:hint="내용을 입력하세요."
+                    android:text="@={vm.message}"
                     android:textColorHint="@color/dark_g3_5"
                     android:textColor="@color/dark_g1"
                     android:textSize="14sp"/>
@@ -142,7 +146,8 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_send_g3_5"
+                    isEnabled="@{vm.message.length() > 0}"
+                    android:src="@drawable/selector_send"
                     android:layout_gravity="center"
                     android:layout_marginRight="18dp"
                     android:layout_marginLeft="12dp"/>

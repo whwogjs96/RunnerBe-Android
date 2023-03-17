@@ -3,6 +3,7 @@ package com.applemango.runnerbe.util
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
+import com.applemango.runnerbe.data.dto.Messages
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
 import com.applemango.runnerbe.data.dto.Room
@@ -14,6 +15,7 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListD
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListItemAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.JoinPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.accession.AttendanceAccessionAdapter
@@ -123,5 +125,15 @@ fun setWaitingUserInfoAdapter(
 ) {
     if (recyclerView.adapter == null) recyclerView.adapter =
         WaitingRunnerInfoAdapter(dataList, listener)
+    recyclerView.adapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("messageAdapter")
+fun setMessageAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<Messages>
+) {
+    if(recyclerView.adapter == null) recyclerView.adapter =
+        RunningTalkDetailAdapter(dataList)
     recyclerView.adapter?.notifyDataSetChanged()
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.applemango.runnerbe.util.DateUtilKt"/>
         <variable
             name="item"
             type="com.applemango.runnerbe.data.dto.Messages" />
@@ -12,12 +12,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/profileImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            app:image_from_url_rounded="@{item.profileImageUrl}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,39 +33,36 @@
             app:layout_constraintLeft_toRightOf="@id/profileImageView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="다른 사람" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/messageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:orientation="horizontal"
+            android:maxWidth="230dp"
+            android:layout_gravity="left"
+            android:background="@{item.whetherPostUser.equals(String.valueOf('Y')) ? @drawable/bg_other_talk_organizer : @drawable/bg_other_talk_participants}"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="11dp"
+            android:text="@{item.content}"
+            android:textColor="@{item.whetherPostUser.equals(String.valueOf('Y')) ? @color/black : @color/dark_g1}"
+            android:textSize="14sp"
+            tools:text="안녕하세요~! 참여하고 싶은데 혹시 동생이랑 같이 가도 될까요?! (가로 최대)"
             app:layout_constraintLeft_toRightOf="@id/profileImageView"
-            app:layout_constraintTop_toBottomOf="@id/profileNameView">
+            app:layout_constraintTop_toBottomOf="@id/profileNameView"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/messageTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@{item.whetherPostUser.equals(String.valueOf('Y')) ? @drawable/bg_other_talk_organizer : @drawable/bg_other_talk_participants}"
-                android:maxWidth="230dp"
-                android:paddingHorizontal="12dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="11dp"
-                android:text="@{item.content}"
-                android:textColor="@{item.whetherPostUser.equals(String.valueOf('Y')) ? @color/black : @color/dark_g1}"
-                android:textSize="14sp"
-                tools:text="안녕하세요~! 참여하고 싶은데 혹시 동생이랑 같이 가도 될까요?! (가로 최대)" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/createDateView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginRight="6dp"
-                android:textColor="@color/dark_g4"
-                android:textSize="10sp"
-                tools:text="7/3" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/createDateView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="100dp"
+            android:textColor="@color/dark_g4"
+            android:textSize="10sp"
+            tools:text="7/3"
+            android:text="@{DateUtilKt.getMonthAndDay(item.createAt)}"
+            app:layout_constraintLeft_toRightOf="@id/messageTextView"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

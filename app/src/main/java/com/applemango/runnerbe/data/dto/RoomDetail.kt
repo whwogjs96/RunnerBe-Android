@@ -18,7 +18,7 @@ data class Messages(
     @SerializedName("createAt") val createAt : String,
     @SerializedName("userId") val userId : Int,
     @SerializedName("nickName") val nickName : String,
-    @SerializedName("profileImageUrl") val profileImageUrl : String,
+    @SerializedName("profileImageUrl") val profileImageUrl : String?,
     @SerializedName("messageFrom") val from: String, // Me or Others
     @SerializedName("whetherPostUser") val whetherPostUser : String // Y or N
 )
