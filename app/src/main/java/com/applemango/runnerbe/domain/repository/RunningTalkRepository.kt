@@ -5,4 +5,5 @@ import com.applemango.runnerbe.presentation.state.CommonResponse
 interface RunningTalkRepository {
     suspend fun getRunningTalks(): CommonResponse
     suspend fun getRunningTalkDetail(roomId: Int) : CommonResponse
+    suspend fun sendMessage(roomId: Int, content: String) : CommonResponse
 }

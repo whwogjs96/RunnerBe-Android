@@ -15,7 +15,7 @@ data class RoomInfo(
 data class Messages(
     @SerializedName("messageId") val messageId :Int,
     @SerializedName("content") val content : String,
-    @SerializedName("createAt") val createAt : String,
+    @SerializedName("createdAt") val createAt : String,
     @SerializedName("userId") val userId : Int,
     @SerializedName("nickName") val nickName : String,
     @SerializedName("profileImageUrl") val profileImageUrl : String?,

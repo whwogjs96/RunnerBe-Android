@@ -32,7 +32,7 @@ class RunningTalkFragment: BaseFragment<FragmentRunningTalkBinding>(R.layout.fra
 
     fun getRoomClickListener() = object : RoomClickListener {
         override fun moveToRunningTalkRoom(item: Room) {
-            navigate(MainFragmentDirections.actionMainFragmentToRunningTalkDetailFragment(item.roomId))
+            navigate(MainFragmentDirections.actionMainFragmentToRunningTalkDetailFragment(item.roomId, item.repUserName))
         }
 
     }

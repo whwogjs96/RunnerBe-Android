@@ -136,4 +136,5 @@ fun setMessageAdapter(
     if(recyclerView.adapter == null) recyclerView.adapter =
         RunningTalkDetailAdapter(dataList)
     recyclerView.adapter?.notifyDataSetChanged()
+    recyclerView.scrollToPosition(dataList.size - 1)
 }
