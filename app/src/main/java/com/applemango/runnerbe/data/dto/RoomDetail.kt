@@ -20,5 +20,6 @@ data class Messages(
     @SerializedName("nickName") val nickName : String,
     @SerializedName("profileImageUrl") val profileImageUrl : String?,
     @SerializedName("messageFrom") val from: String, // Me or Others
-    @SerializedName("whetherPostUser") val whetherPostUser : String // Y or N
+    @SerializedName("whetherPostUser") val whetherPostUser : String, // Y or N
+    var isChecked: Boolean = false
 )

@@ -5,6 +5,10 @@
 
     <data>
         <import type="com.applemango.runnerbe.util.DateUtilKt"/>
+        <import type="android.view.View"/>
+        <variable
+            name="mode"
+            type="boolean" />
         <variable
             name="item"
             type="com.applemango.runnerbe.data.dto.Messages" />
@@ -50,6 +54,19 @@
             app:layout_constraintLeft_toRightOf="@id/profileImageView"
             app:layout_constraintTop_toBottomOf="@id/profileNameView"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:button="@null"
+            android:layout_marginTop="7dp"
+            android:paddingLeft="5dp"
+            android:layout_marginLeft="7dp"
+            android:visibility="@{mode ? View.VISIBLE : View.GONE}"
+            android:checked="@={item.checked}"
+            android:background="@drawable/selector_check_box"
+            app:layout_constraintTop_toTopOf="@id/messageTextView"
+            app:layout_constraintLeft_toRightOf="@id/messageTextView"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/createDateView"

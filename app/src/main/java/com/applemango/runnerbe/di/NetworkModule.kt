@@ -157,4 +157,9 @@ object NetworkModule {
     @Singleton
     fun provideMessageSend(retrofit: Retrofit) : MessageSendApi =
         retrofit.create(MessageSendApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMessageReport(retrofit: Retrofit): MessageReportApi =
+        retrofit.create(MessageReportApi::class.java)
 }

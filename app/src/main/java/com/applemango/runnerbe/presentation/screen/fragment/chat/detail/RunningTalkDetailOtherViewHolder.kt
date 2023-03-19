@@ -6,7 +6,8 @@ import com.applemango.runnerbe.databinding.ItemOtherTalkBinding
 
 class RunningTalkDetailOtherViewHolder(val binding: ItemOtherTalkBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Messages) {
+    fun bind(item: Messages, isDeclarationMode: Boolean) {
         binding.item = item
+        binding.mode = isDeclarationMode
     }
 }

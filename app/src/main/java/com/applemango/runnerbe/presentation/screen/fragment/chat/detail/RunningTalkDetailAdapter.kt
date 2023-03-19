@@ -11,8 +11,9 @@ import com.applemango.runnerbe.data.dto.Messages
 //걍 뷰타입으로 ViewHolder 생성한 다음, holder를 스마트캐스트해서 사용...
 class RunningTalkDetailAdapter(
     private val dataList: ObservableArrayList<Messages>
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var isDeclarationMode : Boolean = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == RunningTalkViewType.Me.type) RunningTalkDetailMyViewHolder(
             DataBindingUtil.inflate(
@@ -37,7 +38,7 @@ class RunningTalkDetailAdapter(
         if(holder is RunningTalkDetailMyViewHolder) {
             holder.bind(dataList[position])
         } else if(holder is RunningTalkDetailOtherViewHolder) {
-            holder.bind(dataList[position])
+            holder.bind(dataList[position], isDeclarationMode)
         }
     }
 

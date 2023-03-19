@@ -3,6 +3,7 @@ package com.applemango.runnerbe.presentation.screen.fragment.chat.detail
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -38,39 +39,40 @@ class RunningTalkDetailFragment : BaseFragment<FragmentRunningTalkDetailBinding>
         refresh()
         observeBind()
 
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if(viewModel.isDeclaration.value)viewModel.isDeclaration.value = false
+                else navPopStack()
+            }
+        })
     }
 
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             launch {
-                viewModel.getMessageListUiState.collect {
-                    when(it) {
-                        is UiState.Success -> {
-//                            binding.messageRecyclerView.scrollToPosition(viewModel.messageList.size - 1)
-                        }
-                    }
-                }
-            }
-            launch {
                 viewModel.messageSendUiState.collect {
-                    Log.e("uiState", it.toString())
                     when(it) {
                         is UiState.Success -> {
-//                            viewModel.messageList.add(Messages(
-//                                messageId = -1,
-//                                content = viewModel.message.value,
-//                                userId = RunnerBeApplication.mTokenPreference.getUserId(),
-//                                nickName = "",
-//                                profileImageUrl = null,
-//                                from = "Me",
-//                                whetherPostUser =
-//                            ))
                             refresh()
                             viewModel.message.value = ""
                         }
                         is UiState.Failed -> {
 
                         }
+                    }
+                }
+            }
+            launch {
+                viewModel.isDeclaration.collect {
+                    runCatching {
+                        val adapter = binding.messageRecyclerView.adapter
+                        if(adapter is RunningTalkDetailAdapter) {
+                            adapter.isDeclarationMode = it
+                            adapter.notifyDataSetChanged()
+                        }
+                    }.onFailure {
+                        it.printStackTrace()
                     }
                 }
             }

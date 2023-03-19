@@ -34,6 +34,5 @@ class RunningTalkFragment: BaseFragment<FragmentRunningTalkBinding>(R.layout.fra
         override fun moveToRunningTalkRoom(item: Room) {
             navigate(MainFragmentDirections.actionMainFragmentToRunningTalkDetailFragment(item.roomId, item.repUserName))
         }
-
     }
 }
