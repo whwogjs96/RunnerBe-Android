@@ -120,6 +120,7 @@
 
     <!-- 러닝톡 -->
     <string name="report">신고</string>
+    <string name="msg_warning_report">부적절한 신고는 수락되지 않으며,활동 제재의 원인이 될 수 있습니다.정말 신고하시겠어요?</string>
 
     <!-- 마이 페이지 -->
     <string name="attendance_managing">출석 관리하기</string>
@@ -160,5 +161,14 @@
 
     <!-- 직군 선택 버튼 -->
     <string name="psv_and_icon">🏫  공무원</string>
+    <string name="edu_and_icon">📚 교육</string>
+    <string name="psm_and_icon">📈  기획/전략/경영</string>
+    <string name="des_and_icon">🎨  디자인</string>
+    <string name="pro_and_icon">🏭  생산</string>
+    <string name="saf_and_icon">🤝 영업</string>
+    <string name="med_and_icon">🏥  의료</string>
+    <string name="hur_and_icon">👥  인사</string>
+    <string name="acc_and_icon">💰  재무</string>
+    <string name="cus_and_icon">🗣  CS</string>
 
 </resources>

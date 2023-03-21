@@ -8,6 +8,7 @@ import com.applemango.runnerbe.data.dto.Messages
 import com.applemango.runnerbe.data.dto.RoomInfo
 import com.applemango.runnerbe.data.network.response.RunningTalkDetailResponse
 import com.applemango.runnerbe.domain.usecase.runningtalk.GetRunningTalkDetailUseCase
+import com.applemango.runnerbe.domain.usecase.runningtalk.MessageReportUseCase
 import com.applemango.runnerbe.domain.usecase.runningtalk.MessageSendUseCase
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RunningTalkDetailViewModel @Inject constructor(
     private val runningTalkDetailUseCase: GetRunningTalkDetailUseCase,
-    private val messageSendUseCase: MessageSendUseCase
+    private val messageSendUseCase: MessageSendUseCase,
+    private val messageReportUseCase: MessageReportUseCase
 ) : ViewModel() {
 
     var roomId : Int? = null
@@ -33,6 +35,8 @@ class RunningTalkDetailViewModel @Inject constructor(
     val isDeclaration: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private val _messageSendUiState: MutableSharedFlow<UiState> = MutableSharedFlow()
     val messageSendUiState get() = _messageSendUiState
+    private val _messageReportUiState: MutableSharedFlow<UiState> = MutableSharedFlow()
+    val messageReportUiState get() = _messageReportUiState
 
     fun getDetailData(isRefresh : Boolean) = viewModelScope.launch {
         roomId?.let {roomId ->
@@ -55,6 +59,19 @@ class RunningTalkDetailViewModel @Inject constructor(
                     }
                     is CommonResponse.Failed -> {
                         _messageSendUiState.emit(UiState.Failed(response.message))
+                    }
+                }
+            }
+        }
+    }
+
+    fun messageReport() = viewModelScope.launch {
+        val messageIdList = messageList.filter { it.isChecked }.map { it.messageId.toString() }
+        if(messageIdList.isNotEmpty()) {
+            messageReportUseCase(messageIdList).collect {
+                when(it) {
+                    is CommonResponse.Success<*> -> {
+                        _messageReportUiState.emit(UiState.Success(it.code))
                     }
                 }
             }

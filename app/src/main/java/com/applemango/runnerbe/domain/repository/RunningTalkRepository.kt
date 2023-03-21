@@ -6,5 +6,5 @@ interface RunningTalkRepository {
     suspend fun getRunningTalks(): CommonResponse
     suspend fun getRunningTalkDetail(roomId: Int) : CommonResponse
     suspend fun sendMessage(roomId: Int, content: String) : CommonResponse
-    suspend fun reportMessage(messageIdList : ArrayList<String>) : CommonResponse
+    suspend fun reportMessage(messageIdList : List<String>) : CommonResponse
 }

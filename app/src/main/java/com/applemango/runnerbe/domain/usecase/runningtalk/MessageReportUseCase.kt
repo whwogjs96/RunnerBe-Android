@@ -9,7 +9,7 @@ import javax.inject.Inject
 class MessageReportUseCase @Inject constructor(
     private val repo: RunningTalkRepository
 ) {
-    operator fun invoke(messageIdList : ArrayList<String>) : Flow<CommonResponse> = flow {
+    operator fun invoke(messageIdList : List<String>) : Flow<CommonResponse> = flow {
         runCatching {
             emit(CommonResponse.Loading)
             repo.reportMessage(messageIdList)
