@@ -65,7 +65,19 @@ data class Posting(
     }
 
     fun groupString(): String {
-        return this.gender+" "+this.age
+        return try {
+            val min = this.age.split("-")[0].toInt()
+            if(min < 20) return genderString()
+            else genderString()+" "+this.age
+        }catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            genderString()+" "+this.age
+        }
+    }
+
+    fun genderString() : String {
+        return if(this.gender =="전체") this.gender
+        else this.gender+"만"
     }
 
     //이거 데이터바인딩 시에 너무 자주 도는 이유를 찾자
