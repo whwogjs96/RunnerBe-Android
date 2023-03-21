@@ -58,7 +58,7 @@ class RunningTalkRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun reportMessage(messageIdList: List<String>): CommonResponse {
+    override suspend fun reportMessage(messageIdList: List<Int>): CommonResponse {
         return try {
             val response = messageReportApi.messageReport(MessageReportRequest(messageIdList))
             if(response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {

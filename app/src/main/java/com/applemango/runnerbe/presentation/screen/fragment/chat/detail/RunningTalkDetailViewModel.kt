@@ -66,7 +66,8 @@ class RunningTalkDetailViewModel @Inject constructor(
     }
 
     fun messageReport() = viewModelScope.launch {
-        val messageIdList = messageList.filter { it.isChecked }.map { it.messageId.toString() }
+        _messageReportUiState.emit(UiState.Loading)
+        val messageIdList = messageList.filter { it.isChecked }.map { it.messageId }
         if(messageIdList.isNotEmpty()) {
             messageReportUseCase(messageIdList).collect {
                 when(it) {
@@ -75,7 +76,7 @@ class RunningTalkDetailViewModel @Inject constructor(
                     }
                 }
             }
-        }
+        } else _messageReportUiState.emit(UiState.Empty)
     }
 
     fun setDeclaration(set: Boolean) { isDeclaration.value = set }

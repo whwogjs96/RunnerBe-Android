@@ -3,6 +3,7 @@ package com.applemango.runnerbe.presentation.screen.fragment.chat.detail
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import com.applemango.runnerbe.data.dto.Room
 import com.applemango.runnerbe.databinding.FragmentRunningTalkDetailBinding
 import com.applemango.runnerbe.presentation.model.listener.RoomClickListener
 import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
+import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.screen.fragment.main.MainFragmentDirections
@@ -61,6 +63,29 @@ class RunningTalkDetailFragment :
                         }
                         is UiState.Failed -> {
 
+                        }
+                    }
+                }
+            }
+            launch {
+                viewModel.messageReportUiState.collect {
+                    context?.let { context ->
+                        if (it is UiState.Loading) showLoadingDialog(context)
+                        else dismissLoadingDialog()
+                    }
+                    when (it) {
+                        is UiState.Success -> {
+                            viewModel.isDeclaration.value = false
+                            Toast.makeText(context, "신고되었습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                        is UiState.Failed -> {
+                            context?.let { context ->
+                                MessageDialog.createShow(
+                                    context = context,
+                                    message = it.message,
+                                    buttonText = resources.getString(R.string.confirm)
+                                )
+                            }
                         }
                     }
                 }
