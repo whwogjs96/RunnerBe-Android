@@ -13,8 +13,8 @@ class GetHolidayBookmarkListUseCase @Inject constructor(private val repo: PostRe
             emit(CommonResponse.Loading)
             repo.getBookmarkList(userId)
         }.onSuccess {
-            if(it is CommonResponse.Success<*> && it.body is GetBookmarkResponse) {
-                val result = it.body.result.bookMarkList.filter { post -> post.runningTag == "H" }
+            if(it is CommonResponse.Success<*> && it.body is GetBookmarkResponse && it.body.result.bookMarkList != null) {
+                val result = it.body.result.bookMarkList!!.filter { post -> post.runningTag == "H" }
                 it.body.result.bookMarkList = result
             }
             emit(it)
