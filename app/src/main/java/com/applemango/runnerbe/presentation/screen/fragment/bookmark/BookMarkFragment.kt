@@ -11,14 +11,16 @@ import com.applemango.runnerbe.databinding.FragmentBookMarkBinding
 import com.applemango.runnerbe.presentation.model.RunningTag
 import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
+import com.applemango.runnerbe.presentation.screen.fragment.main.MainViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BookMarkFragment: BaseFragment<FragmentBookMarkBinding>(R.layout.fragment_book_mark) {
+class BookMarkFragment : BaseFragment<FragmentBookMarkBinding>(R.layout.fragment_book_mark) {
 
-    private val viewModel : BookMarkViewModel by viewModels()
+    private val viewModel: BookMarkViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels({ requireParentFragment() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,15 +31,24 @@ class BookMarkFragment: BaseFragment<FragmentBookMarkBinding>(R.layout.fragment_
         }
     }
 
+    private fun getList(tagType: Int) {
+        val tag = when (tagType) {
+            R.id.afterTab -> RunningTag.After
+            R.id.holidayTab -> RunningTag.Holiday
+            else -> RunningTag.Before
+        }
+        viewModel.getBookmarkList(tag.tag)
+    }
+
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.radioChecked.collect {
-                val tag = when(it) {
-                    R.id.afterTab -> RunningTag.After
-                    R.id.holidayTab -> RunningTag.Holiday
-                    else -> RunningTag.Before
-                }
-                viewModel.getBookmarkList(tag.tag)
+                getList(it)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            mainViewModel.bookmarkPost.collect {
+                getList(viewModel.radioChecked.value)
             }
         }
     }
