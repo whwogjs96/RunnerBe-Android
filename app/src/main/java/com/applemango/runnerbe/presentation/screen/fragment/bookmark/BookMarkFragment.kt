@@ -46,7 +46,7 @@ class BookMarkFragment : BaseFragment<FragmentBookMarkBinding>(R.layout.fragment
                 getList(it)
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             mainViewModel.bookmarkPost.collect {
                 getList(viewModel.radioChecked.value)
             }

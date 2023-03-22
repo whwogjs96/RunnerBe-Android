@@ -68,19 +68,18 @@ class RunningTalkDetailViewModel @Inject constructor(
     fun messageReport() = viewModelScope.launch {
         _messageReportUiState.emit(UiState.Loading)
         val messageIdList = messageList.filter { it.isChecked }.map { it.messageId }
-        messageReportUseCase(messageIdList).collect {
-            when(it) {
-                is CommonResponse.Success<*> -> {
-                    _messageReportUiState.emit(UiState.Success(it.code))
-                }
-                is CommonResponse.Failed -> {
-                    _messageReportUiState.emit(UiState.Failed(it.message))
+        if(messageIdList.isNotEmpty()) {
+            messageReportUseCase(messageIdList).collect {
+                when(it) {
+                    is CommonResponse.Success<*> -> {
+                        _messageReportUiState.emit(UiState.Success(it.code))
+                    }
+                    is CommonResponse.Failed -> {
+                        _messageReportUiState.emit(UiState.Failed(it.message))
+                    }
                 }
             }
-        }
-//        if(messageIdList.isNotEmpty()) {
-//
-//        } else _messageReportUiState.emit(UiState.Empty)
+        } else _messageReportUiState.emit(UiState.Empty)
     }
 
     fun setDeclaration(set: Boolean) { isDeclaration.value = set }

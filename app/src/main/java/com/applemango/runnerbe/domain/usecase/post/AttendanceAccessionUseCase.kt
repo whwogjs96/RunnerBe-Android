@@ -9,15 +9,43 @@ import javax.inject.Inject
 
 class AttendanceAccessionUseCase @Inject constructor(private val repo: PostRepository) {
 
-    operator fun invoke(postId : Int, userIds: List<String>, whetherAttendList : List<String>) : Flow<CommonResponse> = flow {
+    operator fun invoke(
+        postId: Int,
+        userIds: List<String>,
+        whetherAttendList: List<String>
+    ): Flow<CommonResponse> = flow {
         runCatching {
             emit(CommonResponse.Loading)
-            repo.attendanceAccession(postId, request = AttendanceAccessionRequest(userIds, whetherAttendList))
+            repo.attendanceAccession(
+                postId,
+                request = AttendanceAccessionRequest(
+                    getUserIdsToString(userIds),
+                    getWhetherAttendListString(whetherAttendList)
+                )
+            )
         }.onSuccess {
             emit(it)
         }.onFailure {
             it.printStackTrace()
             emit(CommonResponse.Failed(999, it.message ?: "error"))
         }
+    }
+
+    private fun getUserIdsToString(userIds: List<String>) : String{
+        return StringBuilder().apply {
+            userIds.forEachIndexed { index, s ->
+                this.append(s)
+                if (index < userIds.size - 1) this.append(",")
+            }
+        }.toString()
+    }
+
+    private fun getWhetherAttendListString(whetherAttendList: List<String>) : String {
+        return StringBuilder().apply {
+            whetherAttendList.forEachIndexed { index, s ->
+                this.append(s)
+                if (index < whetherAttendList.size - 1) this.append(",")
+            }
+        }.toString()
     }
 }

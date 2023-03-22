@@ -130,8 +130,6 @@ fun KakaoLoginView(modifier: Modifier) {
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            Log.e("response!!", error.toString())
-            Log.e("젠장",Utility.getKeyHash(mContext))
             val errorMessage = when(error.toString()) {
                 AuthErrorCause.AccessDenied.toString() -> "접근이 거부 됨(동의 취소)"
                 AuthErrorCause.InvalidClient.toString() -> "유효하지 않은 앱"
