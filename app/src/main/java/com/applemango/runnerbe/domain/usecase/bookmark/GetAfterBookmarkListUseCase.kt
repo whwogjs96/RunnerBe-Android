@@ -13,8 +13,8 @@ class GetAfterBookmarkListUseCase @Inject constructor(private val repo: PostRepo
             emit(CommonResponse.Loading)
             repo.getBookmarkList(userId)
         }.onSuccess {
-            if(it is CommonResponse.Success<*> && it.body is GetBookmarkResponse) {
-                val result = it.body.result.bookMarkList.filter { post -> post.runningTag == "A" }
+            if(it is CommonResponse.Success<*> && it.body is GetBookmarkResponse && it.body.result.bookMarkList != null) {
+                val result = it.body.result.bookMarkList!!.filter { post -> post.runningTag == "A" }
                 it.body.result.bookMarkList = result
             }
             emit(it)

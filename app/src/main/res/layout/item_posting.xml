@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:text="@{item.endCheck()}"
+                android:text="@{item.title}"
                 android:textColor="@color/dark_g2"
                 android:textSize="18sp"/>
 

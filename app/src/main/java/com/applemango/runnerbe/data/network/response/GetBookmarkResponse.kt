@@ -8,5 +8,5 @@ data class GetBookmarkResponse(
 ) : BaseResponse()
 
 data class BookmarkList(
-    @SerializedName("bookMarkList") var bookMarkList: List<Posting>
+    @SerializedName("bookMarkList") var bookMarkList: List<Posting>?
 )

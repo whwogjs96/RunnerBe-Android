@@ -45,9 +45,9 @@ class BookMarkViewModel @Inject constructor(
                 getBeforeBookmarkListUseCase(userId = RunnerBeApplication.mTokenPreference.getUserId())
             }
         }.collect {
-            if(it is CommonResponse.Success<*> && it.body is GetBookmarkResponse) {
+            if(it is CommonResponse.Success<*> && it.body is GetBookmarkResponse && it.body.result.bookMarkList != null) {
                 bookmarkList.clear()
-                bookmarkList.addAll(it.body.result.bookMarkList)
+                bookmarkList.addAll(it.body.result.bookMarkList!!)
             }
         }
     }

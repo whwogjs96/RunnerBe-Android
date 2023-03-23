@@ -65,7 +65,19 @@ data class Posting(
     }
 
     fun groupString(): String {
-        return this.gender+" "+this.age
+        return try {
+            val min = this.age.split("-")[0].toInt()
+            if(min < 20) return genderString()
+            else genderString()+" "+this.age
+        }catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            genderString()+" "+this.age
+        }
+    }
+
+    fun genderString() : String {
+        return if(this.gender =="전체") this.gender
+        else this.gender+"만"
     }
 
     //이거 데이터바인딩 시에 너무 자주 도는 이유를 찾자
@@ -78,8 +90,6 @@ data class Posting(
             val startTime = dateStringToLongTime(gatheringTime)
             val runningTime = timeStringToLongTime(this.runningTime)
             return if(now.time - startTime > 0) {
-                Log.e("남은 시간", (startTime + threeHour + runningTime).toString())
-                Log.e("현재 시간", now.time.toString())
                 if(startTime + threeHour + runningTime - now.time > 0) R.string.attendance_managing //여기 소요시간도 추가할 것
                 else R.string.attendance_see
             } else R.string.msg_attendance_waiting

@@ -152,4 +152,14 @@ object NetworkModule {
     @Singleton
     fun provideRunningTalkDetail(retrofit: Retrofit) : GetRunningTalkDetailApi =
         retrofit.create(GetRunningTalkDetailApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMessageSend(retrofit: Retrofit) : MessageSendApi =
+        retrofit.create(MessageSendApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMessageReport(retrofit: Retrofit): MessageReportApi =
+        retrofit.create(MessageReportApi::class.java)
 }

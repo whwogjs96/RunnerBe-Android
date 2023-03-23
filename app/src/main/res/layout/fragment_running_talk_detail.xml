@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="fragment"
             type="com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailFragment" />
@@ -48,20 +49,36 @@
                 android:textColor="@color/dark_g3_5"
                 android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/reportButton"
-                app:layout_constraintStart_toEndOf="@+id/backButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/reportButton"
+                android:id="@+id/reportOnButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
                 android:src="@drawable/ic_report_24"
+                android:onClick="@{() -> vm.setDeclaration(true)}"
+                android:visibility="@{vm.isDeclaration()? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/reportButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:onClick="@{() -> fragment.showReportDialog()}"
+                android:visibility="@{vm.isDeclaration()? View.VISIBLE : View.GONE}"
+                android:text="신고"
+                android:textColor="@color/dark_g4"
+                android:textSize="16sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -108,10 +125,12 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messageRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="20dp"
+            messageAdapter="@{vm.messageList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/titleLayout"
             app:layout_constraintBottom_toTopOf="@id/messageSendLayout"/>
@@ -130,11 +149,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginLeft="14dp"
+                    android:maxLines="1"
                     android:paddingTop="6dp"
                     android:paddingBottom="8dp"
                     android:paddingHorizontal="12dp"
                     android:background="@drawable/bg_dark_5g_solid_radius_20"
                     android:hint="내용을 입력하세요."
+                    android:text="@={vm.message}"
                     android:textColorHint="@color/dark_g3_5"
                     android:textColor="@color/dark_g1"
                     android:textSize="14sp"/>
@@ -142,7 +163,9 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_send_g3_5"
+                    isEnabled="@{vm.message.length() > 0}"
+                    android:onClick="@{() -> vm.messageSend(vm.message)}"
+                    android:src="@drawable/selector_send"
                     android:layout_gravity="center"
                     android:layout_marginRight="18dp"
                     android:layout_marginLeft="12dp"/>

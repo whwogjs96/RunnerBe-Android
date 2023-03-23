@@ -85,6 +85,20 @@ fun getDateList(range : Int) : List<String> {
     }
 }
 
+fun getMonthAndDay(date: String): String {
+    return try {
+        val stringToDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val temp = date.replace("T", " ").replace("Z", " ")
+        val to: Date = stringToDate.parse(temp)
+        val dateToString = SimpleDateFormat("MM/dd")
+        dateToString.format(to)
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+        ""
+    }
+
+}
+
 fun getYearListByDay(range: Int) : List<String> {
     val format = SimpleDateFormat("yyyy")
     val cal = Calendar.getInstance()

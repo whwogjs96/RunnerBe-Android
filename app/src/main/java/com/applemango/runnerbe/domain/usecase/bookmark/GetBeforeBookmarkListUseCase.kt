@@ -1,5 +1,6 @@
 package com.applemango.runnerbe.domain.usecase.bookmark
 
+import android.util.Log
 import com.applemango.runnerbe.data.network.response.GetBookmarkResponse
 import com.applemango.runnerbe.domain.repository.PostRepository
 import com.applemango.runnerbe.presentation.state.CommonResponse
@@ -13,8 +14,9 @@ class GetBeforeBookmarkListUseCase @Inject constructor(private val repo: PostRep
             emit(CommonResponse.Loading)
             repo.getBookmarkList(userId)
         }.onSuccess {
-            if(it is CommonResponse.Success<*> && it.body is GetBookmarkResponse) {
-                val result = it.body.result.bookMarkList.filter { post -> post.runningTag == "B" }
+            Log.e("지랄 마.", it.toString())
+            if(it is CommonResponse.Success<*> && it.body is GetBookmarkResponse && it.body.result.bookMarkList != null) {
+                val result = it.body.result.bookMarkList!!.filter { post -> post.runningTag == "B" }
                 it.body.result.bookMarkList = result
             }
             emit(it)

@@ -98,11 +98,11 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
                 }
             }
             binding.termsOfServiceButton -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://runnerbe.xyz/policy/service.txt"))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Service.txt"))
                 startActivity(intent)
             }
             binding.privacyPolicyButton -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://runnerbe.xyz/policy/privacy-deal.txt"))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Privacy_deal.txt "))
                 startActivity(intent)
             }
             binding.instagramButton -> {
