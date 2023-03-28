@@ -55,10 +55,14 @@ class RunningFilterFragment :
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    setFragmentResult("filter", viewModel.getFilterToBundle())
-                    navPopStack()
+                    goBack()
                 }
             })
+    }
+
+    override fun goBack() {
+        setFragmentResult("filter", viewModel.getFilterToBundle())
+        navPopStack()
     }
 
     fun refresh() {

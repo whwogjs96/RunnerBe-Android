@@ -66,7 +66,7 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
         _binding = null
     }
 
-    fun goBack() {
+    open fun goBack() {
         navPopStack()
     }
     fun activityFinish() {
