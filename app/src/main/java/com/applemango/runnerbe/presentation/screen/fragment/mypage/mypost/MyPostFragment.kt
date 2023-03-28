@@ -44,4 +44,8 @@ class MyPostFragment : BaseFragment<FragmentMyPostBinding>(R.layout.fragment_my_
         }
 
     }
+
+    fun writeClickEvent() {
+        navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
+    }
 }
