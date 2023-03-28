@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
 
+        <variable
+            name="vm"
+            type="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.year.AdditionalYearInfoSelectViewModel" />
         <variable
             name="fragment"
             type="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.year.AdditionalYearInfoSelectFragment" />
@@ -112,6 +116,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{vm.isUnder19() ? View.VISIBLE : View.GONE}"
             android:text="@string/description_age_limit"
             android:textColor="@color/error_light"
             android:textSize="12sp"
@@ -125,6 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            isEnabled="@{!vm.isUnder19()}"
             android:onClick="@{() -> fragment.moveToNext()}"
             android:text="@string/next"
             android:textColor="@color/tc_enable_dark3_5g_black"

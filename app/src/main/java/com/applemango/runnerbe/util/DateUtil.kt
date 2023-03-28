@@ -123,3 +123,5 @@ fun getYearListByYear(untilYear: Int, range : Int) : List<String> {
         format.format(cal.time)
     }
 }
+
+fun getNowYear() = SimpleDateFormat("yyyy").format(Calendar.getInstance().time)
