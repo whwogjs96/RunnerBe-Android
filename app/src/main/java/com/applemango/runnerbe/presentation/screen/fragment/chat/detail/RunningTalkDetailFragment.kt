@@ -1,28 +1,26 @@
 package com.applemango.runnerbe.presentation.screen.fragment.chat.detail
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.applemango.runnerbe.R
-import com.applemango.runnerbe.RunnerBeApplication
-import com.applemango.runnerbe.data.dto.Messages
-import com.applemango.runnerbe.data.dto.Room
 import com.applemango.runnerbe.databinding.FragmentRunningTalkDetailBinding
-import com.applemango.runnerbe.presentation.model.listener.RoomClickListener
 import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
-import com.applemango.runnerbe.presentation.screen.fragment.main.MainFragmentDirections
 import com.applemango.runnerbe.presentation.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class RunningTalkDetailFragment :
@@ -50,6 +48,8 @@ class RunningTalkDetailFragment :
                 else navPopStack()
             }
         })
+
+        binding.topMessageLayout.setOnClickListener{ hideKeyBoard() }
     }
 
     private fun observeBind() {

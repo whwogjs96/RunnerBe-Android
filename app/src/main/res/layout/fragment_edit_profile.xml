@@ -8,6 +8,10 @@
         <variable
             name="buttonClick"
             type="android.widget.CompoundButton.OnCheckedChangeListener" />
+
+        <variable
+            name="fragment"
+            type="com.applemango.runnerbe.presentation.screen.fragment.mypage.editprofile.EditProfileFragment" />
         <variable
             name="vm"
             type="com.applemango.runnerbe.presentation.screen.fragment.mypage.editprofile.EditProfileViewModel" />
@@ -33,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_back"
+                android:onClick="@{() -> fragment.goBack()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -79,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
+                android:text="@={vm.name}"
                 android:enabled="@{(vm.userInfo.nameChanged.equals(String.valueOf('N')))}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/name_change_btn"
@@ -98,7 +104,7 @@
                 android:id="@+id/name_change_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="@{(vm.userInfo.nameChanged.equals(String.valueOf('N')))}"
+                android:enabled="@{vm.isNameChangeEnable(vm.name, vm.userInfo.nameChanged)}"
                 app:layout_constraintTop_toTopOf="@id/user_name_edit"
                 app:layout_constraintBottom_toBottomOf="@id/user_name_edit"
                 app:layout_constraintRight_toRightOf="parent"

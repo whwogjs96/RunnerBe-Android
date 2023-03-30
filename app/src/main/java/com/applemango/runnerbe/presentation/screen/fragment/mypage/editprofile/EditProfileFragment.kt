@@ -29,6 +29,7 @@ class EditProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+        binding.fragment = this
         binding.buttonClick = jobButtonClick()
         viewModel.userInfo.value = args.userData
         observeBind()
@@ -43,7 +44,7 @@ class EditProfileFragment :
     private fun observeBind() {
         viewModel.userInfo.observe(viewLifecycleOwner) {
             if (it.nameChanged == "Y") {
-                binding.userNameEdit.setText("${it.nickName} (disabled)")
+                viewModel.name.value = it.nickName?:""
             }
             initJob()
         }

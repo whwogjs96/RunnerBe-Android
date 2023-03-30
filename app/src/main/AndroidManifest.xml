@@ -56,6 +56,7 @@
 
         <activity android:name=".presentation.screen.activity.HomeActivity"
             android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
