@@ -56,6 +56,10 @@ class RunningTalkDetailFragment :
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             launch {
                 viewModel.messageSendUiState.collect {
+                    context?.let { context ->
+                        if (it is UiState.Loading) showLoadingDialog(context)
+                        else dismissLoadingDialog()
+                    }
                     when (it) {
                         is UiState.Success -> {
                             refresh()

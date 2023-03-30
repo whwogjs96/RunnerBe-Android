@@ -4,6 +4,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.domain.usecase.post.PostClosingUseCase
@@ -23,6 +24,7 @@ class WaitingRunnerViewModel @Inject constructor(
     private val postClosingUseCase: PostClosingUseCase
 ) : ViewModel() {
     var post: Posting? = null
+    var roomId : Int? = null
     val waitingInfo: ObservableArrayList<UserInfo> = ObservableArrayList()
 
     private val _acceptUiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)

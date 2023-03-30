@@ -117,7 +117,7 @@ class PostDetailSheetDialog(var posting: Posting, private val postListener: Post
     }
 
     fun showAppliedRunnerListDialog() {
-        WaitingRunnerListDialog(viewModel.waitingInfo, viewModel).show(
+        WaitingRunnerListDialog(viewModel.waitingInfo, viewModel, postListener, viewModel.roomId).show(
             childFragmentManager,
             "appliedRunner"
         )
