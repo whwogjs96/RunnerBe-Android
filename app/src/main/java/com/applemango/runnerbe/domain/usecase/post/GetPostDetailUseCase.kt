@@ -26,7 +26,8 @@ class GetPostDetailUseCase @Inject constructor(private val repo: PostRepository)
                                 it.body.code,
                                 it.body.result.postList[0],
                                 it.body.result.runnerInfo,
-                                it.body.result.waitingRunnerInfo
+                                it.body.result.waitingRunnerInfo,
+                                it.body.result.roomId
                             )
                         )
                     )
@@ -45,5 +46,6 @@ data class PostDetailManufacture(
     val code: Int,
     val post: Posting,
     val runnerInfo: List<UserInfo>?,
-    val waitingInfo: List<UserInfo>?
+    val waitingInfo: List<UserInfo>?,
+    val roomId: Int
 )

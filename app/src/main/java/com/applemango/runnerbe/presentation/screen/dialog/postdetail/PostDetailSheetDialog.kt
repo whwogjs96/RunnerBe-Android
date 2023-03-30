@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.presentation.screen.dialog.postdetail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -9,8 +10,7 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.databinding.DialogPostDetailBinding
-import com.applemango.runnerbe.presentation.model.JobButtonId
-import com.applemango.runnerbe.presentation.model.listener.DialogCloseListener
+import com.applemango.runnerbe.presentation.model.listener.PostDialogListener
 import com.applemango.runnerbe.presentation.screen.dialog.CustomBottomSheetDialog
 import com.applemango.runnerbe.presentation.screen.dialog.appliedrunner.WaitingRunnerListDialog
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PostDetailSheetDialog(var posting: Posting, private val closeListener: DialogCloseListener) :
+class PostDetailSheetDialog(var posting: Posting, private val postListener: PostDialogListener) :
     CustomBottomSheetDialog<DialogPostDetailBinding>(R.layout.dialog_post_detail) {
 
     private val viewModel: PostDetailViewModel by viewModels()
@@ -40,6 +40,12 @@ class PostDetailSheetDialog(var posting: Posting, private val closeListener: Dia
 
     fun refresh() {
         viewModel.getPostDetail(posting.postId, RunnerBeApplication.mTokenPreference.getUserId())
+    }
+
+    fun moveToMessage() {
+        viewModel.roomId?.let {
+            postListener.moveToMessage(it, viewModel.post.value?.nickName)
+        }
     }
 
     fun observeBind() {
@@ -91,7 +97,7 @@ class PostDetailSheetDialog(var posting: Posting, private val closeListener: Dia
 
     override fun onDestroyView() {
         super.onDestroyView()
-        closeListener.dismiss()
+        postListener.dismiss()
     }
 
     fun setPost(changePosting: Posting) {

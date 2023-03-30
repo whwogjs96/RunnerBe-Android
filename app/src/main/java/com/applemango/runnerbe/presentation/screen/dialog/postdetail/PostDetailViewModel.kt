@@ -30,6 +30,7 @@ class PostDetailViewModel @Inject constructor(
 
     private var isApplyComplete : Boolean = false //내가 신청한 모임이면 true
     val post: MutableLiveData<Posting> = MutableLiveData()
+    var roomId: Int?= null
     val waitingInfo: ObservableArrayList<UserInfo> = ObservableArrayList()
     val runnerInfo: ObservableArrayList<UserInfo> = ObservableArrayList()
     private val _processUiState : MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
@@ -47,6 +48,7 @@ class PostDetailViewModel @Inject constructor(
                 it.body.runnerInfo?.let { runnerList -> runnerInfo.addAll(runnerList) }
                 waitingInfo.clear()
                 it.body.waitingInfo?.let { waitingList -> waitingInfo.addAll(waitingList) }
+                roomId = it.body.roomId
             }
         }
     }
@@ -93,6 +95,9 @@ class PostDetailViewModel @Inject constructor(
             else !isApplyComplete
         }
     }
+
+    fun isParticipatePostIn(posting: Posting): Boolean =
+        runnerInfo.any { it.userId == RunnerBeApplication.mTokenPreference.getUserId() }
 
     fun isPostClose(): Boolean = post.value?.whetherEnd == "Y"
     fun isMyPost(): Boolean =
