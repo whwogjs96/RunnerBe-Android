@@ -60,6 +60,9 @@ class RunningTalkDetailViewModel @Inject constructor(
                     is CommonResponse.Failed -> {
                         _messageSendUiState.emit(UiState.Failed(response.message))
                     }
+                    is CommonResponse.Loading -> {
+                        _messageReportUiState.emit(UiState.Loading)
+                    }
                 }
             }
         }

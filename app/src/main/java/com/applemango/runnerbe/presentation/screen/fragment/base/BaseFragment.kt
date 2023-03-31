@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -66,7 +67,7 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
         _binding = null
     }
 
-    fun goBack() {
+    open fun goBack() {
         navPopStack()
     }
     fun activityFinish() {
@@ -127,4 +128,8 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
         NoAdditionalInfoDialog().show(childFragmentManager, TAG)
     }
 
+    fun hideKeyBoard() {
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+    }
 }

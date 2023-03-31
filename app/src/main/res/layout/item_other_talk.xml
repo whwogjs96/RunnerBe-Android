@@ -42,6 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="230dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="12dp"
             android:layout_gravity="left"
             android:background="@{item.whetherPostUser.equals(String.valueOf('Y')) ? @drawable/bg_other_talk_organizer : @drawable/bg_other_talk_participants}"
             android:paddingHorizontal="12dp"

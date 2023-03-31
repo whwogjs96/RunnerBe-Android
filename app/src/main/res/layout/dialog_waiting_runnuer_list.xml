@@ -89,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
+                android:onClick="@{() -> dialog.moveToMessage()}"
                 android:src="@drawable/selector_message_circle"/>
 
             <androidx.appcompat.widget.AppCompatTextView

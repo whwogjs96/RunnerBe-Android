@@ -34,17 +34,17 @@ class AgreeToTermsFragment :BaseFragment<FragmentAgreeToTermsBinding>(R.layout.f
     }
 
     fun moveToServiceUseTerms() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://runnerbe.xyz/policy/service.txt"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Service.txt"))
         startActivity(intent)
     }
 
     fun moveToPrivacyTerms() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://runnerbe.xyz/policy/privacy-collect.txt"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Privacy_Collect.txt"))
         startActivity(intent)
     }
 
     fun moveToLocationServiceUseTerms() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://runnerbe.xyz/policy/location.txt"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Location.txt"))
         startActivity(intent)
     }
 

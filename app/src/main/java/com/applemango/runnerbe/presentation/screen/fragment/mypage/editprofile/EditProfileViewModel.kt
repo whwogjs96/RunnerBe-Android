@@ -1,5 +1,6 @@
 package com.applemango.runnerbe.presentation.screen.fragment.mypage.editprofile
 
+import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import com.applemango.runnerbe.domain.usecase.JobChangeUseCase
 import com.applemango.runnerbe.domain.usecase.NicknameChangeUseCase
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +23,7 @@ class EditProfileViewModel @Inject constructor(
 
     val userInfo : MutableLiveData<UserInfo> = MutableLiveData()
     val radioChecked : MutableLiveData<Int> = MutableLiveData()
+    val name: MutableStateFlow<String> = MutableStateFlow("")
     var currentJob : String = ""
     private val _nicknameChangeState : MutableLiveData<UiState> = MutableLiveData()
     val nicknameChangeState get() = _nicknameChangeState
@@ -58,4 +61,6 @@ class EditProfileViewModel @Inject constructor(
             )
         }
     }
+
+    fun isNameChangeEnable(name: String, nameChange: String) = nameChange == "N" && name.isNotEmpty()
 }

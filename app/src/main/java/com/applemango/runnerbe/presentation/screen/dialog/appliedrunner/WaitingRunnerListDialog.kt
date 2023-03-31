@@ -17,6 +17,7 @@ import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.databinding.DialogWaitingRunnuerListBinding
 import com.applemango.runnerbe.presentation.model.listener.PostAcceptListener
+import com.applemango.runnerbe.presentation.model.listener.PostDialogListener
 import com.applemango.runnerbe.presentation.screen.dialog.CustomBottomSheetDialog
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.dialog.postdetail.PostDetailViewModel
@@ -30,7 +31,9 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class WaitingRunnerListDialog(
     private val waitingList: ObservableArrayList<UserInfo>,
-    private val detailViewModel: PostDetailViewModel
+    private val detailViewModel: PostDetailViewModel,
+    private val postListener: PostDialogListener,
+    private val roomId: Int?
 ) : CustomBottomSheetDialog<DialogWaitingRunnuerListBinding>(R.layout.dialog_waiting_runnuer_list) {
 
     private val viewModel: WaitingRunnerViewModel by viewModels()
@@ -71,6 +74,12 @@ class WaitingRunnerListDialog(
         }
     }
 
+    fun moveToMessage() {
+        roomId?.let {
+            postListener.moveToMessage(it, viewModel.post?.nickName)
+        }
+    }
+
     fun clickBottomButton() {
         context?.let {
             TwoButtonDialog.createShow(
@@ -86,9 +95,7 @@ class WaitingRunnerListDialog(
         }
     }
 
-    fun goBack() {
-        dismiss()
-    }
+    fun goBack() { dismiss() }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val sheetDialog = super.onCreateDialog(savedInstanceState)

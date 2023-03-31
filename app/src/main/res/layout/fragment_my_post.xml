@@ -52,6 +52,7 @@
             android:id="@+id/emptyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> fragment.writeClickEvent()}"
             android:visibility="@{vm.myPosts.size() > 0 ? View.GONE : View.VISIBLE}"
             app:layout_constraintTop_toBottomOf="@id/emptyTextView"
             app:layout_constraintLeft_toLeftOf="parent"
