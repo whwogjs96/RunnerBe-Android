@@ -33,6 +33,7 @@ import com.applemango.runnerbe.presentation.model.LoginType
 import com.applemango.runnerbe.data.network.request.SocialLoginRequest
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.screen.activity.HomeActivity
+import com.applemango.runnerbe.ui.theme.aggro
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
@@ -118,6 +119,7 @@ fun LogoAndTextView(modifier: Modifier) {
             color = colorResource(id = R.color.primary),
             fontSize = 50.sp,
             textAlign = TextAlign.Center,
+            fontFamily = aggro,
             fontWeight = FontWeight.Bold,
         )
     }
