@@ -203,8 +203,9 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         }
     }
     fun writeClickEvent() {
-        
-        navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
+        checkAdditionalUserInfo{
+            navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
+        }
     }
 
     fun filterClick() {
