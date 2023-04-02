@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +36,7 @@ import com.applemango.runnerbe.data.network.request.SocialLoginRequest
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.screen.activity.HomeActivity
 import com.applemango.runnerbe.ui.theme.aggro
+import com.applemango.runnerbe.ui.theme.notoSans
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
@@ -41,6 +44,7 @@ import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
+
 
 
 @Composable
@@ -54,7 +58,7 @@ fun LoginView(
     viewModel.isTokenCheck()
     isTokenCheck.value?.let {
         isLoginViewVisible = !it
-        if(it){
+        if (it) {
             mContext.startActivity(Intent(mContext, HomeActivity::class.java))
             mContext.finish()
         }
@@ -101,7 +105,7 @@ fun LogoAndTextView(modifier: Modifier) {
     val mContext = LocalContext.current as ComponentActivity
     LaunchedEffect(viewModel.isSocialLogin) {
         viewModel.isSocialLogin.collect {
-            when(it) {
+            when (it) {
                 is CommonResponse.Success<*> -> {
                     mContext.startActivity(Intent(mContext, HomeActivity::class.java))
                     mContext.finish()
@@ -120,7 +124,7 @@ fun LogoAndTextView(modifier: Modifier) {
             fontSize = 50.sp,
             textAlign = TextAlign.Center,
             fontFamily = aggro,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
     }
 }
@@ -132,7 +136,7 @@ fun KakaoLoginView(modifier: Modifier) {
 
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            val errorMessage = when(error.toString()) {
+            val errorMessage = when (error.toString()) {
                 AuthErrorCause.AccessDenied.toString() -> "접근이 거부 됨(동의 취소)"
                 AuthErrorCause.InvalidClient.toString() -> "유효하지 않은 앱"
                 AuthErrorCause.InvalidGrant.toString() -> "인증 수단이 유효하지 않아 인증할 수 없는 상태"
@@ -159,8 +163,8 @@ fun KakaoLoginView(modifier: Modifier) {
 
             /* 카카오 로그인 기능 */
             var keyHash = Utility.getKeyHash(mContext)
-            Log.i("keyHash",keyHash)
-            KakaoSdk.init(mContext,mContext.getString(R.string.kakao_native_key))
+            Log.i("keyHash", keyHash)
+            KakaoSdk.init(mContext, mContext.getString(R.string.kakao_native_key))
 
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(mContext)) {
                 UserApiClient.instance.loginWithKakaoTalk(mContext, callback = callback)
@@ -177,12 +181,14 @@ fun KakaoLoginView(modifier: Modifier) {
             Image(
                 painter = painterResource(id = R.drawable.ic_kakao_logo),
                 contentDescription = "kakao logo",
-                modifier = Modifier.align(Alignment.TopStart)
+                modifier = Modifier.align(Alignment.CenterStart)
             )
             Text(
                 text = stringResource(id = R.string.login_kakao),
                 color = colorResource(id = R.color.black_19),
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp
             )
         }
     }
@@ -196,7 +202,7 @@ fun NaverLoginView(modifier: Modifier, navController: NavController) {
         onClick = {
 
             /* 네이버 로그인 기능 */
-            var naverToken : String
+            var naverToken: String
             NaverIdLoginSDK.initialize(
                 mContext,
                 mContext.getString(R.string.login_naver_client_id),
@@ -238,12 +244,14 @@ fun NaverLoginView(modifier: Modifier, navController: NavController) {
             Image(
                 painter = painterResource(id = R.drawable.ic_naver_logo),
                 contentDescription = "naver logo",
-                modifier = Modifier.align(Alignment.TopStart)
+                modifier = Modifier.align(Alignment.CenterStart)
             )
             Text(
                 text = stringResource(id = R.string.login_naver),
                 color = colorResource(id = R.color.white),
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.TopCenter),
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp
             )
         }
     }

@@ -35,3 +35,10 @@ val aggro = FontFamily(
     Font(R.font.sb_aggro_otf_medium, FontWeight.Medium, FontStyle.Normal),
     Font(R.font.sb_aggro_otf_bold, FontWeight.Bold, FontStyle.Normal)
 )
+
+val notoSans = FontFamily(
+    Font(R.font.noto_sans_cj_kkr_bold, FontWeight.Bold, FontStyle.Normal),
+    Font(R.font.noto_sans_cj_kkr_light, FontWeight.Light, FontStyle.Normal),
+    Font(R.font.noto_sans_cj_kkr_medium, FontWeight.Medium, FontStyle.Normal),
+    Font(R.font.noto_sans_cj_kkr_regular, FontWeight.Normal, FontStyle.Normal)
+)
