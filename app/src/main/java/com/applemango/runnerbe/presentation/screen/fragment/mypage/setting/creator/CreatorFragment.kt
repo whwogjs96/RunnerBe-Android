@@ -15,6 +15,7 @@ class CreatorFragment: BaseFragment<FragmentCreatorsBinding>(R.layout.fragment_c
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+        binding.fragment = this
         binding.creatorRecyclerView.layoutManager = GridLayoutManager(context, 2)
         context?.let {
             binding.creatorRecyclerView.addItemDecoration(

@@ -115,10 +115,10 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
             mLoadingDialog?.dismiss()
         }
     }
-    fun checkAdditionalUserInfo() {
+    fun checkAdditionalUserInfo(isFullEvent : () -> Unit = {}) {
         if(RunnerBeApplication.mTokenPreference.getUserId() <= 0) {
             showAdditionalInfoDialog()
-        }
+        } else isFullEvent()
     }
     private fun showAdditionalInfoDialog() {
         val prev = parentFragmentManager.findFragmentByTag(TAG)

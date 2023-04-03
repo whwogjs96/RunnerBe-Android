@@ -2,9 +2,12 @@ package com.applemango.runnerbe.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.applemango.runnerbe.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -25,4 +28,17 @@ val Typography = Typography(
         fontSize = 12.sp
     )
     */
+)
+
+val aggro = FontFamily(
+    Font(R.font.sb_aggro_otf_light, FontWeight.Light, FontStyle.Normal),
+    Font(R.font.sb_aggro_otf_medium, FontWeight.Medium, FontStyle.Normal),
+    Font(R.font.sb_aggro_otf_bold, FontWeight.Bold, FontStyle.Normal)
+)
+
+val notoSans = FontFamily(
+    Font(R.font.noto_sans_cj_kkr_bold, FontWeight.Bold, FontStyle.Normal),
+    Font(R.font.noto_sans_cj_kkr_light, FontWeight.Light, FontStyle.Normal),
+    Font(R.font.noto_sans_cj_kkr_medium, FontWeight.Medium, FontStyle.Normal),
+    Font(R.font.noto_sans_cj_kkr_regular, FontWeight.Normal, FontStyle.Normal)
 )
