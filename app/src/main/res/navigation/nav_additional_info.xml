@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_agreeToTermsFragment_to_yearInfoFragment"
             app:destination="@id/yearInfoFragment" />
+        <action
+            android:id="@+id/action_agreeToTermsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/yearInfoFragment"
@@ -46,4 +49,17 @@
         tools:layout="@layout/fragment_adiitional_register_complete"
         android:name="com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.complete.RegisterCompleteFragment"
         android:label="RegisterCompleteFragment" />
+    <fragment
+        android:id="@+id/webViewFragment"
+        tools:layout="@layout/fragment_web_view"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.base.WebViewFragment"
+        android:label="WebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string"/>
+
+        <argument
+            android:name="title"
+            app:argType="string"/>
+    </fragment>
 </navigation>

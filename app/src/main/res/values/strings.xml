@@ -17,6 +17,10 @@
     <string name="hour">시간</string>
     <string name="minute">분</string>
 
+    <string name="terms_of_service">이용 약관</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="use_a_location_service">위치기반 서비스 이용약관</string>
+
     <string name="creators">만든 사람들</string>
 
     <string name="join_runner">참여한 러너</string>

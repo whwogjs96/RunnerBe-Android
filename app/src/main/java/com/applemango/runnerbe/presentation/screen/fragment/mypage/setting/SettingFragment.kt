@@ -23,10 +23,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings), View.OnClickListener {
+class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings),
+    View.OnClickListener {
 
-    private val viewModel : SettingViewModel by viewModels()
-    private val args : SettingFragmentArgs by navArgs()
+    private val viewModel: SettingViewModel by viewModels()
+    private val args: SettingFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,17 +46,17 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
 
     private fun observeBind() {
         viewModel.logoutState.observe(viewLifecycleOwner) {
-            if(it) {
+            if (it) {
                 moveToLoginActivity()
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.withdrawalState.collectLatest {
                 context?.let { context ->
-                    if(it is UiState.Loading) showLoadingDialog(context)
+                    if (it is UiState.Loading) showLoadingDialog(context)
                     else dismissLoadingDialog()
                 }
-                when(it) {
+                when (it) {
                     is UiState.NetworkError -> {
                         //오프라인 발생 어쩌구 다이얼로그
                     }
@@ -84,7 +85,7 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
     }
 
     override fun onClick(v: View?) {
-        when(v) {
+        when (v) {
             binding.logoutBtn -> {
                 context?.let {
                     TwoButtonDialog.createShow(
@@ -92,21 +93,30 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
                         firstButtonText = resources.getString(R.string.no),
                         secondButtonText = resources.getString(R.string.yes),
                         firstEvent = {},
-                        secondEvent = {viewModel.logout()},
+                        secondEvent = { viewModel.logout() },
                         title = resources.getString(R.string.question_logout)
                     )
                 }
             }
             binding.termsOfServiceButton -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Service.txt"))
-                startActivity(intent)
+                navigate(
+                    SettingFragmentDirections.actionSettingFragmentToWebViewFragment(
+                        title = resources.getString(R.string.terms_of_service),
+                        url = "https://raw.githubusercontent.com/runner-be/runner-be.github.io/main/Policy_Service.txt"
+                    )
+                )
             }
             binding.privacyPolicyButton -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Privacy_deal.txt "))
-                startActivity(intent)
+                navigate(
+                    SettingFragmentDirections.actionSettingFragmentToWebViewFragment(
+                        title = resources.getString(R.string.privacy_policy),
+                        url = "https://raw.githubusercontent.com/runner-be/runner-be.github.io/main/Policy_Privacy_deal.txt"
+                    )
+                )
             }
             binding.instagramButton -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/runner_be_/"))
+                val intent =
+                    Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/runner_be_/"))
                 startActivity(intent)
             }
             binding.makers -> {
@@ -119,7 +129,7 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_
                         firstButtonText = resources.getString(R.string.no),
                         secondButtonText = resources.getString(R.string.yes),
                         firstEvent = {},
-                        secondEvent = {withdrawal()},
+                        secondEvent = { withdrawal() },
                         title = resources.getString(R.string.question_withdrawal)
                     )
                 }

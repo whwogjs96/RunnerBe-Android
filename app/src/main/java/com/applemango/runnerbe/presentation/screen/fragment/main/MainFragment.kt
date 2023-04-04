@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.presentation.screen.fragment.main
 
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,10 @@ class MainFragment: BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         pageSetting()
         observeBind()
+        val sha1 = byteArrayOf(
+            0xE4.toByte(), 0xE4.toByte(), 0x34, 0xFF.toByte(), 0x4D, 0x03, 0xD4.toByte(), 0x8C.toByte(), 0x0A, 0x33, 0x4B, 0x43, 0x7C, 0xC4.toByte(), 0x74, 0x3C, 0xAE.toByte(), 0xA5.toByte(), 0x83.toByte(), 0x89.toByte()
+        )
+        Log.e("젠장", "keyHash: " + Base64.encodeToString(sha1, Base64.NO_WRAP))
         setFragmentResultListener("filter") {  _, bundle ->
             viewModel.setFilter(
                 gender = bundle.getString("gender"),
