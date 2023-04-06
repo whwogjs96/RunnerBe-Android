@@ -10,6 +10,7 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentAgreeToTermsBinding
 import com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.terms.AgreeToTermsViewModel
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.SettingFragmentDirections
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -34,18 +35,30 @@ class AgreeToTermsFragment :BaseFragment<FragmentAgreeToTermsBinding>(R.layout.f
     }
 
     fun moveToServiceUseTerms() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Service.txt"))
-        startActivity(intent)
+        navigate(
+            AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToWebViewFragment(
+                title = resources.getString(R.string.terms_of_service),
+                url = "https://raw.githubusercontent.com/runner-be/runner-be.github.io/main/Policy_Service.txt"
+            )
+        )
     }
 
     fun moveToPrivacyTerms() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Privacy_Collect.txt"))
-        startActivity(intent)
+        navigate(
+            AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToWebViewFragment(
+                title = resources.getString(R.string.privacy_policy),
+                url = "https://raw.githubusercontent.com/runner-be/runner-be.github.io/main/Policy_Privacy_Collect.txt"
+            )
+        )
     }
 
     fun moveToLocationServiceUseTerms() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/runner-be/runner-be.github.io/blob/main/Policy_Location.txt"))
-        startActivity(intent)
+        navigate(
+            AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToWebViewFragment(
+                title = resources.getString(R.string.use_a_location_service),
+                url = "https://raw.githubusercontent.com/runner-be/runner-be.github.io/main/Policy_Location.txt"
+            )
+        )
     }
 
     fun moveToNext() {

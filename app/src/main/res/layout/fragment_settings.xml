@@ -116,7 +116,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="18dp"
-            android:text="이용 약관"
+            android:text="@string/terms_of_service"
             android:textSize="14dp"
             android:textColor="@color/dark_g1"
             android:fontFamily="sans-serif-light"/>
@@ -129,7 +129,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="18dp"
-            android:text="개인정보 처리방침"
+            android:text="@string/privacy_policy"
             android:textSize="14dp"
             android:textColor="@color/dark_g1"
             android:fontFamily="sans-serif-light"/>
