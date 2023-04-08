@@ -101,7 +101,10 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
-        checkAdditionalUserInfo()
+        viewLifecycleOwner.lifecycleScope.launch {
+            mainViewModel.isShowInfoDialog.emit(true)
+        }
+
     }
 
     override fun onPause() {

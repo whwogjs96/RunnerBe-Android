@@ -59,7 +59,9 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
     }
     override fun onResume() {
         super.onResume()
-        checkAdditionalUserInfo()
+        viewLifecycleOwner.lifecycleScope.launch {
+            mainViewModel.isShowInfoDialog.emit(true)
+        }
     }
 
     private fun observeBind() {
