@@ -56,6 +56,9 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         context?.let {
             binding.postListLayout.postRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            mainViewModel.isShowInfoDialog.emit(true)
+        }
         binding.fragment = this
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
@@ -101,10 +104,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
-        viewLifecycleOwner.lifecycleScope.launch {
-            mainViewModel.isShowInfoDialog.emit(true)
-        }
-
     }
 
     override fun onPause() {
