@@ -146,7 +146,7 @@ class RunningWriteOneFragment :
                 mNaverMap.cameraPosition.target.longitude
             )
             map = mNaverMap
-            icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
+            icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker_no_profile)
             this.setOnClickListener {
                 val marker = it as Marker
                 if (marker.infoWindow == null) {

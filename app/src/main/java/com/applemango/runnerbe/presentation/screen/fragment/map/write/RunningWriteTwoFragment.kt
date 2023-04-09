@@ -133,7 +133,7 @@ class RunningWriteTwoFragment :
         centerMarker?.apply {
             position = LatLng(lat, lng)
             map = mNaverMap
-            icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
+            icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker_no_profile)
         }
 
         mNaverMap.moveCamera(CameraUpdate.scrollTo(viewModel.oneData.value.coordinate))
