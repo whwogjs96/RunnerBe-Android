@@ -6,6 +6,7 @@
     <data>
 
         <import type="com.applemango.runnerbe.util.ResourceUtil"/>
+        <import type="android.view.View"/>
         <variable
             name="myPageViewModel"
             type="com.applemango.runnerbe.presentation.screen.fragment.mypage.MyPageViewModel" />
@@ -56,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:fontFamily="sans-serif-light"
-                android:text="@{myPageViewModel.userInfo.nickName}"
+                nick_name_text="@{myPageViewModel.userInfo.nickName}"
                 android:textColor="@color/dark_g1"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toRightOf="@id/profileImageView"
@@ -68,7 +69,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="@{@string/comma_text(myPageViewModel.userInfo.gender, myPageViewModel.userInfo.age)}"
+                gender_text="@{myPageViewModel.userInfo.gender}"
+                age_text="@{myPageViewModel.userInfo.age}"
                 android:textColor="@color/dark_g3_5"
                 android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="@id/userNameView"
@@ -89,6 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:visibility="@{myPageViewModel.userInfo.diligence == null ? View.GONE : View.VISIBLE}"
                 android:background="@drawable/bg_radius_20_dark_g4_stroke"
                 app:layout_constraintLeft_toLeftOf="@id/user_status"
                 app:layout_constraintTop_toBottomOf="@id/user_status">
@@ -130,6 +133,7 @@
                 android:paddingTop="4dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="4dp"
+                android:visibility="@{myPageViewModel.userInfo.job == null ? View.GONE : View.VISIBLE}"
                 android:text="@{myPageViewModel.userInfo.job}"
                 android:textColor="@color/logo_yellow"
                 android:textSize="10sp"

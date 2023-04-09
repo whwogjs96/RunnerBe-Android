@@ -161,33 +161,37 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
                 navigate(MainFragmentDirections.actionMainFragmentToSettingFragment(viewModel.userInfo.value?.pushOn == "Y"))
             }
             binding.userEditBtn -> {
-                viewModel.userInfo.value?.let {
-                    navigate(
-                        MainFragmentDirections.actionMainFragmentToEditProfileFragment(it)
-                    )
-                }
-            }
-            binding.userImgEdit -> {
-                context?.let {
-                    SelectItemDialog.createShow(it, listOf(
-                        SelectItemParameter("촬영하기") {
-                            isImage = false
-                            permReqLauncher.launch(Manifest.permission.CAMERA)
-                        },
-                        SelectItemParameter("앨범에서 선택하기") {
-                            isImage = true
-                            permReqLauncher.launch(
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                                    Manifest.permission.READ_MEDIA_IMAGES
-                                else Manifest.permission.READ_EXTERNAL_STORAGE
-                            )
-                        },
-                        SelectItemParameter("기본 이미지로 변경하기") {
-                            viewModel.userProfileImageChange(null)
-                        }
-                    ))
+                checkAdditionalUserInfo {
+                    viewModel.userInfo.value?.let {
+                        navigate(
+                            MainFragmentDirections.actionMainFragmentToEditProfileFragment(it)
+                        )
+                    }
                 }
 
+            }
+            binding.userImgEdit -> {
+                checkAdditionalUserInfo {
+                    context?.let {
+                        SelectItemDialog.createShow(it, listOf(
+                            SelectItemParameter("촬영하기") {
+                                isImage = false
+                                permReqLauncher.launch(Manifest.permission.CAMERA)
+                            },
+                            SelectItemParameter("앨범에서 선택하기") {
+                                isImage = true
+                                permReqLauncher.launch(
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                                        Manifest.permission.READ_MEDIA_IMAGES
+                                    else Manifest.permission.READ_EXTERNAL_STORAGE
+                                )
+                            },
+                            SelectItemParameter("기본 이미지로 변경하기") {
+                                viewModel.userProfileImageChange(null)
+                            }
+                        ))
+                    }
+                }
             }
         }
     }

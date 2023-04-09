@@ -151,6 +151,7 @@
     <string name="complete_change_nickname">닉네임이 변경되었어요!</string>
     <string name="complete_change_profile_image">이미지를 변경했어요!</string>
     <string name="complete_change_job">직업군이 변경되었어요!</string>
+    <string name="default_nickname">내 소개 전이에요.</string>
     <string name="error_double_check">중복된 닉네임이에요!</string>
 
     <!--  만든 사람들  -->
