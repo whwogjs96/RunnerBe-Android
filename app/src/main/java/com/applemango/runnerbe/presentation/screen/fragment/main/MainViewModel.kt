@@ -26,10 +26,14 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val currentItem: MutableSharedFlow<Int> = MutableSharedFlow()
+    var lastTabIndex : Int = 0
     val clickedPost: MutableStateFlow<Posting?> = MutableStateFlow(null)
 
     private val _bookmarkPost : MutableSharedFlow<Posting> = MutableSharedFlow()
     val bookmarkPost get() = _bookmarkPost
+
+    private var _isShowInfoDialog: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val isShowInfoDialog get() = _isShowInfoDialog
 
     fun setTab(index: Int) = viewModelScope.launch {
         currentItem.emit(index)
@@ -51,19 +55,23 @@ class MainViewModel @Inject constructor(
     }
 
     fun bookmarkStatusChange(post: Posting) = viewModelScope.launch {
-        bookMarkStatusChangeUseCase(
-            RunnerBeApplication.mTokenPreference.getUserId(),
-            post.postId,
-            if (!post.bookmarkCheck()) "Y" else "N"
-        ).collect {
-            when(it) {
-                is CommonResponse.Success<*> -> {
-                    if(it.body is BaseResponse && it.body.isSuccess) {
-                        post.bookMark = if(post.bookmarkCheck()) 0 else 1
-                        _bookmarkPost.emit(post)
+        val userId = RunnerBeApplication.mTokenPreference.getUserId()
+        if (userId > 0) {
+            bookMarkStatusChangeUseCase(
+                userId,
+                post.postId,
+                if (!post.bookmarkCheck()) "Y" else "N"
+            ).collect {
+                when(it) {
+                    is CommonResponse.Success<*> -> {
+                        if(it.body is BaseResponse && it.body.isSuccess) {
+                            post.bookMark = if(post.bookmarkCheck()) 0 else 1
+                            _bookmarkPost.emit(post)
+                        }
                     }
                 }
             }
-        }
+        } else _isShowInfoDialog.emit(true)
+
     }
 }

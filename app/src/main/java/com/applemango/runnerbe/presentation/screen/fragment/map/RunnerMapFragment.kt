@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
+import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.databinding.FragmentRunnerMapBinding
 import com.applemango.runnerbe.presentation.model.NestedScrollableViewHelper
 import com.applemango.runnerbe.presentation.model.PriorityFilterTag
@@ -41,11 +42,11 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     private lateinit var mNaverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
 
-    private val markerList : ArrayList<Marker> = arrayListOf()
-    private var clickedMarker : Marker? = null
+    private val markerList: ArrayList<Marker> = arrayListOf()
+    private var clickedMarker: Marker? = null
 
-    private val viewModel : RunnerMapViewModel by viewModels({requireParentFragment()})
-    private val mainViewModel :MainViewModel by viewModels({requireParentFragment()})
+    private val viewModel: RunnerMapViewModel by viewModels({ requireParentFragment() })
+    private val mainViewModel: MainViewModel by viewModels({ requireParentFragment() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,6 +56,9 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         binding.postListLayout.fragment = this
         context?.let {
             binding.postListLayout.postRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            mainViewModel.isShowInfoDialog.emit(true)
         }
         binding.fragment = this
         binding.mapView.onCreate(savedInstanceState)
@@ -73,15 +77,15 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                 mainViewModel.clickedPost.collect {
                     runCatching {
                         val index = viewModel.postList.indexOf(it)
-                        if(index != -1) onClickMarker(markerList[index])
-                        else clickedMarker?.let { marker -> onClickMarker(marker) }
+                        if (index != -1) onClickMarker(markerList[index], it)
+                        else refresh()
                     }
                 }
             }
             launch {
                 mainViewModel.bookmarkPost.collect {
                     val index = viewModel.postList.indexOf(it)
-                    if(index != -1 ) viewModel.postList[index] = it.copy()
+                    if (index != -1) viewModel.postList[index] = it.copy()
                 }
             }
         }
@@ -90,7 +94,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     fun refresh() {
         viewModel.postList.clear()
         val userId = RunnerBeApplication.mTokenPreference.getUserId()
-        viewModel.getRunningList(if(userId > 0) userId else null, isRefresh = true)
+        viewModel.getRunningList(if (userId > 0) userId else null, isRefresh = true)
     }
 
     override fun onStart() {
@@ -101,7 +105,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
-        checkAdditionalUserInfo()
     }
 
     override fun onPause() {
@@ -135,7 +138,8 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         //위치가 바뀔 때마다 주소 업데이트
         mNaverMap.addOnLocationChangeListener { location ->
             binding.topTxt.run {
-                text = AddressUtil.getAddress(requireContext(), location.latitude, location.longitude)
+                text =
+                    AddressUtil.getAddress(requireContext(), location.latitude, location.longitude)
             }
         }
 
@@ -144,7 +148,8 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                 mNaverMap.cameraPosition.target.latitude,
                 mNaverMap.cameraPosition.target.longitude
             )
-            viewModel.refreshThisLocation.value = mNaverMap.locationTrackingMode != LocationTrackingMode.Follow
+            viewModel.refreshThisLocation.value =
+                mNaverMap.locationTrackingMode != LocationTrackingMode.Follow
             viewModel.coordinator = center
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -153,7 +158,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                     if (it is UiState.Loading) showLoadingDialog(context)
                     else dismissLoadingDialog()
                 }
-                when(it) {
+                when (it) {
                     is UiState.Success -> {
                         markerUpdate()
                     }
@@ -174,11 +179,11 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
             runCatching {
                 val lat = post.gatherLatitude?.toDouble()
                 val lng = post.gatherLongitude?.toDouble()
-                if(lat != null && lng != null) {
+                if (lat != null && lng != null) {
                     val marker = Marker().apply {
                         position = LatLng(lat, lng)
                         map = mNaverMap
-                        icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
+                        icon = OverlayImage.fromResource(getNoSelectMapMarkerResource(post))
                         setOnClickListener {
                             mainViewModel.clickPost(post)
                             true
@@ -192,30 +197,35 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         }
     }
 
-    private fun onClickMarker(overlay : Marker) {
-        if(overlay == clickedMarker) {
-            overlay.icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
+    private fun onClickMarker(overlay: Marker, posting: Posting?) {
+        if (overlay == clickedMarker) {
+            overlay.icon = OverlayImage.fromResource(getNoSelectMapMarkerResource(posting))
             clickedMarker = null
         } else {
-            clickedMarker?.icon = OverlayImage.fromResource(R.drawable.ic_map_marker)
-            overlay.icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker)
+            clickedMarker?.icon = OverlayImage.fromResource(
+                getNoSelectMapMarkerResource(mainViewModel.clickedPost.value)
+            )
+            overlay.icon = OverlayImage.fromResource(getSelectMapMarkerResource(posting))
             clickedMarker = overlay
         }
     }
+
     fun writeClickEvent() {
-        checkAdditionalUserInfo{
+        checkAdditionalUserInfo {
             navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
         }
     }
 
     fun filterClick() {
         val filter = viewModel.filterData.value
-        navigate(MainFragmentDirections.actionMainFragmentToRunningFilterFragment(
-            gender = filter.genderTag,
-            job = filter.jobTag,
-            minAge = filter.minAge,
-            maxAge = filter.maxAge
-        ))
+        navigate(
+            MainFragmentDirections.actionMainFragmentToRunningFilterFragment(
+                gender = filter.genderTag,
+                job = filter.jobTag,
+                minAge = filter.minAge,
+                maxAge = filter.maxAge
+            )
+        )
     }
 
     fun filterRunningTagClick() {
@@ -247,5 +257,15 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         context?.let {
             SelectItemDialog.createShow(it, tagList)
         }
+    }
+
+    fun getNoSelectMapMarkerResource(posting: Posting?): Int {
+        return if (posting?.whetherEnd == "Y") R.drawable.ic_map_marker_whether_end
+        else R.drawable.ic_map_marker
+    }
+
+    fun getSelectMapMarkerResource(posting: Posting?): Int {
+        return if (posting?.whetherEnd == "Y") R.drawable.ic_select_map_marker_whether_end_no_profile
+        else R.drawable.ic_select_map_marker_no_profile
     }
 }

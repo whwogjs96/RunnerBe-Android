@@ -35,6 +35,9 @@ class MyPageViewModel @Inject constructor(
     val myPosts: ObservableArrayList<Posting> = ObservableArrayList()
     val moveTab : MutableSharedFlow<Int> = MutableSharedFlow()
 
+    private val _isShowInfoDialog: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val isShowInfoDialog get() = _isShowInfoDialog
+
     private var _updateUserImageState : MutableLiveData<UiState> = MutableLiveData()
     val updateUserImageState get() = _updateUserImageState
 
@@ -76,7 +79,7 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun setTab(index : Int) = viewModelScope.launch {
-        moveTab.emit(index)
-    }
+    fun setTab(index : Int) = viewModelScope.launch { moveTab.emit(index) }
+
+
 }

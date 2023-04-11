@@ -122,10 +122,10 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
     }
     private fun showAdditionalInfoDialog() {
         val prev = parentFragmentManager.findFragmentByTag(TAG)
-        if (prev != null) {
-            parentFragmentManager.also { it.beginTransaction().remove(prev).commit() }
+        if (prev == null) {
+            NoAdditionalInfoDialog().show(childFragmentManager, TAG)
         }
-        NoAdditionalInfoDialog().show(childFragmentManager, TAG)
+
     }
 
     fun hideKeyBoard() {

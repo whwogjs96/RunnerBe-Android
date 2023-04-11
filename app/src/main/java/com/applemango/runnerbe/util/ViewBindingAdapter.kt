@@ -108,3 +108,21 @@ fun runnerCountText(textView: TextView, peopleNum: Int) {
 fun genderString(textView: TextView, gender : String) {
     textView.text = if(gender == "전체") gender else textView.context.resources.getString(R.string.gender_string, gender)
 }
+
+@BindingAdapter("nick_name_text")
+fun getNickNameString(textView: TextView, nickName: String?) {
+    textView.text = nickName?:textView.context.resources.getString(R.string.default_nickname)
+}
+
+@BindingAdapter("gender_text", "age_text")
+fun getGenderAndAgeString(textView: TextView, age: String?, gender: String?) {
+    textView.text = if(age == null && gender == null) {
+        ""
+    } else if(age == null) {
+        gender
+    } else if(gender == null) {
+        age
+    } else {
+        String.format(textView.context.resources.getString(R.string.comma_text), gender, age)
+    }
+}
