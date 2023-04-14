@@ -19,11 +19,11 @@
 
             <com.github.gzuliyujiang.wheelview.widget.WheelView
                 android:id="@+id/dateWheelView"
-                android:layout_width="95dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:wheel_itemTextColorSelected="@color/primary"
                 app:wheel_itemTextColor="@color/dark_g4"
-                app:wheel_itemTextSizeSelected="20sp"
+                app:wheel_itemTextSizeSelected="17sp"
                 app:wheel_itemTextSize="16sp"
                 app:wheel_itemSpace="45dp"
                 app:wheel_curvedIndicatorSpace="4dp"
@@ -35,11 +35,11 @@
 
             <com.github.gzuliyujiang.wheelview.widget.WheelView
                 android:id="@+id/AMAndPMWheelView"
-                android:layout_width="48dp"
+                android:layout_width="52dp"
                 android:layout_height="wrap_content"
                 app:wheel_itemTextColorSelected="@color/primary"
                 app:wheel_itemTextColor="@color/dark_g4"
-                app:wheel_itemTextSizeSelected="20sp"
+                app:wheel_itemTextSizeSelected="16sp"
                 app:wheel_itemTextSize="16sp"
                 app:wheel_itemSpace="45dp"
                 app:wheel_curvedEnabled="true"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 app:wheel_itemTextColorSelected="@color/primary"
                 app:wheel_itemTextColor="@color/dark_g4"
-                app:wheel_itemTextSizeSelected="20sp"
+                app:wheel_itemTextSizeSelected="16sp"
                 app:wheel_itemTextSize="16sp"
                 app:wheel_itemSpace="45dp"
                 app:wheel_curvedEnabled="true"
@@ -90,11 +90,11 @@
 
             <com.github.gzuliyujiang.wheelview.widget.WheelView
                 android:id="@+id/minuteWheelView"
-                android:layout_width="40dp"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 app:wheel_itemTextColorSelected="@color/primary"
                 app:wheel_itemTextColor="@color/dark_g4"
-                app:wheel_itemTextSizeSelected="20sp"
+                app:wheel_itemTextSizeSelected="16sp"
                 app:wheel_itemTextSize="16sp"
                 app:wheel_itemSpace="45dp"
                 app:wheel_curvedEnabled="true"
