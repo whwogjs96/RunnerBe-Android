@@ -49,14 +49,6 @@ class AdditionalInfoViewModel @Inject constructor(
                 runCatching {
                     val year = it.toInt()
                     getJobTag()?.let { job ->
-                        Log.e("request", JoinUserRequest(
-                            uuid = uuid,
-                            deviceToken = deviceToken,
-                            nickName = nickName,
-                            birthday = year,
-                            jobTag = job,
-                            genderTag = getGenderTag(genderRadioChecked.value)
-                        ).toString())
                         registerUserUseCase(
                             JoinUserRequest(
                                 uuid = uuid,

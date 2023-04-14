@@ -51,7 +51,6 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.myPageViewModel = viewModel
         tabInit()
-        getData()
         observeBind()
         binding.settingButton.setOnClickListener(this)
         binding.userEditBtn.setOnClickListener(this)
@@ -59,6 +58,7 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
     }
     override fun onResume() {
         super.onResume()
+        if(viewModel.userInfo.value == null) getData()
         viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.isShowInfoDialog.emit(true)
         }
