@@ -167,10 +167,14 @@
     <!-- 직군 선택 버튼 -->
     <string name="psv_and_icon">🏫  공무원</string>
     <string name="edu_and_icon">📚 교육</string>
+    <string name="dev_and_icon">🖥 개발</string>
     <string name="psm_and_icon">📈  기획/전략/경영</string>
     <string name="des_and_icon">🎨  디자인</string>
+    <string name="mpr_and_icon">📊  마케팅/PR</string>
+    <string name="ser_and_icon">⚙  서비스</string>
     <string name="pro_and_icon">🏭  생산</string>
-    <string name="saf_and_icon">🤝 영업</string>
+    <string name="res_and_icon">🔬  연구</string>
+    <string name="saf_and_icon">🤝  영업</string>
     <string name="med_and_icon">🏥  의료</string>
     <string name="hur_and_icon">👥  인사</string>
     <string name="acc_and_icon">💰  재무</string>
