@@ -58,6 +58,7 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
     @CallSuper
     override fun onPause() {
         super.onPause()
+        dismissLoadingDialog()
         navigationClear()
     }
 
