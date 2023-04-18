@@ -52,12 +52,14 @@ class RunningTalkDetailViewModel @Inject constructor(
 
     fun messageSend(content : String) = viewModelScope.launch {
         roomId?.let {
+            message.value = ""
             messageSendUseCase(it, content).collect { response ->
                 when(response) {
                     is CommonResponse.Success<*> -> {
                         _messageSendUiState.emit(UiState.Success(response.code))
                     }
                     is CommonResponse.Failed -> {
+                        message.value = content
                         _messageSendUiState.emit(UiState.Failed(response.message))
                     }
                     is CommonResponse.Loading -> {
