@@ -61,13 +61,7 @@ class RunningTalkDetailFragment :
                         else dismissLoadingDialog()
                     }
                     when (it) {
-                        is UiState.Success -> {
-                            refresh()
-                            viewModel.message.value = ""
-                        }
-                        is UiState.Failed -> {
-
-                        }
+                        is UiState.Success -> refresh()
                     }
                 }
             }

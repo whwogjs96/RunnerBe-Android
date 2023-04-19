@@ -70,10 +70,9 @@ fun bindTime(textView: TextView, dateString: String?) {
 
 @BindingAdapter("running_tag_string")
 fun bindRunningTag(textView: TextView, runningTag: String?) {
+    Log.e("runningTag", runningTag.toString())
     runningTag?.let {
-        textView.text = textView.context.resources.getString(
-            RunningTag.getByTag(it)?.getTagNameResource() ?: R.string.before_work
-        )
+        textView.text = it
     } ?: run {
         textView.text = textView.context.resources.getString(R.string.before_work)
     }
