@@ -19,7 +19,7 @@
 
             <com.github.gzuliyujiang.wheelview.widget.WheelView
                 android:id="@+id/dateWheelView"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 app:wheel_itemTextColorSelected="@color/primary"
                 app:wheel_itemTextColor="@color/dark_g4"
