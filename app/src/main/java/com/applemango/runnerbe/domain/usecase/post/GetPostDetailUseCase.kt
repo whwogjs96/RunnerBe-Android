@@ -20,17 +20,19 @@ class GetPostDetailUseCase @Inject constructor(private val repo: PostRepository)
         }.onSuccess {
             if (it is CommonResponse.Success<*>) {
                 if (it.body is GetPostDetailResponse) {
-                    emit(
-                        CommonResponse.Success(
-                            it.code, PostDetailManufacture(
-                                it.body.code,
-                                it.body.result.postList[0],
-                                it.body.result.runnerInfo,
-                                it.body.result.waitingRunnerInfo,
-                                it.body.result.roomId
+                    if(it.body.result.postList.isNotEmpty()) {
+                        emit(
+                            CommonResponse.Success(
+                                it.code, PostDetailManufacture(
+                                    it.body.code,
+                                    it.body.result.postList[0],
+                                    it.body.result.runnerInfo,
+                                    it.body.result.waitingRunnerInfo,
+                                    it.body.result.roomId
+                                )
                             )
                         )
-                    )
+                    } else emit(CommonResponse.Failed(it.code, it.body.message?: "error"))
                 } else emit(CommonResponse.Failed(it.code, (it.body as BaseResponse ).message?: "error"))
             }else {
                 emit(it)
