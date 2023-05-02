@@ -104,4 +104,14 @@ class PostDetailViewModel @Inject constructor(
         RunnerBeApplication.mTokenPreference.getUserId() == post.value?.postUserId
 
     fun isWaitingUserExist(waitingList: ArrayList<UserInfo>): Boolean = isMyPost() && waitingList.size > 0
+
+    fun ageString(posting: Posting) : String {
+        val age = posting.age
+        var result = RunnerBeApplication.instance.resources.getString(R.string.all_age)
+        runCatching {
+            val ageSplit = age.split("-")
+            if(!(ageSplit[0].toInt() < 20 || ageSplit[1].toInt() > 65)) result = age
+        }
+        return result
+    }
 }
