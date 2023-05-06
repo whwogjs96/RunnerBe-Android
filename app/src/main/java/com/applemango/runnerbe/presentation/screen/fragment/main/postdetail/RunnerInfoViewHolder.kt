@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.presentation.screen.dialog.postdetail
+package com.applemango.runnerbe.presentation.screen.fragment.main.postdetail
 
 import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.data.dto.UserInfo

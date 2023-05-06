@@ -13,7 +13,7 @@
             type="com.applemango.runnerbe.presentation.screen.dialog.appliedrunner.WaitingRunnerViewModel" />
         <variable
             name="detailViewModel"
-            type="com.applemango.runnerbe.presentation.screen.dialog.postdetail.PostDetailViewModel" />
+            type="com.applemango.runnerbe.presentation.screen.fragment.main.postdetail.PostDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

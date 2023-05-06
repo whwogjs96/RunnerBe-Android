@@ -10,7 +10,7 @@ import com.applemango.runnerbe.data.dto.Room
 import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.presentation.model.listener.*
 import com.applemango.runnerbe.presentation.screen.dialog.appliedrunner.WaitingRunnerInfoAdapter
-import com.applemango.runnerbe.presentation.screen.dialog.postdetail.RunnerInfoAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.main.postdetail.RunnerInfoAdapter
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListData
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListItemAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter

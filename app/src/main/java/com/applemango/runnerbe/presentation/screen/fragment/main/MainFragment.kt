@@ -1,30 +1,22 @@
 package com.applemango.runnerbe.presentation.screen.fragment.main
 
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager2.widget.ViewPager2
 import com.applemango.runnerbe.R
-import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentMainBinding
 import com.applemango.runnerbe.databinding.ItemTabListBinding
 import com.applemango.runnerbe.presentation.model.MainBottomTab
-import com.applemango.runnerbe.presentation.model.listener.PostDialogListener
-import com.applemango.runnerbe.presentation.screen.dialog.postdetail.PostDetailSheetDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapViewModel
 import com.applemango.runnerbe.util.MainFragmentPageAdapter
 import com.applemango.runnerbe.util.imageSrcCompatResource
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -36,7 +28,7 @@ import kotlinx.coroutines.launch
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private var tabIconIdList: List<Int> = MainBottomTab.values().map { it.iconResourceId }
-    private var postDetailDialog: PostDetailSheetDialog? = null
+//    private var postDetailDialog: PostDetailSheetDialog? = null
 
     private val viewModel: RunnerMapViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
@@ -75,35 +67,39 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             mainViewModel.clickedPost.collectLatest {
                 if (it == null) {
                     //여기에 떠있는 바텀 시트를 제거
-                    postDetailDialogClose()
+//                    postDetailDialogClose()
                 } else {
                     //여기에 게시글 바텀 시트 띄우기 기능
-                    if (postDetailDialog != null) postDetailDialog = null
-                    postDetailDialog = PostDetailSheetDialog(it, object : PostDialogListener {
-                        override fun moveToMessage(roomId: Int, repUserName: String?) {
-                            postDetailDialogClose()
-                            repUserName?.let { name ->
-                                navigate(
-                                    MainFragmentDirections.actionMainFragmentToRunningTalkDetailFragment(
-                                        roomId,
-                                        name
-                                    )
-                                )
-                            }
-                        }
-
-                        override fun dismiss() { mainViewModel.clickedPost.value = null }
-                    })
-                    postDetailDialog!!.show(childFragmentManager, "PostDetailDialog")
+                    navigate(
+                        MainFragmentDirections.actionMainFragmentToPostDetailFragment(it)
+                    )
+                    mainViewModel.clickedPost.value = null
+//                    if (postDetailDialog != null) postDetailDialog = null
+//                    postDetailDialog = PostDetailSheetDialog(it, object : PostDialogListener {
+//                        override fun moveToMessage(roomId: Int, repUserName: String?) {
+//                            postDetailDialogClose()
+//                            repUserName?.let { name ->
+//                                navigate(
+//                                    MainFragmentDirections.actionMainFragmentToRunningTalkDetailFragment(
+//                                        roomId,
+//                                        name
+//                                    )
+//                                )
+//                            }
+//                        }
+//
+//                        override fun dismiss() { mainViewModel.clickedPost.value = null }
+//                    })
+//                    postDetailDialog!!.show(childFragmentManager, "PostDetailDialog")
                 }
             }
         }
     }
 
-    private fun postDetailDialogClose() {
-        runCatching { postDetailDialog?.dismiss() }
-        postDetailDialog = null
-    }
+//    private fun postDetailDialogClose() {
+//        runCatching { postDetailDialog?.dismiss() }
+//        postDetailDialog = null
+//    }
 
     /**
      * 혹시 추후에 바텀 탭 이미지가 변경되는 경우 사용할 수 있도록 커스텀 layout 사용하는 방식으로 진행했습니다.

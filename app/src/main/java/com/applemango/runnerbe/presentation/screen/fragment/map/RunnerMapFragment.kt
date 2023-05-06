@@ -154,7 +154,6 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.listUpdateUiState.collect {
-                Log.e("확인 작업", it.toString())
                 context?.let { context ->
                     if (it is UiState.Loading) showLoadingDialog(context)
                     else dismissLoadingDialog()

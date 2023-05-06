@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_mainFragment_to_runningTalkDetailFragment"
             app:destination="@id/runningTalkDetailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -160,5 +163,18 @@
         <argument
             android:name="title"
             app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/postDetailFragment"
+        tools:layout="@layout/fragment_post_detail"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.main.postdetail.PostDetailFragment"
+        android:label="PostDetailFragment" >
+
+        <argument
+            android:name="posting"
+            app:argType="com.applemango.runnerbe.data.dto.Posting"/>
+        <action
+            android:id="@+id/action_postDetailFragment_to_runningTalkDetailFragment"
+            app:destination="@id/runningTalkDetailFragment" />
     </fragment>
 </navigation>

@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RunningWriteTwoViewModel @Inject constructor(
-    private val writeUseCase : WriteRunningUseCase
+    private val writeUseCase: WriteRunningUseCase
 ) : ViewModel() {
 
     val oneData: MutableStateFlow<RunningWriteTransferData> = MutableStateFlow(
@@ -36,22 +36,27 @@ class RunningWriteTwoViewModel @Inject constructor(
             runningDisplayTime = TimeSelectData.getDefaultTimeData(),
             runningTag = RunningTag.Before,
             coordinate = LatLng(0.0, 0.0)
-            )
+        )
     )
 
-    private val _writeSate : MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    private val _writeSate: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val writeState get() = _writeSate
 
-    val radioChecked : MutableStateFlow<Int> = MutableStateFlow(R.id.allTab)
-    val content : MutableStateFlow<String> = MutableStateFlow("")
-    val joinRunnerCount : MutableStateFlow<Int> = MutableStateFlow(2)
-    val isAllAgeChecked : MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val recruitmentStartAge : MutableStateFlow<Int> = MutableStateFlow(20)
-    val recruitmentEndAge : MutableStateFlow<Int> = MutableStateFlow(40)
-    val locationInfo : MutableStateFlow<String> = MutableStateFlow("확인 불가")
+    val radioChecked: MutableStateFlow<Int> = MutableStateFlow(R.id.allTab)
+    val content: MutableStateFlow<String> = MutableStateFlow("")
+    val joinRunnerCount: MutableStateFlow<Int> = MutableStateFlow(2)
+    val isAllAgeChecked: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val recruitmentStartAge: MutableStateFlow<Int> = MutableStateFlow(20)
+    val recruitmentEndAge: MutableStateFlow<Int> = MutableStateFlow(40)
+    val locationInfo: MutableStateFlow<String> =
+        MutableStateFlow(RunnerBeApplication.instance.applicationContext.getString(R.string.no_location_info))
 
     val recruitmentAge = combine(recruitmentStartAge, recruitmentEndAge) { start, end ->
-        RunnerBeApplication.ApplicationContext().resources.getString(R.string.display_recruitment_age_setting, start.toString(), end.toString())
+        RunnerBeApplication.ApplicationContext().resources.getString(
+            R.string.display_recruitment_age_setting,
+            start.toString(),
+            end.toString()
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(1000L),
@@ -78,19 +83,19 @@ class RunningWriteTwoViewModel @Inject constructor(
                 R.id.femaleTab -> GenderTag.FEMALE
                 else -> GenderTag.ALL
             }.tag,
-            minAge = if(isAllAgeChecked.value) 10 else recruitmentStartAge.value,
-            maxAge = if(isAllAgeChecked.value) 100 else recruitmentEndAge.value,
+            minAge = if (isAllAgeChecked.value) 10 else recruitmentStartAge.value,
+            maxAge = if (isAllAgeChecked.value) 100 else recruitmentEndAge.value,
             latitude = oneData.value.coordinate.latitude,
             longitude = oneData.value.coordinate.longitude,
             locationInfo = locationInfo.value,
             contents = content.value.ifEmpty { null }
         )).collect {
             _writeSate.emit(
-                when(it) {
+                when (it) {
                     is CommonResponse.Success<*> -> {
-                        if(it.body is BaseResponse) {
-                            if(it.body.isSuccess) UiState.Success(it.code)
-                            else UiState.Failed(it.body.message?:"error")
+                        if (it.body is BaseResponse) {
+                            if (it.body.isSuccess) UiState.Success(it.code)
+                            else UiState.Failed(it.body.message ?: "error")
                         } else UiState.Failed("서버에 문제가 발생했습니다.")
                     }
                     is CommonResponse.Failed -> UiState.Failed(it.message)
