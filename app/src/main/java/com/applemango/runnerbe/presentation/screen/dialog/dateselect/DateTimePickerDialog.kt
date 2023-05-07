@@ -32,7 +32,7 @@ class DateTimePickerDialog(context: Context) : Dialog(context, R.style.confirmDi
 
     companion object {
 
-        const val DEFAULT_DATE_SIZE = 7
+        const val DEFAULT_DATE_SIZE = 21
         fun createShow(
             context: Context,
             isAm: Boolean = true,
