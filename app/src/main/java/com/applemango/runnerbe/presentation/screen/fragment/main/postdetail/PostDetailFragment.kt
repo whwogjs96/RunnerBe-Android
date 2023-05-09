@@ -143,7 +143,7 @@ class PostDetailFragment :
         centerMarker?.apply {
             position = LatLng(lat, lng)
             map = mNaverMap
-            icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker_no_profile)
+            icon = OverlayImage.fromResource(R.drawable.ic_select_map_marker_no_profile_mini)
             this.setOnClickListener {
                 val marker = it as Marker
                 if (marker.infoWindow == null) {
