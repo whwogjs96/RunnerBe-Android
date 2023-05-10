@@ -36,6 +36,9 @@ class PostDetailViewModel @Inject constructor(
     private val _processUiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val processUiState get() = _processUiState
 
+    private val _isMyRunning: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isMyRunning get() = _isMyRunning
+
     val locationInfo: MutableStateFlow<String> =
         MutableStateFlow(RunnerBeApplication.instance.applicationContext.getString(R.string.no_location_info))
 
