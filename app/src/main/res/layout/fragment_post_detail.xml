@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:visibility="@{vm.isMyRunning() ? View.GONE : View.VISIBLE}"
+                android:visibility="gone"
                 android:src="@drawable/ic_bell"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:visibility="@{vm.isMyRunning() ? View.VISIBLE : View.GONE}"
+                android:onClick="@{() -> fragment.showDropDialog()}"
+                android:visibility="@{vm.myPost ? View.VISIBLE : View.GONE}"
                 android:src="@drawable/ic_more_vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -91,18 +92,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/map_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="202dp"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-<!--                 네이버 지도 -->
-<!--                <com.naver.maps.map.MapView-->
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--                    android:id="@+id/map_view"-->
 <!--                    android:layout_width="match_parent"-->
 <!--                    android:layout_height="202dp"-->
 <!--                    app:layout_constraintTop_toTopOf="parent"/>-->
+
+<!--                 네이버 지도 -->
+                <com.naver.maps.map.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="202dp"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/runningTagView"

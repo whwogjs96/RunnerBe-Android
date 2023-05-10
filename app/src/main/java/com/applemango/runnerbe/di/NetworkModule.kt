@@ -162,4 +162,9 @@ object NetworkModule {
     @Singleton
     fun provideMessageReport(retrofit: Retrofit): MessageReportApi =
         retrofit.create(MessageReportApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDropPost(retrofit: Retrofit): DropPostApi =
+        retrofit.create(DropPostApi::class.java)
 }

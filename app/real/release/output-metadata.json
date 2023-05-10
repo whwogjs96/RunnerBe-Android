@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 2023033021,
-      "versionName": "0.0.1-beta",
+      "versionCode": 2023051021,
+      "versionName": "0.0.2",
       "outputFile": "app-real-release.apk"
     }
   ],

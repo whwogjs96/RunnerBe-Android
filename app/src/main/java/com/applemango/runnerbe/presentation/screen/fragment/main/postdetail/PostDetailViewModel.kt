@@ -9,14 +9,13 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.data.dto.UserInfo
-import com.applemango.runnerbe.domain.usecase.post.GetPostDetailUseCase
-import com.applemango.runnerbe.domain.usecase.post.PostApplyUseCase
-import com.applemango.runnerbe.domain.usecase.post.PostClosingUseCase
-import com.applemango.runnerbe.domain.usecase.post.PostDetailManufacture
+import com.applemango.runnerbe.domain.usecase.post.*
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +23,8 @@ import javax.inject.Inject
 class PostDetailViewModel @Inject constructor(
     private val getPostDetailUseCase: GetPostDetailUseCase,
     private val postClosingUseCase: PostClosingUseCase,
-    private val postApplyUseCase: PostApplyUseCase
+    private val postApplyUseCase: PostApplyUseCase,
+    private val dropPostUseCase: DropPostUseCase
 ) :
     ViewModel() {
 
@@ -36,8 +36,8 @@ class PostDetailViewModel @Inject constructor(
     private val _processUiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val processUiState get() = _processUiState
 
-    private val _isMyRunning: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isMyRunning get() = _isMyRunning
+    private val _dropUiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    val dropUiState : StateFlow<UiState> get() = _dropUiState
 
     val locationInfo: MutableStateFlow<String> =
         MutableStateFlow(RunnerBeApplication.instance.applicationContext.getString(R.string.no_location_info))
@@ -56,7 +56,6 @@ class PostDetailViewModel @Inject constructor(
                 it.body.waitingInfo?.let { waitingList -> waitingInfo.addAll(waitingList) }
                 roomId = it.body.roomId
             }
-            Log.e("하...", runnerInfo.toString())
         }
     }
 
@@ -71,10 +70,7 @@ class PostDetailViewModel @Inject constructor(
                     _processUiState.emit(
                         when (it) {
                             is CommonResponse.Success<*> -> UiState.Success(it.code)
-                            is CommonResponse.Failed -> {
-                                if (it.code >= 999) UiState.NetworkError
-                                else UiState.Failed(it.message)
-                            }
+                            is CommonResponse.Failed -> UiState.Failed(it.message)
                             is CommonResponse.Loading -> UiState.Loading
                             else -> UiState.Empty
                         }
@@ -101,6 +97,31 @@ class PostDetailViewModel @Inject constructor(
             if (isMyPost()) true
             else !isApplyComplete
         }
+    }
+
+    fun dropPost() = viewModelScope.launch {
+        val userId = RunnerBeApplication.mTokenPreference.getUserId()
+        if(userId > 0) {
+            post.value?.postId?.let { postId ->
+                dropPostUseCase(postId, userId).collect {
+                    _dropUiState.emit(
+                        when (it) {
+                            is CommonResponse.Success<*> -> UiState.Success(it.code)
+                            is CommonResponse.Failed -> {
+                                if (it.code >= 999) UiState.NetworkError
+                                else UiState.Failed(it.message)
+                            }
+                            is CommonResponse.Loading -> UiState.Loading
+                            else -> UiState.Empty
+                        }
+                    )
+                }
+            } ?: run {
+                _dropUiState.emit(UiState.Failed("앱 재실행 후 다시 시도해 주세요."))
+            }
+        }else _dropUiState.emit(UiState.Failed("로그인이 필요합니다."))
+
+
     }
 
     fun isParticipatePostIn(posting: Posting): Boolean =

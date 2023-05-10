@@ -14,6 +14,8 @@ import com.applemango.runnerbe.databinding.ItemMapInfoBinding
 import com.applemango.runnerbe.presentation.model.listener.PostDialogListener
 import com.applemango.runnerbe.presentation.screen.dialog.appliedrunner.WaitingRunnerListDialog
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemDialog
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemParameter
 import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.state.UiState
@@ -114,6 +116,37 @@ class PostDetailFragment :
                     }
                 }
             }
+
+            launch {
+                viewModel.dropUiState.collect {
+                    context?.let { context ->
+                        if (it is UiState.Loading) showLoadingDialog(context)
+                        else dismissLoadingDialog()
+                    }
+                    when (it) {
+                        is UiState.Success -> {
+                            Toast.makeText(
+                                context,
+                                resources.getString(R.string.delete_complete),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            navPopStack()
+                        }
+                        is UiState.Failed -> {
+                            context?.let { context ->
+                                MessageDialog.createShow(
+                                    context = context,
+                                    message = it.message,
+                                    buttonText = resources.getString(R.string.confirm)
+                                )
+                            }
+                        }
+                        is UiState.NetworkError -> {
+                            Toast.makeText(context, "문제가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -188,8 +221,21 @@ class PostDetailFragment :
             }
         }
     }
+
     private fun openAddressView(marker: Marker) {
         markerInfoView.open(marker)
+    }
+
+    fun showDropDialog() {
+        val dialogList = listOf(
+            SelectItemParameter(resources.getString(R.string.do_delete)) {
+                viewModel.dropPost()
+            }
+        )
+        context?.let {
+            SelectItemDialog.createShow(it, dialogList)
+        }
+
     }
 
     fun clickBottomButton() {
@@ -219,9 +265,13 @@ class PostDetailFragment :
 
     private fun getLatitude(): Double = try {
         viewModel.post.value?.gatherLatitude?.toDouble()!!
-    } catch (e: Exception) { mNaverMap.cameraPosition.target.latitude }
+    } catch (e: Exception) {
+        mNaverMap.cameraPosition.target.latitude
+    }
 
-    private fun getLongitude() : Double = try {
+    private fun getLongitude(): Double = try {
         viewModel.post.value?.gatherLongitude?.toDouble()!!
-    } catch (e: Exception) { mNaverMap.cameraPosition.target.longitude }
+    } catch (e: Exception) {
+        mNaverMap.cameraPosition.target.longitude
+    }
 }
