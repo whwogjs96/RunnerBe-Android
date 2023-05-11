@@ -15,4 +15,6 @@ interface PostRepository {
     suspend fun postClosing(postId: Int) : CommonResponse
     suspend fun postApply(postId: Int, userId: Int) : CommonResponse
     suspend fun postWhetherAccept(postId: Int, applicantId: Int, whetherAccept : String) : CommonResponse
+
+    suspend fun dropPost(postId: Int, userId: Int): CommonResponse
 }

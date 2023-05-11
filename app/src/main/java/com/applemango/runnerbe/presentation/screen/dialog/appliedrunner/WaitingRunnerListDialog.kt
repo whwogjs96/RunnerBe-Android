@@ -1,31 +1,25 @@
 package com.applemango.runnerbe.presentation.screen.dialog.appliedrunner
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.databinding.ObservableArrayList
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
-import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.data.dto.UserInfo
 import com.applemango.runnerbe.databinding.DialogWaitingRunnuerListBinding
-import com.applemango.runnerbe.presentation.model.listener.PostAcceptListener
 import com.applemango.runnerbe.presentation.model.listener.PostDialogListener
 import com.applemango.runnerbe.presentation.screen.dialog.CustomBottomSheetDialog
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
-import com.applemango.runnerbe.presentation.screen.dialog.postdetail.PostDetailViewModel
+import com.applemango.runnerbe.presentation.screen.fragment.main.postdetail.PostDetailViewModel
 import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.presentation.state.UiState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint

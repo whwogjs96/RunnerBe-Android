@@ -41,6 +41,9 @@
     <string name="next">다음</string>
     <string name="enrollment">등록</string>
 
+    <string name="do_delete">삭제하기</string>
+    <string name="delete_complete">삭제가 완료되었어요!</string>
+
     <string name="gender">성별</string>
     <string name="age">연령</string>
     <string name="all">전체</string>
@@ -89,6 +92,8 @@
     <string name="msg_post_close">신청이 마감되었어요!</string>
     <string name="question_post_apply">신청하시겠어요?</string>
     <string name="msg_post_apply">모임에 신청하셨어요!</string>
+
+    <string name="no_location_info">확인 불가</string>
 
     <!-- 신청한 러너 -->
     <string name="applied_runner">신청한 러너</string>

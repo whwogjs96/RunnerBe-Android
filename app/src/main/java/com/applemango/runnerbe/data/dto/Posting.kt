@@ -1,15 +1,16 @@
 package com.applemango.runnerbe.data.dto
 
-import android.text.format.DateUtils
-import android.util.Log
+import android.os.Parcelable
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.util.dateStringToLongTime
 import com.applemango.runnerbe.util.timeStringToLongTime
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.util.Calendar
 
 // 메인페이지(postingResult), 찜목록 조회(bookMarkList), 마이페이지(myPosting, myRunning)
 // 게시글 상세(postingInfo)
+@Parcelize
 data class Posting(
     @SerializedName("postId") val postId: Int,
     @SerializedName("postingTime") val postingTime: String?,
@@ -40,7 +41,7 @@ data class Posting(
     @SerializedName("profileUrlList") val profileUrlList: List<ProfileUrlList>?,
     @SerializedName("runnerList") val runnerList: List<UserInfo>?,
     @SerializedName("whetherPostUser") val whetherPostUser: String?
-){
+) : Parcelable {
     fun endCheck(): String = if(this.whetherEnd == "Y"){
             "마감된 게시글"
         } else "모집중"

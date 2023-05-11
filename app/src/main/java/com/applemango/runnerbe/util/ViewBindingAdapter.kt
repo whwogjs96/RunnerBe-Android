@@ -72,7 +72,12 @@ fun bindTime(textView: TextView, dateString: String?) {
 fun bindRunningTag(textView: TextView, runningTag: String?) {
     Log.e("runningTag", runningTag.toString())
     runningTag?.let {
-        textView.text = it
+        textView.text = when(it) {
+            RunningTag.Holiday.tag -> textView.resources.getString(R.string.holiday)
+            RunningTag.After.tag -> textView.resources.getString(R.string.after_work)
+            RunningTag.Before.tag -> textView.resources.getString(R.string.before_work)
+            else -> it
+        }
     } ?: run {
         textView.text = textView.context.resources.getString(R.string.before_work)
     }
