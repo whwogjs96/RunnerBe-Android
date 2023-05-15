@@ -18,7 +18,8 @@ class PostRepositoryImpl @Inject constructor(
     private val postClosingApi: PostClosingApi,
     private val postApplyApi: PostApplyApi,
     private val postWhetherAcceptHandlingApi: WhetherAcceptHandlingApi,
-    private val dropPostApi: DropPostApi
+    private val dropPostApi: DropPostApi,
+    private val reportPostApi: PostReportPostingApi
 ) : PostRepository {
     override suspend fun getBookmarkList(userId: Int): CommonResponse {
         return try {
@@ -182,6 +183,23 @@ class PostRepositoryImpl @Inject constructor(
     override suspend fun dropPost(postId: Int, userId: Int): CommonResponse {
         return try {
             val response = dropPostApi.dropPost(postId, userId)
+            if(response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
+                CommonResponse.Success(response.body()!!.code, response.body()!!)
+            } else {
+                CommonResponse.Failed(
+                    response.body()?.code ?: response.code(),
+                    response.body()?.message ?: response.message()
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            CommonResponse.Failed(999, e.message ?: "error")
+        }
+    }
+
+    override suspend fun reportPost(postId: Int, userId: Int): CommonResponse {
+        return try {
+            val response = reportPostApi.reportPosting(postId, userId)
             if(response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
                 CommonResponse.Success(response.body()!!.code, response.body()!!)
             } else {
