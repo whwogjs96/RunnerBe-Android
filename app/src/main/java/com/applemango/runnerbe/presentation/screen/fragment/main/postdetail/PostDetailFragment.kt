@@ -232,9 +232,7 @@ class PostDetailFragment :
                 viewModel.dropPost()
             }
         )
-        context?.let {
-            SelectItemDialog.createShow(it, dialogList)
-        }
+        context?.let { SelectItemDialog.createShow(it, dialogList) }
 
     }
 
@@ -273,5 +271,20 @@ class PostDetailFragment :
         viewModel.post.value?.gatherLongitude?.toDouble()!!
     } catch (e: Exception) {
         mNaverMap.cameraPosition.target.longitude
+    }
+
+    fun showReportDialog() {
+        context?.let {
+            TwoButtonDialog.createShow(
+                it,
+                title = resources.getString(R.string.msg_warning_report),
+                firstButtonText = resources.getString(R.string.yes),
+                secondButtonText = resources.getString(R.string.no),
+                firstEvent = {
+                    viewModel.reportPost()
+                },
+                secondEvent = {}
+            )
+        }
     }
 }
