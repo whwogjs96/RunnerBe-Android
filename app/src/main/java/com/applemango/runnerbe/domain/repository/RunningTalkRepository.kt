@@ -7,4 +7,5 @@ interface RunningTalkRepository {
     suspend fun getRunningTalkDetail(roomId: Int) : CommonResponse
     suspend fun sendMessage(roomId: Int, content: String) : CommonResponse
     suspend fun reportMessage(messageIdList : List<Int>) : CommonResponse
+    suspend fun firebaseTokenUpdate(userId: Int, token: String): CommonResponse
 }
