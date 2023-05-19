@@ -49,7 +49,7 @@ class RunningTalkDetailFragment :
             }
         })
 
-        binding.topMessageLayout.setOnClickListener{ hideKeyBoard() }
+        binding.topMessageLayout.setOnClickListener { hideKeyBoard() }
     }
 
     private fun observeBind() {
@@ -74,7 +74,11 @@ class RunningTalkDetailFragment :
                     when (it) {
                         is UiState.Success -> {
                             viewModel.isDeclaration.value = false
-                            Toast.makeText(context, "신고되었습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                resources.getString(R.string.report_complete),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         is UiState.Failed -> {
                             context?.let { context ->

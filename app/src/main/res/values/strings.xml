@@ -130,6 +130,7 @@
     <!-- 러닝톡 -->
     <string name="report">신고</string>
     <string name="msg_warning_report">부적절한 신고는 수락되지 않으며,활동 제재의 원인이 될 수 있습니다.정말 신고하시겠어요?</string>
+    <string name="report_complete">신고처리 되었습니다.</string>
 
     <!-- 마이 페이지 -->
     <string name="attendance_managing">출석 관리하기</string>
@@ -159,6 +160,8 @@
     <string name="default_nickname">내 소개 전이에요.</string>
     <string name="error_double_check">중복된 닉네임이에요!</string>
 
+    <string name="error_re_start">다시 시도해주세요.</string>
+
     <!--  만든 사람들  -->
     <string name="eunseo">은서</string>
     <string name="jeong">정</string>
@@ -186,5 +189,6 @@
     <string name="cus_and_icon">🗣  CS</string>
 
     <string name="facebook_app_id">638544227722032</string>
+
 
 </resources>
