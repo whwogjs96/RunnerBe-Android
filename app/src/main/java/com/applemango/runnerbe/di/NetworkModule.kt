@@ -167,4 +167,14 @@ object NetworkModule {
     @Singleton
     fun provideDropPost(retrofit: Retrofit): DropPostApi =
         retrofit.create(DropPostApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideReportPosting(retrofit: Retrofit): PostReportPostingApi =
+        retrofit.create(PostReportPostingApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFirebaseTokenUpdate(retrofit: Retrofit): FirebaseTokenUpdateApi =
+        retrofit.create(FirebaseTokenUpdateApi::class.java)
 }

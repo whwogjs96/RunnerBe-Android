@@ -24,7 +24,8 @@ class PostDetailViewModel @Inject constructor(
     private val getPostDetailUseCase: GetPostDetailUseCase,
     private val postClosingUseCase: PostClosingUseCase,
     private val postApplyUseCase: PostApplyUseCase,
-    private val dropPostUseCase: DropPostUseCase
+    private val dropPostUseCase: DropPostUseCase,
+    private val postReportUseCase: PostReportUseCase
 ) :
     ViewModel() {
 
@@ -38,6 +39,9 @@ class PostDetailViewModel @Inject constructor(
 
     private val _dropUiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val dropUiState : StateFlow<UiState> get() = _dropUiState
+
+    private val _reportUiState:MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    val reportUiState: StateFlow<UiState> get() = _reportUiState
 
     val locationInfo: MutableStateFlow<String> =
         MutableStateFlow(RunnerBeApplication.instance.applicationContext.getString(R.string.no_location_info))
@@ -108,7 +112,7 @@ class PostDetailViewModel @Inject constructor(
                         when (it) {
                             is CommonResponse.Success<*> -> UiState.Success(it.code)
                             is CommonResponse.Failed -> {
-                                if (it.code >= 999) UiState.NetworkError
+                                if (it.code <= 999) UiState.NetworkError
                                 else UiState.Failed(it.message)
                             }
                             is CommonResponse.Loading -> UiState.Loading
@@ -120,8 +124,27 @@ class PostDetailViewModel @Inject constructor(
                 _dropUiState.emit(UiState.Failed("앱 재실행 후 다시 시도해 주세요."))
             }
         }else _dropUiState.emit(UiState.Failed("로그인이 필요합니다."))
+    }
 
-
+    fun reportPost() = viewModelScope.launch {
+        val userId = RunnerBeApplication.mTokenPreference.getUserId()
+        if(userId > 0) {
+            post.value?.postId?.let { postId ->
+                postReportUseCase(postId, userId).collect {
+                    _reportUiState.emit(
+                        when (it) {
+                            is CommonResponse.Success<*> -> UiState.Success(it.code)
+                            is CommonResponse.Failed -> {
+                                if (it.code <= 999) UiState.NetworkError
+                                else UiState.Failed(it.message)
+                            }
+                            is CommonResponse.Loading -> UiState.Loading
+                            else -> UiState.Empty
+                        }
+                    )
+                }
+            }
+        }
     }
 
     fun isParticipatePostIn(posting: Posting): Boolean =

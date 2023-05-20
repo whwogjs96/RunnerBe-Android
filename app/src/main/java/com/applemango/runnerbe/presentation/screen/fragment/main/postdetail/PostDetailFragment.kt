@@ -118,6 +118,41 @@ class PostDetailFragment :
             }
 
             launch {
+                viewModel.reportUiState.collect {
+                    context?.let { context ->
+                        if (it is UiState.Loading) showLoadingDialog(context)
+                        else dismissLoadingDialog()
+                    }
+                    when (it) {
+                        is UiState.Success -> {
+                            Toast.makeText(
+                                context,
+                                resources.getString(R.string.report_complete),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            navPopStack()
+                        }
+                        is UiState.Failed -> {
+                            context?.let { context ->
+                                MessageDialog.createShow(
+                                    context = context,
+                                    message = it.message,
+                                    buttonText = resources.getString(R.string.confirm)
+                                )
+                            }
+                        }
+                        is UiState.NetworkError -> {
+                            Toast.makeText(
+                                context,
+                                resources.getString(R.string.error_re_start),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            }
+
+            launch {
                 viewModel.dropUiState.collect {
                     context?.let { context ->
                         if (it is UiState.Loading) showLoadingDialog(context)
@@ -232,9 +267,7 @@ class PostDetailFragment :
                 viewModel.dropPost()
             }
         )
-        context?.let {
-            SelectItemDialog.createShow(it, dialogList)
-        }
+        context?.let { SelectItemDialog.createShow(it, dialogList) }
 
     }
 
@@ -273,5 +306,20 @@ class PostDetailFragment :
         viewModel.post.value?.gatherLongitude?.toDouble()!!
     } catch (e: Exception) {
         mNaverMap.cameraPosition.target.longitude
+    }
+
+    fun showReportDialog() {
+        context?.let {
+            TwoButtonDialog.createShow(
+                it,
+                title = resources.getString(R.string.msg_warning_report),
+                firstButtonText = resources.getString(R.string.yes),
+                secondButtonText = resources.getString(R.string.no),
+                firstEvent = {
+                    viewModel.reportPost()
+                },
+                secondEvent = {}
+            )
+        }
     }
 }
