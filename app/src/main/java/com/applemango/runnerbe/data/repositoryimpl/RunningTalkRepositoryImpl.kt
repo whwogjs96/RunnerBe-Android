@@ -12,8 +12,7 @@ class RunningTalkRepositoryImpl @Inject constructor(
     private val getRunningTalkMessagesApi: GetRunningTalkMessagesApi,
     private val getRunningTalkDetailApi: GetRunningTalkDetailApi,
     private val sendMessagesApi: MessageSendApi,
-    private val messageReportApi: MessageReportApi,
-    private val firebaseTokenUpdateApi: FirebaseTokenUpdateApi
+    private val messageReportApi: MessageReportApi
 ) : RunningTalkRepository {
     override suspend fun getRunningTalks(): CommonResponse {
         return try {
@@ -74,26 +73,6 @@ class RunningTalkRepositoryImpl @Inject constructor(
                 if (index < messageIdList.size) request.append(",")
             }
             val response = messageReportApi.messageReport(MessageReportRequest(request.toString()))
-            if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
-                CommonResponse.Success(response.body()!!.code, response.body()!!)
-            } else {
-                CommonResponse.Failed(
-                    response.body()?.code ?: response.code(),
-                    response.body()?.message ?: response.message()
-                )
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            CommonResponse.Failed(999, e.message ?: "error")
-        }
-    }
-
-    override suspend fun firebaseTokenUpdate(userId: Int, token: String): CommonResponse {
-        return try {
-            val response = firebaseTokenUpdateApi.firebaseTokenUpdate(
-                userId,
-                FirebaseTokenUpdateRequest(token)
-            )
             if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
                 CommonResponse.Success(response.body()!!.code, response.body()!!)
             } else {

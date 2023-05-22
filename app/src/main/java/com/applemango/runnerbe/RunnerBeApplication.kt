@@ -5,12 +5,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import com.applemango.runnerbe.data.network.FireBaseModule
+import com.applemango.runnerbe.data.network.request.FirebaseTokenUpdateRequest
 import com.applemango.runnerbe.util.TokenSPreference
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
-import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.common.util.Utility.getKeyHash
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 
 @HiltAndroidApp
@@ -44,7 +48,7 @@ class RunnerBeApplication: Application() {
         // 다크모드 비활성화
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         mTokenPreference = TokenSPreference(applicationContext)
-
+        FirebaseApp.initializeApp(this)
 
         // fire base settings
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -52,11 +56,24 @@ class RunnerBeApplication: Application() {
                 Log.w("response!", "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
-
             // Get new FCM registration token
             val token = task.result
             task.result
+            val userId = mTokenPreference.getUserId()
 
+            if(userId > 0) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    runCatching {
+                        FireBaseModule.api.firebaseTokenUpdate(userId, FirebaseTokenUpdateRequest(token)).runCatching {
+                            Log.e("성공??",this.isSuccessful.toString())
+                        }.onFailure {
+                            it.printStackTrace()
+                        }
+                    }.onFailure {
+                        it.printStackTrace()
+                    }
+                }
+            }
             Log.d("fcm_response!", token!!)
             mTokenPreference.setDeviceToken(token)
         })
