@@ -60,7 +60,6 @@ class SplashViewModel @Inject constructor(
             }.collect {
                 if(it.isSuccess) {
                     val result = it.result
-                    Log.e("uuid", result.uuid.toString())
                     RunnerBeApplication.mTokenPreference.setLoginType(type)
                     if(result.jwt != null) RunnerBeApplication.mTokenPreference.setToken(result.jwt)
                     // 추가정보 입력시

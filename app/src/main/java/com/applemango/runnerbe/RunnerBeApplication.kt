@@ -36,7 +36,6 @@ class RunnerBeApplication: Application() {
         val refresh_token = "refresh-token"
 
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
-        lateinit var sRetrofit: Retrofit
         lateinit var instance: RunnerBeApplication
         fun ApplicationContext() : Context {
             return instance.applicationContext
@@ -52,20 +51,16 @@ class RunnerBeApplication: Application() {
 
         // fire base settings
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("response!", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
+            if (!task.isSuccessful) return@OnCompleteListener
             // Get new FCM registration token
             val token = task.result
-            task.result
             val userId = mTokenPreference.getUserId()
 
             if(userId > 0) {
                 CoroutineScope(Dispatchers.IO).launch {
                     runCatching {
                         FireBaseModule.api.firebaseTokenUpdate(userId, FirebaseTokenUpdateRequest(token)).runCatching {
-                            Log.e("성공??",this.isSuccessful.toString())
+                            mTokenPreference.setDeviceToken(token)
                         }.onFailure {
                             it.printStackTrace()
                         }
@@ -74,8 +69,6 @@ class RunnerBeApplication: Application() {
                     }
                 }
             }
-            Log.d("fcm_response!", token!!)
-            mTokenPreference.setDeviceToken(token)
         })
     }
 }
