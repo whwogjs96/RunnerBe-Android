@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.applemango.runnerbe.BuildConfig
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.domain.usecase.PatchAlarmUseCase
@@ -44,7 +45,7 @@ class SettingViewModel @Inject constructor(
         runCatching {
             withdrawalUserUseCase(
                 RunnerBeApplication.mTokenPreference.getUserId(),
-                "runnerbe_for_api_QNDASLKVNX12314KADNX412KQWEN414weqeff"
+                BuildConfig.WITHDRAWAL_API_KEY
             ).collect {
                 when (it) {
                     is CommonResponse.Success<*> -> _withdrawalState.emit(UiState.Success(it.code))
