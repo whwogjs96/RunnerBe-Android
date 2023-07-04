@@ -9,6 +9,8 @@ plugins {
 }
 
 def buildVersionCode = Integer.parseInt(new Date().format("yyyyMMddHH"))
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
 //    signingConfigs {
@@ -32,6 +34,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String", "WITHDRAWAL_API_KEY", properties["WITHDRAWAL_API_KEY"]
     }
 
     buildTypes {
