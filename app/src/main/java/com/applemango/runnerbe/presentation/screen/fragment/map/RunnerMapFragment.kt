@@ -50,6 +50,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        RunnerBeApplication.instance.firebaseTokenUpdate()
         binding.vm = viewModel
         binding.postListLayout.vm = viewModel
         binding.postListLayout.mainVm = mainViewModel
