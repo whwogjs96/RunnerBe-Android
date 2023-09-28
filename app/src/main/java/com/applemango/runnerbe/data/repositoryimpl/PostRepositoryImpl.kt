@@ -72,7 +72,9 @@ class PostRepositoryImpl @Inject constructor(
                 priorityFilter = request.priorityFilter,
                 userLat = request.userLat,
                 userLng = request.userLng,
-                whetherEnd = request.whetherEnd
+                whetherEnd = request.whetherEnd,
+                pageSize = request.pageSize,
+                page = request.page
             )
             if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
                 CommonResponse.Success(response.body()!!.code, response.body()!!)

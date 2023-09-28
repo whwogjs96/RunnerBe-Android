@@ -25,6 +25,8 @@ class RunnerMapViewModel @Inject constructor(
 ) : ViewModel() {
 
     val postList: ObservableArrayList<Posting> = ObservableArrayList()
+    val pageSize = 10
+    var isEndPage = false
     var coordinator: LatLng = LatLng(37.5666805, 126.9784147) //서울시청 디폴트
 
     private val _listUpdateUiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
@@ -78,12 +80,15 @@ class RunnerMapViewModel @Inject constructor(
             maxAge = if (filterData.value.maxAge > 65) "N" else filterData.value.maxAge.toString(),
             priorityFilter = filterPriorityTag.value.tag,
             userId = userId,
-            whetherEnd = if (includeFinish.value) "Y" else "N"
+            whetherEnd = if (includeFinish.value) "Y" else "N",
+            pageSize = pageSize,
+            page = postList.size/pageSize + 1
         )
         getRunningListUseCase(filterRunningTag.value, request).collect {
             if (it is CommonResponse.Success<*> && it.body is GetRunningListResponse) {
                 if (it.body.isSuccess) {
                     if (isRefresh) postList.clear()
+                    isEndPage = it.body.runningList.size < pageSize
                     it.body.runningList.forEach { post ->
                         Log.e(post.postId.toString(), post.profileUrlList.toString())
                         if (!postList.contains(post)) postList.add(post)

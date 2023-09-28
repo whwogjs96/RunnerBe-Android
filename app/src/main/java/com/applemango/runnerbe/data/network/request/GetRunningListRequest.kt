@@ -13,5 +13,7 @@ data class GetRunningListRequest(
     val userLng : Double,
     val userLat : Double,
     val keyword : String = "N",
-    val userId : Int?
+    val userId : Int?,
+    val pageSize : Int,
+    val page : Int
 )
