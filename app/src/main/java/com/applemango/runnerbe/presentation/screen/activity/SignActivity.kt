@@ -13,7 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.e("key hash", com.kakao.util.helper.Utility.getKeyHash(this))
         setContent {
             SignNavHost()
         }

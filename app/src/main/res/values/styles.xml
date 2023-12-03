@@ -6,7 +6,7 @@
     </style>
 
     <style name="confirmDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="SeekBarColor" parent="Widget.AppCompat.SeekBar">

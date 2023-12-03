@@ -75,11 +75,11 @@ android {
     productFlavors {
         dev {
             dimension "server"
-            buildConfigField "String", "BASE_URL", "\"https://dev.runnerbe2.shop\""
+            buildConfigField "String", "BASE_URL", "\"https://new-runnerbe.shop\""
         }
         real {
             dimension "server"
-            buildConfigField "String", "BASE_URL", "\"https://www.runnerbe2.shop\""
+            buildConfigField "String", "BASE_URL", "\"https://new-runnerbe.shop\""
         }
     }
 }
@@ -151,9 +151,7 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
     // 카카오
-    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.30.0'
-    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.30.5'
-    implementation "com.kakao.sdk:v2-all:2.11.2" // 전체 모듈 설치, 2.11.0 버전부터 지원
+    implementation "com.kakao.sdk:v2-user:2.18.0"
 
     //네이버 로그인
     implementation 'com.navercorp.nid:oauth-jdk8:5.4.0' // jdk 8
