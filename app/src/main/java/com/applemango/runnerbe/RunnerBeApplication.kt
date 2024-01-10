@@ -11,6 +11,7 @@ import com.applemango.runnerbe.util.TokenSPreference
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
+import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +45,7 @@ class RunnerBeApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        KakaoSdk.init(this, getString(R.string.kakao_native_key))
         // 다크모드 비활성화
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         mTokenPreference = TokenSPreference(applicationContext)

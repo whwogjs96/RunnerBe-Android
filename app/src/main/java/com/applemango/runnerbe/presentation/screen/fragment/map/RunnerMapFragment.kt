@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
@@ -21,6 +22,7 @@ import com.applemango.runnerbe.presentation.screen.fragment.main.MainFragmentDir
 import com.applemango.runnerbe.presentation.screen.fragment.main.MainViewModel
 import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.util.AddressUtil
+import com.applemango.runnerbe.util.scrollPercent
 import com.applemango.runnerbe.util.setHeight
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
@@ -67,6 +69,11 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
         observeBind()
         binding.slideLayout.setScrollableViewHelper(NestedScrollableViewHelper(binding.postListLayout.bodyLayout))
+        binding.postListLayout.bodyLayout.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if(!v.canScrollVertically(1) && !viewModel.isEndPage) {
+                viewModel.getRunningList(if (userId > 0) userId else null, isRefresh = false)
+            }
+        }
     }
 
     private fun observeBind() {

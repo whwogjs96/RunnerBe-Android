@@ -39,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_primary_solid_radius_64"
                     android:gravity="center"
+                    android:onClick="@{() -> fragment.filterRunningTagClick()}"
                     android:paddingLeft="10dp"
                     android:paddingRight="6dp"
                     android:paddingTop="4dp"
@@ -52,7 +53,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{vm.filterRunningTag.tagNameResource}"
-                        android:onClick="@{() -> fragment.filterRunningTagClick()}"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"/>
