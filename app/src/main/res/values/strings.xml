@@ -193,6 +193,11 @@
     <string name="acc_and_icon">💰  재무</string>
     <string name="cus_and_icon">🗣  CS</string>
 
+    <string name="beginner_pace_runner">입문 러너</string>
+    <string name="general_pace_runner">평균 러너</string>
+    <string name="master_pace_runner">고수 러너</string>
+    <string name="grandmatser_pace_runner">초고수 러너</string>
+
     <string name="facebook_app_id">638544227722032</string>
 
 
