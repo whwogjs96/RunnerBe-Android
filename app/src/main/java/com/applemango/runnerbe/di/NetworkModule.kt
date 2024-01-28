@@ -177,4 +177,9 @@ object NetworkModule {
     @Singleton
     fun provideFirebaseTokenUpdate(retrofit: Retrofit): FirebaseTokenUpdateApi =
         retrofit.create(FirebaseTokenUpdateApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserPaceRegist(retrofit: Retrofit): PatchUserPaceRegistApi =
+        retrofit.create(PatchUserPaceRegistApi::class.java)
 }

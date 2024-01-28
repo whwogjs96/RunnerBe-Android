@@ -20,6 +20,8 @@ import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.Join
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.accession.AttendanceAccessionAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.see.AttendanceSeeAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo.PaceInfoListAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo.PaceSelectItem
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.creator.CreatorAdapter
 
 @BindingAdapter("myPostAdapter", "myPostEvent")
@@ -137,4 +139,14 @@ fun setMessageAdapter(
         RunningTalkDetailAdapter(dataList)
     recyclerView.adapter?.notifyDataSetChanged()
     recyclerView.scrollToPosition(dataList.size - 1)
+}
+
+@BindingAdapter("bind:PaceListAdapter", "bind:paceSelectListener")
+fun setPaceListAdapter(
+    recyclerView: RecyclerView,
+    dataList: List<PaceSelectItem>,
+    listener: PaceSelectListener
+) {
+    if(recyclerView.adapter == null) recyclerView.adapter = PaceInfoListAdapter(dataList, listener)
+    recyclerView.adapter?.notifyDataSetChanged()
 }
