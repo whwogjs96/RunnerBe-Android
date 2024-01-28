@@ -101,6 +101,16 @@ fun View.isEnabled(isEnable: Boolean) {
     this.isEnabled = isEnable
 }
 
+@BindingAdapter("bind:isSelected")
+fun View.isSelected(isSelected: Boolean) {
+    this.isSelected = isSelected
+}
+
+@BindingAdapter("bind:imageResource")
+fun ImageView.setDrawableImageResource(resourceId: Int) {
+    this.setImageResource(resourceId)
+}
+
 @BindingAdapter("runner_count")
 fun runnerCountText(textView: TextView, peopleNum: Int) {
     textView.text = textView.context.resources.getString(R.string.max_people_count, peopleNum.toString())
