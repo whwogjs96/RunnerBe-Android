@@ -1,8 +1,5 @@
 package com.applemango.runnerbe.util
 
-import android.content.ContentValues.TAG
-import android.location.Address
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView

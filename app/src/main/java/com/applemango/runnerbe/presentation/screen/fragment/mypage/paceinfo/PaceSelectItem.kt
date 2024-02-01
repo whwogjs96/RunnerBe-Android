@@ -1,8 +1,10 @@
 package com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo
 
+import com.applemango.runnerbe.domain.entity.Pace
+
 data class PaceSelectItem(
-    val paceTitle: String,
+    val pace: Pace,
     val paceImageResource: Int,
     val paceDescription : String,
-    val isSelected: Boolean
+    var isSelected: Boolean
 )
