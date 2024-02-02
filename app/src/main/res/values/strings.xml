@@ -51,6 +51,9 @@
     <string name="female">여성</string>
     <string name="male">남성</string>
 
+    <string name="has_exist">있음</string>
+    <string name="has_not_exist">없음</string>
+
     <string name="max_people_count">최대 %s명</string>
     <string name="gender_string">%s만</string>
 
@@ -122,6 +125,7 @@
     <string name="recruitment_age">모집 연령</string>
     <string name="all_age">모든 연령</string>
     <string name="recruitment_content">하고싶은 말 (선택)</string>
+    <string name="after_party">뒤풀이</string>
     <string name="msg_recruitment_count_minimum">모임 인원은 최소 2명부터 가능해요!</string>
     <string name="hint_content_write">함께할 러너들에게 하실 말씀이 있나요?\nex) ㅇㅇ마트 앞에서 만나요~</string>
     <string name="limit_five_hundred">%s/500</string>

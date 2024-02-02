@@ -1,6 +1,5 @@
 package com.applemango.runnerbe.presentation.screen.fragment.map.write
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.R
@@ -42,7 +41,8 @@ class RunningWriteTwoViewModel @Inject constructor(
     private val _writeSate: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val writeState get() = _writeSate
 
-    val radioChecked: MutableStateFlow<Int> = MutableStateFlow(R.id.allTab)
+    val genderRadioChecked: MutableStateFlow<Int> = MutableStateFlow(R.id.allTab)
+    val afterPartyRadioChecked: MutableStateFlow<Int> = MutableStateFlow(R.id.hasNotExistTab)
     val content: MutableStateFlow<String> = MutableStateFlow("")
     val joinRunnerCount: MutableStateFlow<Int> = MutableStateFlow(2)
     val isAllAgeChecked: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -78,7 +78,7 @@ class RunningWriteTwoViewModel @Inject constructor(
             gatheringTime = SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(oneData.value.runningDate),
             runningTime = oneData.value.runningDisplayTime.getTransferType(),
             numberOfRunner = joinRunnerCount.value,
-            gender = when (radioChecked.value) {
+            gender = when (genderRadioChecked.value) {
                 R.id.maleTab -> GenderTag.MALE
                 R.id.femaleTab -> GenderTag.FEMALE
                 else -> GenderTag.ALL
@@ -88,7 +88,12 @@ class RunningWriteTwoViewModel @Inject constructor(
             latitude = oneData.value.coordinate.latitude,
             longitude = oneData.value.coordinate.longitude,
             locationInfo = locationInfo.value,
-            contents = content.value.ifEmpty { null }
+            contents = content.value.ifEmpty { null },
+            paceGrade = "",
+            isAfterParty = when(afterPartyRadioChecked.value) {
+                R.id.hasExistTab -> 1
+                else -> 0
+            } //TODO
         )).collect {
             _writeSate.emit(
                 when (it) {
