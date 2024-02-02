@@ -19,6 +19,7 @@ interface GetRunningListApi {
         @Query("jobFilter") jobFilter : String,
         @Query("userLongitude") userLng : Double,
         @Query("userLatitude") userLat : Double,
+        @Query("afterPartyFilter") afterPartyFilter: String = "A",
         @Query("keywordSearch") keyword : String = "N",
         @Query("userId") userId : Int? = null,
         @Query("pageSize") pageSize : Int = 10,

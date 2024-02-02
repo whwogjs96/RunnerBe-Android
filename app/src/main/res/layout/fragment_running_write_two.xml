@@ -242,7 +242,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:checkedButton="@={vm.radioChecked}"
+                    android:checkedButton="@={vm.genderRadioChecked}"
                     android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@id/recruitmentGenderTextView">
 
@@ -468,6 +468,66 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/countLimitMessageView"/>
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/afterPartyTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/after_party"
+                    android:textColor="@color/dark_g3"
+                    android:textSize="14sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/countIndicator"/>
+
+                <RadioGroup
+                    android:id="@+id/afterPartyTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:checkedButton="@={vm.afterPartyRadioChecked}"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/afterPartyTitleTextView">
+
+                    <com.applemango.runnerbe.presentation.component.CustomRadioButton
+                        android:id="@+id/hasNotExistTab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/has_not_exist"
+                        android:textSize="14sp"
+                        android:layout_marginRight="6dp"
+                        android:checked="true"
+                        android:paddingVertical="7dp"
+                        android:paddingHorizontal="18dp"
+                        android:button="@null" />
+
+                    <com.applemango.runnerbe.presentation.component.CustomRadioButton
+                        android:id="@+id/hasExistTab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/has_exist"
+                        android:textSize="14sp"
+                        android:layout_marginLeft="6dp"
+                        android:checked="false"
+                        android:paddingVertical="7dp"
+                        android:paddingHorizontal="18dp"
+                        android:button="@null" />
+
+                </RadioGroup>
+
+                <View
+                    android:id="@+id/afterPartyIndicator"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/dark_g6"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/afterPartyTab"/>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/contentLayout"
                     android:layout_width="match_parent"
@@ -475,7 +535,7 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="20dp"
                     android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/countIndicator">
+                    app:layout_constraintTop_toBottomOf="@id/afterPartyIndicator">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"

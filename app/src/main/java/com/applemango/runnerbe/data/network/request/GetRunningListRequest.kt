@@ -12,6 +12,7 @@ data class GetRunningListRequest(
     val jobFilter : String,
     val userLng : Double,
     val userLat : Double,
+    val afterPartyFilter: String,
     val keyword : String = "N",
     val userId : Int?,
     val pageSize : Int,

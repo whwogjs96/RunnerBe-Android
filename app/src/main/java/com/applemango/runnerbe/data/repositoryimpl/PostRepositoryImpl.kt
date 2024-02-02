@@ -69,6 +69,7 @@ class PostRepositoryImpl @Inject constructor(
                 jobFilter = request.jobFilter,
                 minAge = request.minAge,
                 maxAge = request.maxAge,
+                afterPartyFilter = request.afterPartyFilter,
                 priorityFilter = request.priorityFilter,
                 userLat = request.userLat,
                 userLng = request.userLng,
