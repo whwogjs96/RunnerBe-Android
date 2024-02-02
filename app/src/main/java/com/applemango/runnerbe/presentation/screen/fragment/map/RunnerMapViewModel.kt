@@ -79,6 +79,7 @@ class RunnerMapViewModel @Inject constructor(
             minAge = if (filterData.value.minAge == 0) "N" else filterData.value.minAge.toString(),
             maxAge = if (filterData.value.maxAge > 65) "N" else filterData.value.maxAge.toString(),
             priorityFilter = filterPriorityTag.value.tag,
+            afterPartyFilter = "A", // TODO 필터 추가
             userId = userId,
             whetherEnd = if (includeFinish.value) "Y" else "N",
             pageSize = pageSize,
