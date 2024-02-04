@@ -10,8 +10,11 @@ import com.applemango.runnerbe.data.vo.RunningWriteTransferData
 import com.applemango.runnerbe.domain.usecase.post.WriteRunningUseCase
 import com.applemango.runnerbe.presentation.model.GenderTag
 import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.model.listener.PaceSelectListener
 import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
 import com.applemango.runnerbe.presentation.screen.dialog.timeselect.TimeSelectData
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo.PaceSelectItem
+import com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo.initPaceInfoList
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
 import com.naver.maps.geometry.LatLng
@@ -26,7 +29,7 @@ import javax.inject.Inject
 class RunningWriteTwoViewModel @Inject constructor(
     private val writeUseCase: WriteRunningUseCase
 ) : ViewModel() {
-
+    val paceList: MutableStateFlow<List<PaceSelectItem>> = MutableStateFlow(initPaceInfoList())
     val oneData: MutableStateFlow<RunningWriteTransferData> = MutableStateFlow(
         RunningWriteTransferData(
             runningTitle = "",
@@ -71,6 +74,17 @@ class RunningWriteTwoViewModel @Inject constructor(
         joinRunnerCount.value = joinRunnerCount.value - 1
     }
 
+    fun getPaceInfoSelectListener() : PaceSelectListener = object : PaceSelectListener {
+        override fun itemClick(paceSelectItem: PaceSelectItem) {
+            val list = ArrayList<PaceSelectItem>().apply {
+                addAll(paceList.value.map { item ->
+                    item.copy().apply { isSelected = this.pace == paceSelectItem.pace }
+                })
+            }
+            paceList.value = list
+        }
+    }
+
     fun writeRunning(userId: Int) = viewModelScope.launch {
         writeUseCase(userId, WriteRunningRequest(
             runningTitle = oneData.value.runningTitle,
@@ -89,11 +103,11 @@ class RunningWriteTwoViewModel @Inject constructor(
             longitude = oneData.value.coordinate.longitude,
             locationInfo = locationInfo.value,
             contents = content.value.ifEmpty { null },
-            paceGrade = "",
+            paceGrade = paceList.value.firstOrNull()?.pace?.key?:"",
             isAfterParty = when(afterPartyRadioChecked.value) {
                 R.id.hasExistTab -> 1
-                else -> 0
-            } //TODO
+                else -> 2
+            }
         )).collect {
             _writeSate.emit(
                 when (it) {
