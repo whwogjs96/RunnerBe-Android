@@ -16,6 +16,7 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListI
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.map.write.paceselect.PaceSimpleSelectListAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.JoinPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.accession.AttendanceAccessionAdapter
@@ -141,7 +142,7 @@ fun setMessageAdapter(
     recyclerView.scrollToPosition(dataList.size - 1)
 }
 
-@BindingAdapter("bind:PaceListAdapter", "bind:paceSelectListener")
+@BindingAdapter("bind:paceListAdapter", "bind:paceSelectListener")
 fun setPaceListAdapter(
     recyclerView: RecyclerView,
     dataList: List<PaceSelectItem>,
@@ -149,4 +150,18 @@ fun setPaceListAdapter(
 ) {
     if(recyclerView.adapter == null) recyclerView.adapter = PaceInfoListAdapter(dataList, listener)
     recyclerView.adapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("bind:paceSimpleListAdapter", "bind:paceSimpleSelectListener")
+fun setPaceSimpleSelectAdapter(
+    recyclerView: RecyclerView,
+    dataList: List<PaceSelectItem>,
+    listener: PaceSelectListener
+) {
+    recyclerView.adapter?: run {
+        recyclerView.adapter = PaceSimpleSelectListAdapter(listener)
+    }
+    val adapter = recyclerView.adapter
+    recyclerView.itemAnimator = null
+    if(adapter is PaceSimpleSelectListAdapter) adapter.submitList(dataList)
 }

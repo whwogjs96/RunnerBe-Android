@@ -11,5 +11,8 @@ class PaceInfoListViewHolder(
 
     fun bind(item: PaceSelectItem) {
         binding.data = item
+        binding.root.setOnClickListener {
+            listener.itemClick(item)
+        }
     }
 }
