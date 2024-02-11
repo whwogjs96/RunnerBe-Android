@@ -68,6 +68,11 @@
     <string name="msg_network_error_content">네트워크를 연결해주세요.</string>
     <string name="ready">준비됐어요!</string>
 
+
+    <!--  뒷풀이  -->
+    <string name="after_party_exist">뒷풀이 있음</string>
+    <string name="after_party_not_exist">뒷풀이 있음</string>
+
     <!-- 추가 정보 입력 화면 -->
     <string name="msg_terms_all_check">모든 약관을 읽었으며, 이에 동의해요.</string>
     <string name="terms_of_use_a_service_agreement">[필수] 서비스 이용약관 동의</string>
@@ -132,6 +137,9 @@
     <string name="display_recruitment_age_setting">%s세 - %s세</string>
     <string name="question_running_write">글을 등록하시겠어요?</string>
     <string name="complete_running_write">글이 등록되었어요!</string>
+    <string name="recruiting">모집중</string>
+    <string name="recruitment_deadline">모집 마감</string>
+    <string name="recruitment_end">모집 종료</string>
 
     <!-- 러닝톡 -->
     <string name="report">신고</string>
@@ -139,6 +147,7 @@
     <string name="report_complete">신고처리 되었습니다.</string>
 
     <!-- 마이 페이지 -->
+    <string name="attendance_manage">출석 관리</string>
     <string name="attendance_managing">출석 관리하기</string>
     <string name="attendance_see">출석 확인하기</string>
     <string name="do_submit">제출하기</string>
@@ -181,6 +190,10 @@
     <string name="sheave">시브</string>
     <string name="joy">조이</string>
     <string name="chanho">찬호</string>
+    
+    <!-- 포스트 -->
+    <string name="before_running_management_button_text">모임 후 출석/로그를 관리할 수 있어요</string>
+    <string name="log_write">로그 쓰기</string>
 
     <!-- 직군 선택 버튼 -->
     <string name="psv_and_icon">🏫  공무원</string>
