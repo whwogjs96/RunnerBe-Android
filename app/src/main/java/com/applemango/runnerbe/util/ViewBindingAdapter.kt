@@ -3,8 +3,12 @@ package com.applemango.runnerbe.util
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.data.dto.Posting
+import com.applemango.runnerbe.domain.entity.Pace
 import com.applemango.runnerbe.presentation.model.RunningTag
 import com.applemango.runnerbe.presentation.screen.dialog.dateselect.DateSelectData
 import com.bumptech.glide.Glide
@@ -134,4 +138,69 @@ fun getGenderAndAgeString(textView: TextView, age: String?, gender: String?) {
     } else {
         String.format(textView.context.resources.getString(R.string.comma_text), gender, age)
     }
+}
+
+@BindingAdapter("bind:whetherEndCheckStatus")
+fun getWhetherEndCheckStatus(textView: TextView, post:Posting) {
+    val resource = textView.resources
+    val now = Calendar.getInstance().time
+    val threeHour = 3 * 60 * 60 * 1000
+    if(post.gatheringTime != null && post.runningTime != null) {
+        val startTime = dateStringToLongTime(post.gatheringTime)
+        val runningTime = timeStringToLongTime(post.runningTime)
+        if(now.time - startTime > 0) {
+            if(startTime + threeHour + runningTime - now.time > 0) {
+                textView.text = resource.getString(R.string.recruitment_deadline)
+                textView.setTextColor(ResourcesCompat.getColor(resource, R.color.dark_g3, null))
+            } else {
+                textView.text = resource.getString(R.string.recruitment_end)
+                textView.setTextColor(ResourcesCompat.getColor(resource, R.color.dark_g3, null))
+            }
+        } else {
+            textView.text = resource.getString(R.string.recruiting)
+            textView.setTextColor(ResourcesCompat.getColor(resource, R.color.primary, null))
+        }
+    } else {
+        if(post.whetherEnd == "Y") {
+            textView.text = resource.getString(R.string.recruiting)
+            textView.setTextColor(ResourcesCompat.getColor(resource, R.color.primary, null))
+        } else {
+            textView.text = resource.getString(R.string.recruitment_deadline)
+            textView.setTextColor(ResourcesCompat.getColor(resource, R.color.dark_g3, null))
+        }
+    }
+}
+
+@BindingAdapter("bind:afterPartyStatus")
+fun getAfterPartyStatus(textView: TextView, isAfterParty: Int) {
+    textView.text = textView.resources.getString(if(isAfterParty == 1) R.string.after_party_exist else R.string.after_party_not_exist)
+}
+
+@BindingAdapter("bind:paceImage16")
+fun ImageView.getPaceImage16(pace : String?) {
+    this.isVisible = pace != null
+    this.setImageResource(
+        when(pace) {
+            Pace.BEGINNER.key -> R.drawable.ic_beginner_pace //입문
+            Pace.AVERAGE.key -> R.drawable.ic_general_pace //평균
+            Pace.HIGH.key -> R.drawable.ic_master_pace//고수
+            else -> R.drawable.ic_master_pace //초고수
+        }
+    )
+}
+
+@BindingAdapter("bind:paceText")
+fun TextView.getPaceText(pace: String?) {
+    this.isVisible = pace != null
+    this.text = when(pace) {
+        Pace.BEGINNER.key -> Pace.BEGINNER.time //입문
+        Pace.AVERAGE.key -> Pace.AVERAGE.time //평균
+        Pace.HIGH.key -> Pace.HIGH.time //고수
+        else -> Pace.MASTER.time //초고수
+    }
+}
+
+@BindingAdapter("bind:isVisible")
+fun View.visible(isVisible: Boolean) {
+    this.isVisible = isVisible
 }
