@@ -12,6 +12,9 @@
         <variable
             name="incomingType"
             type="com.applemango.runnerbe.presentation.model.PostIncomingType" />
+        <variable
+            name="bookMarkClickListener"
+            type="com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -43,6 +46,7 @@
                 android:id="@+id/bookmark_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> bookMarkClickListener.onBookMarkClick(item)}"
                 android:src="@{item.bookmarkCheck() ? @drawable/ic_book_mark_on : @drawable/ic_book_mark_off}"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/post_title_view"
