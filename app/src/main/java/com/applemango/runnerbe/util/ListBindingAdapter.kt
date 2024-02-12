@@ -16,6 +16,7 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListI
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.map.HomePostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.map.write.paceselect.PaceSimpleSelectListAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.JoinPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostAdapter
@@ -109,6 +110,20 @@ fun setPostListAdapter(
         recyclerView.adapter = BookMarkAdapter(dataList, bookMarkListener)
     }
     recyclerView.adapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("bind:homePostAdapter", "bind:homeBookMarkListener")
+fun setPostAdapter(
+    recyclerView: RecyclerView,
+    dataList: ObservableArrayList<Posting>,
+    bookMarkListener: BookMarkClickListener
+) {
+    recyclerView.adapter?: run {
+        recyclerView.adapter = HomePostAdapter(bookMarkListener)
+    }
+    val adapter = recyclerView.adapter
+    recyclerView.itemAnimator = null
+    if(adapter is HomePostAdapter) adapter.submitList(dataList)
 }
 
 @BindingAdapter("runnerInfoAdapter")

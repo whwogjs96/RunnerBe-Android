@@ -71,7 +71,7 @@
 
     <!--  뒷풀이  -->
     <string name="after_party_exist">뒷풀이 있음</string>
-    <string name="after_party_not_exist">뒷풀이 있음</string>
+    <string name="after_party_not_exist">뒷풀이 없음</string>
 
     <!-- 추가 정보 입력 화면 -->
     <string name="msg_terms_all_check">모든 약관을 읽었으며, 이에 동의해요.</string>
