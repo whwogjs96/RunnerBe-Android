@@ -161,8 +161,12 @@ fun setPaceListAdapter(
     dataList: List<PaceSelectItem>,
     listener: PaceSelectListener
 ) {
-    if(recyclerView.adapter == null) recyclerView.adapter = PaceInfoListAdapter(dataList, listener)
-    recyclerView.adapter?.notifyDataSetChanged()
+    recyclerView.adapter?: run {
+        recyclerView.adapter = PaceInfoListAdapter(listener)
+    }
+    val adapter = recyclerView.adapter
+    recyclerView.itemAnimator = null
+    if(adapter is PaceInfoListAdapter) adapter.submitList(dataList)
 }
 
 @BindingAdapter("bind:paceSimpleListAdapter", "bind:paceSimpleSelectListener")

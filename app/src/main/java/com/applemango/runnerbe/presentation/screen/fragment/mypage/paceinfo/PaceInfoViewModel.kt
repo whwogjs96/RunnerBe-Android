@@ -24,6 +24,8 @@ class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserP
     private val _paceInfoUiState: MutableLiveData<UiState> = MutableLiveData(UiState.Empty)
     val paceInfoUiState get() = _paceInfoUiState
 
+    private val _action: MutableSharedFlow<PaceInfoRegistAction> = MutableSharedFlow()
+    val action :SharedFlow<PaceInfoRegistAction> get() = _action
     fun getPaceInfoSelectListener() : PaceSelectListener = object : PaceSelectListener {
         override fun itemClick(paceSelectItem: PaceSelectItem) {
             val list = ArrayList<PaceSelectItem>().apply {
@@ -38,8 +40,8 @@ class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserP
         }
     }
 
-    fun backClicked() {
-
+    fun backClicked() = viewModelScope.launch {
+       _action.emit(PaceInfoRegistAction.MoveToBack)
     }
     fun confirmClicked() = viewModelScope.launch {
         val userId = RunnerBeApplication.mTokenPreference.getUserId()
@@ -47,7 +49,10 @@ class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserP
         patchUserPaceUseCase(userId, selectedPace.pace).collect {
             _paceInfoUiState.postValue(
                 when(it) {
-                    is CommonResponse.Success<*> -> UiState.Success(it.code)
+                    is CommonResponse.Success<*> -> {
+                        RunnerBeApplication.mTokenPreference.setMyRunningPace(selectedPace.pace.key)
+                        UiState.Success(it.code)
+                    }
                     is CommonResponse.Failed -> {
                         if (it.code <= 999) UiState.NetworkError
                         else UiState.Failed(it.message)
@@ -58,4 +63,8 @@ class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserP
             )
         }
     }
+}
+
+sealed class PaceInfoRegistAction {
+    object MoveToBack : PaceInfoRegistAction()
 }
