@@ -3,12 +3,15 @@ package com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentRegistPaceInfoBinding
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.state.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PaceInfoRegistFragment: BaseFragment<FragmentRegistPaceInfoBinding>(R.layout.fragment_regist_pace_info) {
@@ -17,6 +20,11 @@ class PaceInfoRegistFragment: BaseFragment<FragmentRegistPaceInfoBinding>(R.layo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.action.collect {
+                navPopStack()
+            }
+        }
         viewModel.paceInfoUiState.observe(viewLifecycleOwner) {
             context?.let { context ->
                 if (it is UiState.Loading) showLoadingDialog(context)
@@ -33,7 +41,7 @@ class PaceInfoRegistFragment: BaseFragment<FragmentRegistPaceInfoBinding>(R.layo
                     }
                 }
                 is UiState.Success -> {
-                    //TODO 다이얼로그 생성 후 종료 기능 추가
+                    PaceInfoRegistFragmentDirections.actionConfirm()
                 }
             }
         }

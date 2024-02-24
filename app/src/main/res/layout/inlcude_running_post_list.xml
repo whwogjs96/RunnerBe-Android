@@ -145,7 +145,7 @@
                 android:paddingBottom="16dp"
                 android:paddingTop="20dp"
                 bind:homePostAdapter="@{vm.postList}"
-                bind:homeBookMarkListener="@{mainVm.getChangeBookMarkStatusListener()}"
+                bind:postClickListener="@{mainVm.postClickListener}"
                 android:visibility="@{vm.postList.empty ? View.GONE : View.VISIBLE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/filterLayout"

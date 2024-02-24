@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_mainFragment_to_postDetailFragment"
             app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/moveToPaceInfoFragment"
+            app:destination="@id/paceInfoRegistFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -176,5 +179,14 @@
         <action
             android:id="@+id/action_postDetailFragment_to_runningTalkDetailFragment"
             app:destination="@id/runningTalkDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paceInfoRegistFragment"
+        tools:layout="@layout/fragment_regist_pace_info"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo.PaceInfoRegistFragment"
+        android:label="PaceInfoRegistFragment" >
+        <action
+            android:id="@+id/action_confirm"
+            app:destination="@id/runningWriteFragment" />
     </fragment>
 </navigation>

@@ -10,6 +10,7 @@ import com.applemango.runnerbe.data.network.response.BaseResponse
 import com.applemango.runnerbe.data.network.response.JoinUserResponse
 import com.applemango.runnerbe.domain.usecase.bookmark.BookMarkStatusChangeUseCase
 import com.applemango.runnerbe.presentation.model.listener.BookMarkClickListener
+import com.applemango.runnerbe.presentation.model.listener.PostClickListener
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
@@ -52,6 +53,23 @@ class MainViewModel @Inject constructor(
         override fun onClick(post: Posting) {
             clickedPost.value = if (clickedPost.value == post) null else post
         }
+    }
+
+    fun getPostClickListener() = object: PostClickListener {
+        override fun logWriteClick(post: Posting) {}
+
+        override fun attendanceSeeClick(post: Posting) {}
+
+        override fun attendanceManageClick(post: Posting) {}
+
+        override fun bookMarkClick(post: Posting) {
+            bookmarkStatusChange(post)
+        }
+
+        override fun postClick(post: Posting) {
+            clickedPost.value = if (clickedPost.value == post) null else post
+        }
+
     }
 
     fun bookmarkStatusChange(post: Posting) = viewModelScope.launch {

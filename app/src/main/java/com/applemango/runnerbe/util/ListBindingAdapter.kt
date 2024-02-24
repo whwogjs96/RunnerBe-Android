@@ -1,5 +1,6 @@
 package com.applemango.runnerbe.util
 
+import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
@@ -112,18 +113,15 @@ fun setPostListAdapter(
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
-@BindingAdapter("bind:homePostAdapter", "bind:homeBookMarkListener")
+@BindingAdapter("bind:homePostAdapter", "bind:postClickListener")
 fun setPostAdapter(
     recyclerView: RecyclerView,
     dataList: ObservableArrayList<Posting>,
-    bookMarkListener: BookMarkClickListener
+    clickListener: PostClickListener
 ) {
-    recyclerView.adapter?: run {
-        recyclerView.adapter = HomePostAdapter(bookMarkListener)
-    }
-    val adapter = recyclerView.adapter
-    recyclerView.itemAnimator = null
-    if(adapter is HomePostAdapter) adapter.submitList(dataList)
+    if (recyclerView.adapter == null)
+        recyclerView.adapter = HomePostAdapter(dataList, clickListener)
+    recyclerView.adapter?.notifyDataSetChanged()
 }
 
 @BindingAdapter("runnerInfoAdapter")
@@ -163,8 +161,12 @@ fun setPaceListAdapter(
     dataList: List<PaceSelectItem>,
     listener: PaceSelectListener
 ) {
-    if(recyclerView.adapter == null) recyclerView.adapter = PaceInfoListAdapter(dataList, listener)
-    recyclerView.adapter?.notifyDataSetChanged()
+    recyclerView.adapter?: run {
+        recyclerView.adapter = PaceInfoListAdapter(listener)
+    }
+    val adapter = recyclerView.adapter
+    recyclerView.itemAnimator = null
+    if(adapter is PaceInfoListAdapter) adapter.submitList(dataList)
 }
 
 @BindingAdapter("bind:paceSimpleListAdapter", "bind:paceSimpleSelectListener")
