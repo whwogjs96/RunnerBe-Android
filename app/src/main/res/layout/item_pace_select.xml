@@ -52,8 +52,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
                     tools:text="입문 러너"
-                    android:text="@{data.pace.key}"
+                    android:text="@{data.paceName}"
                     android:textSize="15sp"
                     android:fontFamily="@font/pretendard_semi_bold"/>
 

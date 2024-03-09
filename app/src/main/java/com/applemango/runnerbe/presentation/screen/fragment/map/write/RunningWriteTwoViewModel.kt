@@ -53,7 +53,9 @@ class RunningWriteTwoViewModel @Inject constructor(
     val recruitmentEndAge: MutableStateFlow<Int> = MutableStateFlow(40)
     val locationInfo: MutableStateFlow<String> =
         MutableStateFlow(RunnerBeApplication.instance.applicationContext.getString(R.string.no_location_info))
-
+    val isConfirmButtonEnabled = combine(paceList) { data ->
+        data[0].any { it.isSelected }
+    }.stateIn(scope = viewModelScope, started = SharingStarted.WhileSubscribed(1000L),initialValue = false)
     val recruitmentAge = combine(recruitmentStartAge, recruitmentEndAge) { start, end ->
         RunnerBeApplication.ApplicationContext().resources.getString(
             R.string.display_recruitment_age_setting,
