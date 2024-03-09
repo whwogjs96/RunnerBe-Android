@@ -129,7 +129,8 @@
                     tools:text="새벽에 달리기 하실 분 있으신가요?"
                     android:text="@{vm.post.title}"
                     android:textColor="@color/dark_g1"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/pretendard_regular"
                     android:layout_marginTop="9dp"
                     app:layout_constraintTop_toBottomOf="@id/runningTagView"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -183,9 +184,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         date_string="@{vm.post.gatheringTime}"
+                        android:fontFamily="@font/pretendard_regular"
                         tools:text="3/31 (금) AM 6:00"
-                        android:textColor="@color/dark_g1"
-                        android:textSize="12sp"/>
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_g3_5"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="8dp"
+                        android:src="@drawable/ic_dot_g3_5" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="뒷풀이 없음"
+                        android:text="@{vm.post.afterParty == 1 ? @string/after_party_exist : @string/after_party_not_exist}"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_g3_5"/>
+
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -211,9 +230,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         tools:text="1시간 20분"
+                        android:fontFamily="@font/pretendard_regular"
                         time_string="@{vm.post.runningTime}"
-                        android:textColor="@color/dark_g1"
-                        android:textSize="12sp"/>
+                        android:textColor="@color/dark_g3_5"
+                        android:textSize="14sp"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -238,8 +258,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:textColor="@color/dark_g1"
                         android:textSize="14sp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:textColor="@color/dark_g3_5"
                         gender_string="@{vm.post.gender}"
                         tools:text="여성만" />
 
@@ -252,8 +273,9 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/dark_g1"
                         android:textSize="14sp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:textColor="@color/dark_g3_5"
                         android:text="@{vm.ageString(vm.post)}"
                         tools:text="20-35" />
 
@@ -266,8 +288,9 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/dark_g1"
                         android:textSize="14sp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:textColor="@color/dark_g3_5"
                         runner_count="@{vm.post.peopleNum}"
                         tools:text="최대 8명" />
 
@@ -292,8 +315,9 @@
                     android:layout_marginHorizontal="16dp"
                     tools:text="하루를 보람차게 시작해요~"
                     android:text="@{vm.post.contents}"
-                    android:textColor="@color/dark_g2_5"
+                    android:textColor="@color/dark_g3_5"
                     android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/detailIndicator"/>
@@ -321,14 +345,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/join_runner"
                         android:textSize="16sp"
-                        android:textColor="@color/dark_g1"/>
+                        android:textColor="@color/dark_g3_5"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         tools:text="@{vm.getJoinRunnerCount(vm.runnerInfo.size(), vm.post.peopleNum)}"
-                        android:textColor="@color/dark_g2"
+                        android:textColor="@color/dark_g3_5"
                         android:textSize="16sp"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

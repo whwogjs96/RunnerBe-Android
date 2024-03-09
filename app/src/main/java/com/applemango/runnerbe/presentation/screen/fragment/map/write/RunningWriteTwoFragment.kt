@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.databinding.FragmentRunningWriteTwoBinding
+import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
@@ -51,6 +52,10 @@ class RunningWriteTwoFragment :
             viewModel.recruitmentStartAge.value = ages[0].toInt()
             viewModel.recruitmentEndAge.value = ages[1].toInt()
         })
+        context?.let {
+            binding.paceLevelSelectRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 8))
+        }
+
         binding.postButton.setOnClickListener(this)
         observeBind()
     }

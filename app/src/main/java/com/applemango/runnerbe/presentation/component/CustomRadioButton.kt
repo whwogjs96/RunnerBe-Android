@@ -20,6 +20,7 @@ class CustomRadioButton @JvmOverloads constructor(
             updateFont(isChecked)
             updateTextColor(isChecked)
         }
+        buttonDrawable = null
     }
 
     private fun updateFont(isChecked: Boolean) {

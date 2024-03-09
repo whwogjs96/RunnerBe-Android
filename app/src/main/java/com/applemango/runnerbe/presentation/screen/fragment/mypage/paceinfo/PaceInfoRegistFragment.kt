@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentRegistPaceInfoBinding
+import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.state.UiState
@@ -25,6 +27,9 @@ class PaceInfoRegistFragment: BaseFragment<FragmentRegistPaceInfoBinding>(R.layo
                 navPopStack()
             }
         }
+        context?.let {
+            binding.paceInfoRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
+        }
         viewModel.paceInfoUiState.observe(viewLifecycleOwner) {
             context?.let { context ->
                 if (it is UiState.Loading) showLoadingDialog(context)
@@ -41,7 +46,7 @@ class PaceInfoRegistFragment: BaseFragment<FragmentRegistPaceInfoBinding>(R.layo
                     }
                 }
                 is UiState.Success -> {
-                    PaceInfoRegistFragmentDirections.actionConfirm()
+                    findNavController().navigate(PaceInfoRegistFragmentDirections.actionConfirm())
                 }
             }
         }
