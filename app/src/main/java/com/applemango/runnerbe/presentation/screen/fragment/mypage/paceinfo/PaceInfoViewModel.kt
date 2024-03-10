@@ -47,12 +47,12 @@ class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserP
         val userId = RunnerBeApplication.mTokenPreference.getUserId()
         val selectedPace = paceInfoList.value.firstOrNull { it.isSelected } ?: return@launch
         patchUserPaceUseCase(userId, selectedPace.pace).collect {
+            if(it is CommonResponse.Success<*>) {
+                RunnerBeApplication.mTokenPreference.setMyRunningPace(selectedPace.pace.key)
+                _action.emit(PaceInfoRegistAction.ShowCompleteDialog(selectedPace.pace, R.string.pace_complete_title, R.string.pace_complete_description))
+            }
             _paceInfoUiState.postValue(
                 when(it) {
-                    is CommonResponse.Success<*> -> {
-                        RunnerBeApplication.mTokenPreference.setMyRunningPace(selectedPace.pace.key)
-                        UiState.Success(it.code)
-                    }
                     is CommonResponse.Failed -> {
                         if (it.code <= 999) UiState.NetworkError
                         else UiState.Failed(it.message)
@@ -67,4 +67,5 @@ class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserP
 
 sealed class PaceInfoRegistAction {
     object MoveToBack : PaceInfoRegistAction()
+    data class ShowCompleteDialog(val pace: Pace, val titleResource: Int, val descriptionResource: Int): PaceInfoRegistAction()
 }
