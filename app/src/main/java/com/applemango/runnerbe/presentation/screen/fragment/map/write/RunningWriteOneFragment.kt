@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -66,7 +67,13 @@ class RunningWriteOneFragment :
             v.performClick()
             binding.mapView.onTouchEvent(event)
         }
-
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    navPopStack(R.id.mainFragment)
+                }
+            })
         observeBind()
         binding.dateLayout.setOnClickListener(this)
         binding.timeLayout.setOnClickListener(this)

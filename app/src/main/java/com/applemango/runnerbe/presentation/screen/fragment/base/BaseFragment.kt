@@ -83,7 +83,6 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
                 if (it) navController.popBackStack()
             }
             navSpecificBackStack.observe(viewLifecycleOwner) {
-                Log.e( "navSpecificBackStack", it.toString())
                 if(it != null) navController.popBackStack(it, false)
             }
         }

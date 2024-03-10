@@ -171,6 +171,8 @@
     <string name="pace_level">페이스 난이도</string>
     <string name="pace_regist_description_title">나의 러닝 페이스를 선택해주세요!</string>
     <string name="pace_regist_description">페이스는 1km당 달리는데 걸리는 시간에 대한\n나의 러닝 페이스를 의미해요.</string>
+    <string name="pace_complete_title">페이스 %s \n등록 완료!</string>
+    <string name="pace_complete_description">페이스는 언제든 수정할 수 있어요.</string>
     <string name="finished_enrollment">등록완료</string>
     <string name="consider_more">더 고민할래요!</string>
     <string name="complete_change_nickname">닉네임이 변경되었어요!</string>
