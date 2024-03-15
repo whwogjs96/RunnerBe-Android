@@ -14,6 +14,7 @@ import com.applemango.runnerbe.domain.usecase.GetUserDataUseCase
 import com.applemango.runnerbe.domain.usecase.PatchUserImageUseCase
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.data.network.response.UserDataResponse
+import com.applemango.runnerbe.domain.entity.Pace
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +32,7 @@ class MyPageViewModel @Inject constructor(
         MutableStateFlow(CommonResponse.Empty)
     val uiUserDataFlow: StateFlow<CommonResponse> = _uiUserDataFlow
     val userInfo: MutableLiveData<UserInfo> = MutableLiveData()
+    val pace: MutableStateFlow<String?> = MutableStateFlow(null)
     val joinPosts: ObservableArrayList<Posting> = ObservableArrayList()
     val myPosts: ObservableArrayList<Posting> = ObservableArrayList()
     val moveTab : MutableSharedFlow<Int> = MutableSharedFlow()
@@ -53,6 +55,7 @@ class MyPageViewModel @Inject constructor(
                             myPosts.clear()
                             joinPosts.addAll(result.myRunning)
                             myPosts.addAll(result.posting)
+                            pace.emit(result.pace)
                         }
                     }
                 }
