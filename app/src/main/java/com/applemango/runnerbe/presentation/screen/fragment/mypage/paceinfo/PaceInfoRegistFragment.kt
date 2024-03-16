@@ -2,6 +2,8 @@ package com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -73,10 +75,25 @@ class PaceInfoRegistFragment :
                 ),
                 object : OneButtonClickListener {
                     override fun onClicked() {
-                        findNavController().navigate(PaceInfoRegistFragmentDirections.actionConfirm())
+                        when(viewModel.inputPage) {
+                            PaceRegistrationInputPage.MAP.mode -> {
+                                findNavController().navigate(PaceInfoRegistFragmentDirections.moveToWriteFragment())
+                            }
+                            PaceRegistrationInputPage.MY_PAGE.mode -> {
+                                refreshBack()
+                            }
+                        }
+
                     }
                 }
             )
         }
+    }
+
+    private fun refreshBack() {
+        requireActivity()
+            .supportFragmentManager
+            .setFragmentResult("refresh", bundleOf())
+        navPopStack()
     }
 }

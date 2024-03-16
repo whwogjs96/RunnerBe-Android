@@ -87,48 +87,11 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/runnerStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:visibility="@{myPageViewModel.userInfo.diligence == null ? View.GONE : View.VISIBLE}"
-                android:background="@drawable/bg_radius_20_dark_g4_stroke"
-                app:layout_constraintLeft_toLeftOf="@id/user_status"
-                app:layout_constraintTop_toBottomOf="@id/user_status">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/status_img"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    imageDrawable="@{ResourceUtil.INSTANCE.getRunnerDiligenceImage(myPageViewModel.userInfo.diligence)}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/runner_status_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@{myPageViewModel.userInfo.diligence}"
-                    android:textColor="@color/dark_g3"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/status_img"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="성실러너" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/user_job_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/bg_dark_g5_radius_24"
                 android:paddingLeft="8dp"
                 android:paddingTop="4dp"
@@ -138,9 +101,8 @@
                 android:text="@{myPageViewModel.userInfo.job}"
                 android:textColor="@color/logo_yellow"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@id/runnerStatus"
-                app:layout_constraintLeft_toRightOf="@id/runnerStatus"
-                app:layout_constraintTop_toTopOf="@id/runnerStatus"
+                app:layout_constraintLeft_toLeftOf="@id/user_status"
+                app:layout_constraintTop_toBottomOf="@id/user_status"
                 tools:text="기획/전략/경영"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -163,6 +125,7 @@
             android:visibility="@{myPageViewModel.pace == null ? View.VISIBLE : View.INVISIBLE}"
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
+            android:onClick="@{() -> myPageViewModel.paceRegistrationClicked()}"
             android:background="@drawable/bg_g4_stroke_radius_100"
             app:layout_constraintTop_toTopOf="@id/paceAndDiligenceBackgroundLayout"
             app:layout_constraintBottom_toBottomOf="@id/paceAndDiligenceBackgroundLayout"
@@ -201,7 +164,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/dark_g4_5"
-                android:padding="4dp"
+                android:paddingVertical="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="8dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -219,7 +184,7 @@
                     android:layout_marginLeft="2dp"
                     bind:paceText="@{myPageViewModel.pace}"
                     android:textColor="@color/dark_g1"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:fontFamily="@font/pretendard_regular"
                     android:includeFontPadding="false"/>
 
@@ -243,6 +208,7 @@
             android:layout_height="wrap_content"
             android:visibility="@{myPageViewModel.userInfo.diligence == null ? View.GONE : View.VISIBLE}"
             android:background="@drawable/bg_radius_20_dark_g4_stroke"
+            android:paddingHorizontal="8dp"
             app:layout_constraintLeft_toRightOf="@id/divider"
             app:layout_constraintTop_toTopOf="@id/divider"
             app:layout_constraintBottom_toBottomOf="@id/divider"
@@ -263,7 +229,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginRight="12dp"
                 android:layout_marginBottom="4dp"
                 android:text="@{myPageViewModel.userInfo.diligence}"
                 android:textColor="@color/dark_g3"

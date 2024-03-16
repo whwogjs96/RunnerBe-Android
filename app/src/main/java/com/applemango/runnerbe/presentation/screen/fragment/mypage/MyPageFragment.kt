@@ -4,9 +4,9 @@ import android.Manifest
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.applemango.runnerbe.R
@@ -27,7 +27,6 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -52,19 +51,31 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
         binding.myPageViewModel = viewModel
         tabInit()
         observeBind()
+        requireActivity()
+            .supportFragmentManager
+            .setFragmentResultListener("refresh", viewLifecycleOwner) { _, _ -> refresh() }
         binding.settingButton.setOnClickListener(this)
         binding.userEditBtn.setOnClickListener(this)
         binding.userImgEdit.setOnClickListener(this)
     }
     override fun onResume() {
         super.onResume()
-        if(viewModel.userInfo.value == null) getData()
+        if(viewModel.userInfo.value == null) refresh()
         viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.isShowInfoDialog.emit(true)
         }
     }
 
     private fun observeBind() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.actions.collect {
+                when(it) {
+                    is MyPageAction.MoveToPaceRegistration -> {
+                        navigate(MainFragmentDirections.moveToPaceInfoFragment("myPage"))
+                    }
+                }
+            }
+        }
         viewModel.updateUserImageState.observe(viewLifecycleOwner) {
             context?.let { context ->
                 if (it is UiState.Loading) showLoadingDialog(context)
@@ -89,7 +100,7 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
                         resources.getString(R.string.complete_change_profile_image),
                         Toast.LENGTH_SHORT
                     ).show()
-                    getData()
+                    refresh()
                 }
             }
         }
@@ -97,11 +108,9 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
             viewModel.moveTab.collect { mainViewModel.setTab(it) }
         }
     }
-    private fun getData() {
+    private fun refresh() {
         val userId = RunnerBeApplication.mTokenPreference.getUserId()
-        if (userId > -1) {
-            viewModel.getUserData(userId)
-        }
+        if (userId > -1) { viewModel.getUserData(userId) }
     }
 
     private fun tabInit() {
@@ -168,7 +177,6 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
                         )
                     }
                 }
-
             }
             binding.userImgEdit -> {
                 checkAdditionalUserInfo {

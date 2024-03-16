@@ -14,6 +14,7 @@ data class UserInfo(
     @SerializedName("age") val age: String?,
     @SerializedName("diligence") val diligence: String?,
     @SerializedName("job") val job: String?,
+    @SerializedName("pace") val pace: String?,
     @SerializedName("profileImageUrl") val profileImageUrl: String?,
     // Y : 수신동의, N : 수신거부
     @SerializedName("pushOn") val pushOn: String?,

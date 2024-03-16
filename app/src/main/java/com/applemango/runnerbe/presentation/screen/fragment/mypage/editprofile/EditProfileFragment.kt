@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.View
 import android.widget.CompoundButton.OnCheckedChangeListener
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.applemango.runnerbe.R
@@ -72,7 +74,7 @@ class EditProfileFragment :
                         resources.getString(R.string.complete_change_job),
                         Toast.LENGTH_SHORT
                     ).show()
-                    navPopStack()
+                    refreshBack()
                 }
             }
         }
@@ -100,7 +102,7 @@ class EditProfileFragment :
                         resources.getString(R.string.complete_change_nickname),
                         Toast.LENGTH_SHORT
                     ).show()
-                    navPopStack()
+                    refreshBack()
                 }
             }
         }
@@ -111,6 +113,11 @@ class EditProfileFragment :
         viewModel.radioChecked.value = currentJob?.id
         viewModel.currentJob = currentJob?.job ?: ""
         currentRadioButton = currentJob?.id
+    }
+
+    private fun refreshBack() {
+        requireActivity().supportFragmentManager.setFragmentResult("refresh", bundleOf())
+        navPopStack()
     }
 
     private fun jobButtonClick() = OnCheckedChangeListener { btn, isCheck ->

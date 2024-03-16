@@ -5,16 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
-import com.applemango.runnerbe.data.dto.ProfileUrlList
 import com.applemango.runnerbe.data.dto.UserInfo
-import com.applemango.runnerbe.presentation.model.RunnerDiligence
 import com.applemango.runnerbe.presentation.state.UiState
 import com.applemango.runnerbe.domain.usecase.GetUserDataUseCase
 import com.applemango.runnerbe.domain.usecase.PatchUserImageUseCase
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.data.network.response.UserDataResponse
-import com.applemango.runnerbe.domain.entity.Pace
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,10 +25,6 @@ class MyPageViewModel @Inject constructor(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val patchUserImageUseCase: PatchUserImageUseCase
 ) : ViewModel() {
-
-    private var _uiUserDataFlow: MutableStateFlow<CommonResponse> =
-        MutableStateFlow(CommonResponse.Empty)
-    val uiUserDataFlow: StateFlow<CommonResponse> = _uiUserDataFlow
     val userInfo: MutableLiveData<UserInfo> = MutableLiveData()
     val pace: MutableStateFlow<String?> = MutableStateFlow(null)
     val joinPosts: ObservableArrayList<Posting> = ObservableArrayList()
@@ -42,6 +36,9 @@ class MyPageViewModel @Inject constructor(
 
     private var _updateUserImageState : MutableLiveData<UiState> = MutableLiveData()
     val updateUserImageState get() = _updateUserImageState
+
+    private val _actions = MutableSharedFlow<MyPageAction>()
+    val actions get() = _actions
 
     fun getUserData(userId: Int) = viewModelScope.launch {
         if (userId > -1) {
@@ -55,11 +52,11 @@ class MyPageViewModel @Inject constructor(
                             myPosts.clear()
                             joinPosts.addAll(result.myRunning)
                             myPosts.addAll(result.posting)
-                            pace.emit(result.pace)
+                            RunnerBeApplication.mTokenPreference.setMyRunningPace(result.userInfo.pace?:"")
+                            pace.emit(result.userInfo.pace)
                         }
                     }
                 }
-                _uiUserDataFlow.emit(it)
             }
         } else {
             //에러 메시지 뱉자~
@@ -84,5 +81,11 @@ class MyPageViewModel @Inject constructor(
 
     fun setTab(index : Int) = viewModelScope.launch { moveTab.emit(index) }
 
+    fun paceRegistrationClicked() = viewModelScope.launch {
+        _actions.emit(MyPageAction.MoveToPaceRegistration)
+    }
+}
 
+sealed class MyPageAction {
+    object MoveToPaceRegistration : MyPageAction()
 }
