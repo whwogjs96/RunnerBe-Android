@@ -11,6 +11,5 @@ data class UserDataResponse(
 data class GetMyPageResult(
     @SerializedName("myInfo") val userInfo: UserInfo,
     @SerializedName("myPosting") val posting: List<Posting>,
-    @SerializedName("myRunning") val myRunning: List<Posting>,
-    @SerializedName("pace") val pace: String?
+    @SerializedName("myRunning") val myRunning: List<Posting>
 )

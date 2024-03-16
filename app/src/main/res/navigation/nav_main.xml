@@ -185,8 +185,12 @@
         tools:layout="@layout/fragment_regist_pace_info"
         android:name="com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo.PaceInfoRegistFragment"
         android:label="PaceInfoRegistFragment" >
+
+        <argument
+            android:name="mode"
+            app:argType="string"/>
         <action
-            android:id="@+id/action_confirm"
+            android:id="@+id/moveToWriteFragment"
             app:destination="@id/runningWriteFragment" />
     </fragment>
 </navigation>

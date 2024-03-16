@@ -223,7 +223,7 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     fun writeClickEvent() {
         checkAdditionalUserInfo {
             if(RunnerBeApplication.mTokenPreference.getMyRunningPace().isNullOrBlank()) {
-                navigate(MainFragmentDirections.moveToPaceInfoFragment())
+                navigate(MainFragmentDirections.moveToPaceInfoFragment("map"))
             } else navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
         }
     }

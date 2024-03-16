@@ -122,10 +122,10 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
     }
     private fun showAdditionalInfoDialog() {
         val prev = parentFragmentManager.findFragmentByTag(TAG)
+        Log.e("뭐지?", prev.toString())
         if (prev == null) {
             NoAdditionalInfoDialog().show(childFragmentManager, TAG)
         }
-
     }
 
     fun hideKeyBoard() {

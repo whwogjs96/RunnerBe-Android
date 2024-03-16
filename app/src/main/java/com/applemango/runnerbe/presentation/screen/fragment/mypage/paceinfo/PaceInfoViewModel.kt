@@ -1,6 +1,7 @@
 package com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.R
@@ -16,13 +17,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserPaceUseCase): ViewModel() {
+class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserPaceUseCase, val savedStateHandle: SavedStateHandle): ViewModel() {
     val paceInfoList: MutableStateFlow<List<PaceSelectItem>> = MutableStateFlow(initPaceInfoList())
     val isConfirmButtonEnabled = combine(paceInfoList) { data ->
         data[0].any { it.isSelected }
     }.stateIn(scope = viewModelScope, started = SharingStarted.WhileSubscribed(1000L),initialValue = false)
     private val _paceInfoUiState: MutableLiveData<UiState> = MutableLiveData(UiState.Empty)
     val paceInfoUiState get() = _paceInfoUiState
+
+    val inputPage : String? = savedStateHandle["mode"]
 
     private val _action: MutableSharedFlow<PaceInfoRegistAction> = MutableSharedFlow()
     val action :SharedFlow<PaceInfoRegistAction> get() = _action
@@ -68,4 +71,9 @@ class PaceInfoViewModel @Inject constructor(val patchUserPaceUseCase: PatchUserP
 sealed class PaceInfoRegistAction {
     object MoveToBack : PaceInfoRegistAction()
     data class ShowCompleteDialog(val pace: Pace, val titleResource: Int, val descriptionResource: Int): PaceInfoRegistAction()
+}
+
+enum class PaceRegistrationInputPage(val mode: String) {
+    MAP("map"),
+    MY_PAGE("myPage");
 }
