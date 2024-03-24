@@ -55,7 +55,7 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
             .supportFragmentManager
             .setFragmentResultListener("refresh", viewLifecycleOwner) { _, _ -> refresh() }
         binding.settingButton.setOnClickListener(this)
-        binding.userEditBtn.setOnClickListener(this)
+        binding.userProfileEditButton.setOnClickListener(this)
         binding.userImgEdit.setOnClickListener(this)
     }
     override fun onResume() {
@@ -169,7 +169,7 @@ class MyPageFragment : ImageBaseFragment<FragmentMypageBinding>(R.layout.fragmen
             binding.settingButton -> {
                 navigate(MainFragmentDirections.actionMainFragmentToSettingFragment(viewModel.userInfo.value?.pushOn == "Y"))
             }
-            binding.userEditBtn -> {
+            binding.userProfileEditButton -> {
                 checkAdditionalUserInfo {
                     viewModel.userInfo.value?.let {
                         navigate(

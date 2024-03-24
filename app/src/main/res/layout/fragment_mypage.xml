@@ -56,54 +56,81 @@
                 android:id="@+id/userNameView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:fontFamily="sans-serif-light"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/pretendard_semi_bold"
                 nick_name_text="@{myPageViewModel.userInfo.nickName}"
                 android:textColor="@color/dark_g1"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:layout_constraintLeft_toRightOf="@id/profileImageView"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="닉네임" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/user_status"
+                android:id="@+id/userGenderView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                gender_text="@{myPageViewModel.userInfo.gender}"
-                age_text="@{myPageViewModel.userInfo.age}"
-                android:textColor="@color/dark_g3_5"
-                android:textSize="12sp"
+                tools:text="여성"
+                android:text="@{myPageViewModel.userInfo.gender}"
+                android:textColor="@color/dark_g1"
+                android:fontFamily="@font/pretendard_regular"
                 app:layout_constraintLeft_toLeftOf="@id/userNameView"
-                app:layout_constraintTop_toBottomOf="@id/userNameView"
-                tools:text="여성 · 20대 후반" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/user_edit_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_right_arrow"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/userNameView"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/user_job_txt"
+                android:id="@+id/userStatusDotView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_dark_g5_radius_24"
-                android:paddingLeft="8dp"
-                android:paddingTop="4dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="4dp"
-                android:visibility="@{myPageViewModel.userInfo.job == null ? View.GONE : View.VISIBLE}"
+                android:text="·"
+                bind:isVisible="@{myPageViewModel.userInfo.age != null}"
+                android:textColor="@color/dark_g3"
+                android:layout_marginLeft="4dp"
+                app:layout_constraintLeft_toRightOf="@id/userGenderView"
+                app:layout_constraintTop_toTopOf="@id/userGenderView"
+                app:layout_constraintBottom_toBottomOf="@id/userGenderView"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userAgeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                tools:text="20대 후반"
+                android:text="@{myPageViewModel.userInfo.age}"
+                android:textColor="@color/dark_g1"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintLeft_toRightOf="@id/userStatusDotView"
+                app:layout_constraintTop_toTopOf="@id/userGenderView"
+                app:layout_constraintBottom_toBottomOf="@id/userGenderView"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userJobView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:paddingVertical="2dp"
+                android:paddingHorizontal="6dp"
+                tools:text="기획/전략/경영"
                 android:text="@{myPageViewModel.userInfo.job}"
-                android:textColor="@color/logo_yellow"
+                android:textColor="@color/dark_g3"
                 android:textSize="10sp"
-                app:layout_constraintLeft_toLeftOf="@id/user_status"
-                app:layout_constraintTop_toBottomOf="@id/user_status"
-                tools:text="기획/전략/경영"/>
+                android:fontFamily="@font/pretendard_regular"
+                android:visibility="@{myPageViewModel.userInfo.job == null ? View.GONE : View.VISIBLE}"
+                android:background="@drawable/bg_dark_g5_radius_24"
+                app:layout_constraintLeft_toRightOf="@id/userAgeView"
+                app:layout_constraintTop_toTopOf="@id/userGenderView"
+                app:layout_constraintBottom_toBottomOf="@id/userGenderView"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userProfileEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/do_profile_edit"
+                android:textColor="@color/dark_g2"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="20dp"
+                app:layout_constraintLeft_toRightOf="@id/profileImageView"
+                app:layout_constraintTop_toBottomOf="@id/userGenderView"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -117,6 +144,40 @@
             android:layout_marginHorizontal="16dp"
             app:layout_constraintTop_toBottomOf="@id/userMainLayout"
             app:layout_constraintBottom_toBottomOf="@id/paceRegistrationLayout"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:visibility="@{myPageViewModel.pace == null ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toTopOf="@id/paceRegistrationLayout"
+            app:layout_constraintLeft_toLeftOf="@id/paceRegistrationLayout"
+            app:layout_constraintRight_toRightOf="@id/paceRegistrationLayout">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/paceRegistrationDescriptionPopUpView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="@string/pace_registration_description"
+                android:textColor="@color/logo_yellow"
+                android:textSize="12sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:background="@drawable/bg_dark_5_5g_solid_radius_14"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_bottom_triangle"
+                app:layout_constraintTop_toBottomOf="@id/paceRegistrationDescriptionPopUpView"
+                app:layout_constraintLeft_toLeftOf="@id/paceRegistrationDescriptionPopUpView"
+                app:layout_constraintRight_toRightOf="@id/paceRegistrationDescriptionPopUpView"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/paceRegistrationLayout"
@@ -203,7 +264,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/paceRegistrationLayout"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/runnerStatus2"
+            android:id="@+id/runnerStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{myPageViewModel.userInfo.diligence == null ? View.GONE : View.VISIBLE}"
@@ -215,16 +276,16 @@
             app:layout_constraintRight_toRightOf="@id/paceAndDiligenceBackgroundLayout">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/status_img2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:id="@+id/status_img"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 imageDrawable="@{ResourceUtil.INSTANCE.getRunnerDiligenceImage(myPageViewModel.userInfo.diligence)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/runner_status_txt2"
+                android:id="@+id/runner_status_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -236,7 +297,7 @@
                 android:fontFamily="@font/pretendard_regular"
 
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/status_img2"
+                app:layout_constraintLeft_toRightOf="@id/status_img"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="성실러너" />
