@@ -6,14 +6,15 @@ import com.applemango.runnerbe.databinding.ItemPostBinding
 import com.applemango.runnerbe.presentation.model.PostIncomingType
 import com.applemango.runnerbe.presentation.model.listener.PostClickListener
 
-class HomePostViewHolder(
+class PostViewHolder(
     private val binding: ItemPostBinding,
     private val listener: PostClickListener
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Posting) {
+    fun bind(item: Posting, type: PostIncomingType) {
         binding.item = item
         binding.clickListener = listener
-        binding.incomingType = PostIncomingType.HOME
+        binding.incomingType = type
+
     }
 }

@@ -59,6 +59,8 @@ data class Posting(
         return this.whetherCheck == "Y" && this.attendance == 1
     }
 
+    fun isWhetherEnded(): Boolean = whetherEnd == "Y"
+
     fun groupString(): String {
         return try {
             val min = this.age.split("-")[0].toInt()
