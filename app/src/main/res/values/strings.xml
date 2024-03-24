@@ -157,6 +157,8 @@
     <string name="msg_not_attendance_complete">불참했어요 😭</string>
     <string name="absent">결석</string>
     <string name="present">출석</string>
+    <string name="do_profile_edit">프로필 수정하기</string>
+    <string name="pace_registration_description">페이스를 등록하세요!</string>
 
     <!-- 내정보 수정  -->
     <string name="msg_impossible_nickname_change">* 닉네임 변경이 완료되어 추가 변경은 불가능해요!</string>
