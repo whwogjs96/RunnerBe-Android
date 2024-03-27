@@ -5,6 +5,7 @@
 
     <data>
         <import type="android.view.View"/>
+        <import type="com.applemango.runnerbe.presentation.model.PostIncomingType"/>
         <variable
             name="fragment"
             type="com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapFragment" />
@@ -144,8 +145,9 @@
                 android:paddingHorizontal="12dp"
                 android:paddingBottom="16dp"
                 android:paddingTop="20dp"
-                bind:homePostAdapter="@{vm.postList}"
+                bind:postAdapter="@{vm.postList}"
                 bind:postClickListener="@{mainVm.postClickListener}"
+                bind:postIncomingType="@{PostIncomingType.HOME}"
                 android:visibility="@{vm.postList.empty ? View.GONE : View.VISIBLE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/filterLayout"

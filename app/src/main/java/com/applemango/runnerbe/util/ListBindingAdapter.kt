@@ -1,6 +1,5 @@
 package com.applemango.runnerbe.util
 
-import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +8,7 @@ import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
 import com.applemango.runnerbe.data.dto.Room
 import com.applemango.runnerbe.data.dto.UserInfo
+import com.applemango.runnerbe.presentation.model.PostIncomingType
 import com.applemango.runnerbe.presentation.model.listener.*
 import com.applemango.runnerbe.presentation.screen.dialog.appliedrunner.WaitingRunnerInfoAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.main.postdetail.RunnerInfoAdapter
@@ -17,28 +17,14 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListI
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailAdapter
-import com.applemango.runnerbe.presentation.screen.fragment.map.HomePostAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.map.PostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.map.write.paceselect.PaceSimpleSelectListAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.JoinPostAdapter
-import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.MyPostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.accession.AttendanceAccessionAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.mypost.see.AttendanceSeeAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo.PaceInfoListAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.paceinfo.PaceSelectItem
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.creator.CreatorAdapter
-
-@BindingAdapter("myPostAdapter", "myPostEvent")
-fun setMyPostAdapter(
-    recyclerView: RecyclerView,
-    dataList: ObservableArrayList<Posting>,
-    myPostClickListener: MyPostClickListener
-) {
-    if (recyclerView.adapter == null) {
-        recyclerView.adapter = MyPostAdapter(dataList, myPostClickListener)
-    }
-    recyclerView.adapter?.notifyDataSetChanged()
-}
-
 @BindingAdapter("attendanceSeeAdapter")
 fun setAttendanceSeeAdapter(
     recyclerView: RecyclerView,
@@ -113,14 +99,15 @@ fun setPostListAdapter(
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
-@BindingAdapter("bind:homePostAdapter", "bind:postClickListener")
+@BindingAdapter("bind:postAdapter", "bind:postClickListener", "bind:postIncomingType")
 fun setPostAdapter(
     recyclerView: RecyclerView,
     dataList: ObservableArrayList<Posting>,
-    clickListener: PostClickListener
+    clickListener: PostClickListener,
+    type: PostIncomingType
 ) {
     if (recyclerView.adapter == null)
-        recyclerView.adapter = HomePostAdapter(dataList, clickListener)
+        recyclerView.adapter = PostAdapter(dataList, clickListener, type)
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
