@@ -36,7 +36,6 @@ import com.applemango.runnerbe.data.network.request.SocialLoginRequest
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.screen.activity.HomeActivity
 import com.applemango.runnerbe.ui.theme.aggro
-import com.applemango.runnerbe.ui.theme.notoSans
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
