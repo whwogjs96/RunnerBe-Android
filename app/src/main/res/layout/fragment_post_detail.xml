@@ -6,10 +6,6 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="fragment"
-            type="com.applemango.runnerbe.presentation.screen.fragment.main.postdetail.PostDetailFragment" />
-
-        <variable
             name="vm"
             type="com.applemango.runnerbe.presentation.screen.fragment.main.postdetail.PostDetailViewModel" />
     </data>
@@ -33,7 +29,7 @@
                 android:id="@+id/back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> fragment.goBack()}"
+                android:onClick="@{() -> vm.backClicked()}"
                 android:src="@drawable/ic_back"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:onClick="@{() -> fragment.showReportDialog()}"
+                android:onClick="@{() -> vm.reportBtnClicked()}"
                 android:visibility="@{vm.myPost ? View.GONE : View.VISIBLE}"
                 android:src="@drawable/ic_bell"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -71,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:onClick="@{() -> fragment.showDropDialog()}"
+                android:onClick="@{() -> vm.moreIconClicked()}"
                 android:visibility="@{vm.myPost ? View.VISIBLE : View.GONE}"
                 android:src="@drawable/ic_more_vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -376,7 +372,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_waiting_user"
-                    android:onClick="@{() -> fragment.showAppliedRunnerListDialog()}"
+                    android:onClick="@{() -> vm.waitingBtnClicked()}"
                     android:visibility="@{vm.myPost ? View.VISIBLE : View.GONE}"
                     android:layout_marginBottom="20dp"
                     android:layout_marginRight="12dp"
@@ -411,7 +407,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 isEnabled="@{vm.isParticipatePostIn(vm.post)}"
-                android:onClick="@{() -> fragment.moveToMessage()}"
+                android:onClick="@{() -> vm.moveToMessageClicked()}"
                 android:layout_marginRight="12dp"
                 android:src="@drawable/selector_message_circle"/>
 
@@ -420,7 +416,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{() -> fragment.clickBottomButton()}"
+                android:onClick="@{() -> vm.bottomBtnClicked()}"
                 isEnabled="@{vm.isBottomButtonEnabled(vm.post.whetherEnd)}"
                 android:background="@drawable/selector_main_primary_button"
                 android:paddingTop="8dp"

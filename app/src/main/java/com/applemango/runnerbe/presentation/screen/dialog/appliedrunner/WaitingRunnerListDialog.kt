@@ -24,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class WaitingRunnerListDialog(
-    private val waitingList: ObservableArrayList<UserInfo>,
     private val detailViewModel: PostDetailViewModel,
     private val postListener: PostDialogListener,
     private val roomId: Int?
@@ -39,7 +38,7 @@ class WaitingRunnerListDialog(
         binding.dialog = this
         if(detailViewModel.post.value != null) viewModel.post =detailViewModel.post.value!!
         else dismiss()
-        viewModel.waitingInfo.addAll(waitingList)
+        viewModel.waitingInfo.addAll(detailViewModel.waitingInfo)
         observeBind()
     }
 

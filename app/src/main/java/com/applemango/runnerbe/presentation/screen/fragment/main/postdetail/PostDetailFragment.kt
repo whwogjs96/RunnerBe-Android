@@ -47,7 +47,6 @@ class PostDetailFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         viewModel.post.value = args.posting
-        binding.fragment = this
         observeBind()
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
@@ -88,6 +87,38 @@ class PostDetailFragment :
     }
 
     fun observeBind() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.actions.collect {
+                when(it) {
+                    is PostDetailAction.MoveToBack -> {
+                        navPopStack()
+                    }
+                    is PostDetailAction.ShowAppliedRunnerListDialog -> {
+                        showAppliedRunnerListDialog()
+                    }
+                    is PostDetailAction.MoveToMessage -> {
+                        moveToMessage(roomId = it.roomId, nickName = it.nickName)
+                    }
+                    is PostDetailAction.ShowTwoBtnDialog -> {
+                        context?.let { context ->
+                            TwoButtonDialog.createShow(
+                                context = context,
+                                title = it.titleText,
+                                firstButtonText = it.firstBtnText,
+                                secondButtonText = it.secondBtnText,
+                                firstEvent = it.firstEvent,
+                                secondEvent = it.secondEvent
+                            )
+                        }
+                    }
+                    is PostDetailAction.ShowSelectListDialog -> {
+                        context?.let { context ->
+                            SelectItemDialog.createShow(context, it.list)
+                        }
+                    }
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
                 viewModel.processUiState.collect {
@@ -185,16 +216,12 @@ class PostDetailFragment :
         }
     }
 
-    fun moveToMessage() {
-        viewModel.roomId?.let { roomId ->
-            viewModel.post.value?.nickName?.let { nickName ->
-                navigate(
-                    PostDetailFragmentDirections.actionPostDetailFragmentToRunningTalkDetailFragment(
-                        roomId, nickName
-                    )
-                )
-            }
-        }
+    fun moveToMessage(roomId: Int, nickName: String) {
+        navigate(
+            PostDetailFragmentDirections.actionPostDetailFragmentToRunningTalkDetailFragment(
+                roomId, nickName
+            )
+        )
     }
 
     override fun onMapReady(map: NaverMap) {
@@ -263,35 +290,11 @@ class PostDetailFragment :
         markerInfoView.open(marker)
     }
 
-    fun showDropDialog() {
-        val dialogList = listOf(
-            SelectItemParameter(resources.getString(R.string.do_delete)) {
-                viewModel.dropPost()
-            }
-        )
-        context?.let { SelectItemDialog.createShow(it, dialogList) }
-
-    }
-
-    fun clickBottomButton() {
-        context?.let {
-            TwoButtonDialog.createShow(
-                context = it,
-                title = resources.getString(if (viewModel.isMyPost()) R.string.question_post_close else R.string.question_post_apply),
-                firstButtonText = resources.getString(R.string.no),
-                secondButtonText = resources.getString(R.string.yes),
-                firstEvent = {},
-                secondEvent = {
-                    viewModel.bottomProcess()
-                }
-            )
-        }
-    }
-
-    fun showAppliedRunnerListDialog() {
-        WaitingRunnerListDialog(viewModel.waitingInfo, viewModel, object : PostDialogListener {
+    private fun showAppliedRunnerListDialog() {
+        WaitingRunnerListDialog(viewModel, object : PostDialogListener {
             override fun moveToMessage(roomId: Int, repUserName: String?) {
-                moveToMessage()
+                val nickName = repUserName?:return
+                this@PostDetailFragment.moveToMessage(roomId, nickName)
             }
 
             override fun dismiss() {}
@@ -308,20 +311,5 @@ class PostDetailFragment :
         viewModel.post.value?.gatherLongitude?.toDouble()!!
     } catch (e: Exception) {
         mNaverMap.cameraPosition.target.longitude
-    }
-
-    fun showReportDialog() {
-        context?.let {
-            TwoButtonDialog.createShow(
-                it,
-                title = resources.getString(R.string.msg_warning_report),
-                firstButtonText = resources.getString(R.string.yes),
-                secondButtonText = resources.getString(R.string.no),
-                firstEvent = {
-                    viewModel.reportPost()
-                },
-                secondEvent = {}
-            )
-        }
     }
 }
