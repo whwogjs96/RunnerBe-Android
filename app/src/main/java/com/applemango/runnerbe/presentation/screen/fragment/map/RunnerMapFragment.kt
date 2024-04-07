@@ -56,20 +56,18 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         binding.vm = viewModel
         binding.postListLayout.vm = viewModel
         binding.postListLayout.mainVm = mainViewModel
-        binding.postListLayout.fragment = this
         context?.let {
             binding.postListLayout.postRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
         }
         viewLifecycleOwner.lifecycleScope.launch {
             mainViewModel.isShowInfoDialog.emit(true)
         }
-        binding.fragment = this
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, PERMISSION_REQUEST_CODE)
         observeBind()
         binding.slideLayout.setScrollableViewHelper(NestedScrollableViewHelper(binding.postListLayout.bodyLayout))
-        binding.postListLayout.bodyLayout.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        binding.postListLayout.bodyLayout.setOnScrollChangeListener { v, _, _, _, _ ->
             if(!v.canScrollVertically(1) && !viewModel.isEndPage) {
                 viewModel.getRunningList(if (userId > 0) userId else null, isRefresh = false)
             }
@@ -79,14 +77,11 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
-                viewModel.isRefresh.collect { refresh() }
-            }
-            launch {
                 mainViewModel.clickedPost.collect {
                     runCatching {
                         val index = viewModel.postList.indexOf(it)
                         if (index != -1) onClickMarker(markerList[index], it)
-                        else refresh()
+                        else viewModel.refresh()
                     }
                 }
             }
@@ -96,13 +91,36 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
                     if (index != -1) viewModel.postList[index] = it.copy()
                 }
             }
+            launch {
+                viewModel.actions.collect {
+                    when(it) {
+                        is RunnerMapAction.MoveToWrite -> {
+                            checkAdditionalUserInfo {
+                                if(RunnerBeApplication.mTokenPreference.getMyRunningPace().isNullOrBlank()) {
+                                    navigate(MainFragmentDirections.moveToPaceInfoFragment("map"))
+                                } else navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
+                            }
+                        }
+                        is RunnerMapAction.ShowSelectListDialog -> {
+                            context?.let { context ->
+                                SelectItemDialog.createShow(context, it.list)
+                            }
+                        }
+                        is RunnerMapAction.MoveToRunningFilter -> {
+                            val filter = it.filterData
+                            navigate(
+                                MainFragmentDirections.actionMainFragmentToRunningFilterFragment(
+                                    gender = filter.genderTag,
+                                    job = filter.jobTag,
+                                    minAge = filter.minAge,
+                                    maxAge = filter.maxAge
+                                )
+                            )
+                        }
+                    }
+                }
+            }
         }
-    }
-
-    fun refresh() {
-        viewModel.postList.clear()
-        val userId = RunnerBeApplication.mTokenPreference.getUserId()
-        viewModel.getRunningList(if (userId > 0) userId else null, isRefresh = true)
     }
 
     override fun onStart() {
@@ -220,66 +238,12 @@ class RunnerMapFragment : BaseFragment<FragmentRunnerMapBinding>(R.layout.fragme
         }
     }
 
-    fun writeClickEvent() {
-        checkAdditionalUserInfo {
-            if(RunnerBeApplication.mTokenPreference.getMyRunningPace().isNullOrBlank()) {
-                navigate(MainFragmentDirections.moveToPaceInfoFragment("map"))
-            } else navigate(MainFragmentDirections.actionMainFragmentToRunningWriteFragment())
-        }
-    }
-
-    fun filterClick() {
-        val filter = viewModel.filterData.value
-        navigate(
-            MainFragmentDirections.actionMainFragmentToRunningFilterFragment(
-                gender = filter.genderTag,
-                job = filter.jobTag,
-                minAge = filter.minAge,
-                maxAge = filter.maxAge
-            )
-        )
-    }
-
-    fun filterRunningTagClick() {
-        val tagList = listOf(
-            SelectItemParameter(resources.getString(RunningTag.All.getTagNameResource())) {
-                viewModel.filterRunningTag.value = RunningTag.All
-            },
-            SelectItemParameter(resources.getString(RunningTag.Before.getTagNameResource())) {
-                viewModel.filterRunningTag.value = RunningTag.Before
-            },
-            SelectItemParameter(resources.getString(RunningTag.After.getTagNameResource())) {
-                viewModel.filterRunningTag.value = RunningTag.After
-            },
-            SelectItemParameter(resources.getString(RunningTag.Holiday.getTagNameResource())) {
-                viewModel.filterRunningTag.value = RunningTag.Holiday
-            }
-        )
-        context?.let {
-            SelectItemDialog.createShow(it, tagList)
-        }
-    }
-
-    fun filterPriorityTagClick() {
-        val tagList = listOf(
-            SelectItemParameter(resources.getString(PriorityFilterTag.BY_DISTANCE.getTagNameResource())) {
-                viewModel.filterPriorityTag.value = PriorityFilterTag.BY_DISTANCE
-            },
-            SelectItemParameter(resources.getString(PriorityFilterTag.NEWEST.getTagNameResource())) {
-                viewModel.filterPriorityTag.value = PriorityFilterTag.NEWEST
-            }
-        )
-        context?.let {
-            SelectItemDialog.createShow(it, tagList)
-        }
-    }
-
-    fun getNoSelectMapMarkerResource(posting: Posting?): Int {
+    private fun getNoSelectMapMarkerResource(posting: Posting?): Int {
         return if (posting?.whetherEnd == "Y") R.drawable.ic_map_marker_whether_end
         else R.drawable.ic_map_marker
     }
 
-    fun getSelectMapMarkerResource(posting: Posting?): Int {
+    private fun getSelectMapMarkerResource(posting: Posting?): Int {
         return if (posting?.whetherEnd == "Y") R.drawable.ic_select_map_marker_whether_end_no_profile
         else R.drawable.ic_select_map_marker_no_profile
     }

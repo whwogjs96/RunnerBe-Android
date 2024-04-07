@@ -6,10 +6,6 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="fragment"
-            type="com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapFragment" />
-
-        <variable
             name="vm"
             type="com.applemango.runnerbe.presentation.screen.fragment.map.RunnerMapViewModel" />
     </data>
@@ -154,7 +150,7 @@
             android:paddingVertical="8dp"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:onClick="@{() -> fragment.refresh()}"
+            android:onClick="@{() -> vm.refresh()}"
             android:visibility="@{vm.refreshThisLocation ? View.VISIBLE : View.GONE}"
             android:background="@drawable/bg_dark_g7_solid_radius_20"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -182,7 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:layout_marginBottom="20dp"
-            android:onClick="@{() -> fragment.writeClickEvent()}"
+            android:onClick="@{() -> vm.writeClicked()}"
             android:src="@drawable/ic_running_plus"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

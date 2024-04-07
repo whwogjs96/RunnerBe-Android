@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.data.network.request.GetRunningListRequest
 import com.applemango.runnerbe.data.network.response.GetRunningListResponse
@@ -11,6 +12,7 @@ import com.applemango.runnerbe.data.vo.MapFilterData
 import com.applemango.runnerbe.domain.usecase.post.GetRunningListUseCase
 import com.applemango.runnerbe.presentation.model.PriorityFilterTag
 import com.applemango.runnerbe.presentation.model.RunningTag
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemParameter
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
 import com.naver.maps.geometry.LatLng
@@ -57,7 +59,7 @@ class RunnerMapViewModel @Inject constructor(
         prePriorityTag = currentPriorityTag
         preIncludeFinish = currentIncludeFinish
         preFilterData = currentMapFilterData
-        if(result) ++refreshCount
+        if (result) ++refreshCount
         else refreshCount
     }.stateIn(
         scope = viewModelScope,
@@ -65,8 +67,76 @@ class RunnerMapViewModel @Inject constructor(
         initialValue = 0
     )
 
+    private val _actions: MutableSharedFlow<RunnerMapAction> = MutableSharedFlow()
+    val actions: SharedFlow<RunnerMapAction> get() = _actions
+
+    init {
+        viewModelScope.launch {
+            isRefresh.collect { refresh() }
+        }
+    }
+
+    fun refresh() {
+        postList.clear()
+        val userId = RunnerBeApplication.mTokenPreference.getUserId()
+        getRunningList(if (userId > 0) userId else null, isRefresh = true)
+    }
+
     fun setFilter(gender: String?, jobTag: String?, minAge: Int? = 0, maxAge: Int?) {
         filterData.value = MapFilterData(gender ?: "A", jobTag ?: "N", minAge ?: 0, maxAge ?: 100)
+    }
+
+    fun writeClicked() {
+        viewModelScope.launch {
+            _actions.emit(RunnerMapAction.MoveToWrite)
+        }
+    }
+
+    fun priorityTagClicked() {
+        val resources = RunnerBeApplication.instance.resources
+        viewModelScope.launch {
+            _actions.emit(
+                RunnerMapAction.ShowSelectListDialog(
+                    listOf(
+                        SelectItemParameter(resources.getString(PriorityFilterTag.BY_DISTANCE.getTagNameResource())) {
+                            filterPriorityTag.value = PriorityFilterTag.BY_DISTANCE
+                        },
+                        SelectItemParameter(resources.getString(PriorityFilterTag.NEWEST.getTagNameResource())) {
+                            filterPriorityTag.value = PriorityFilterTag.NEWEST
+                        })
+                )
+            )
+        }
+    }
+
+    fun runningTagClicked() {
+        val resources = RunnerBeApplication.instance.resources
+        viewModelScope.launch {
+            _actions.emit(
+                RunnerMapAction.ShowSelectListDialog(
+                    listOf(
+                        SelectItemParameter(resources.getString(RunningTag.All.getTagNameResource())) {
+                            filterRunningTag.value = RunningTag.All
+                        },
+                        SelectItemParameter(resources.getString(RunningTag.Before.getTagNameResource())) {
+                            filterRunningTag.value = RunningTag.Before
+                        },
+                        SelectItemParameter(resources.getString(RunningTag.After.getTagNameResource())) {
+                            filterRunningTag.value = RunningTag.After
+                        },
+                        SelectItemParameter(resources.getString(RunningTag.Holiday.getTagNameResource())) {
+                            filterRunningTag.value = RunningTag.Holiday
+                        }
+                    )
+                )
+            )
+        }
+    }
+
+    fun filterClicked() {
+        viewModelScope.launch {
+            _actions.emit(RunnerMapAction.MoveToRunningFilter(filterData.value))
+        }
     }
 
     fun getRunningList(userId: Int?, isRefresh: Boolean = false) = viewModelScope.launch {
@@ -83,7 +153,7 @@ class RunnerMapViewModel @Inject constructor(
             userId = userId,
             whetherEnd = if (includeFinish.value) "Y" else "N",
             pageSize = pageSize,
-            page = postList.size/pageSize + 1
+            page = postList.size / pageSize + 1
         )
         getRunningListUseCase(filterRunningTag.value, request).collect {
             if (it is CommonResponse.Success<*> && it.body is GetRunningListResponse) {
@@ -109,5 +179,12 @@ class RunnerMapViewModel @Inject constructor(
             )
         }
     }
+}
 
+sealed class RunnerMapAction {
+    object MoveToWrite : RunnerMapAction()
+    data class ShowSelectListDialog(
+        val list: List<SelectItemParameter>
+    ) : RunnerMapAction()
+    data class MoveToRunningFilter(val filterData: MapFilterData): RunnerMapAction()
 }
