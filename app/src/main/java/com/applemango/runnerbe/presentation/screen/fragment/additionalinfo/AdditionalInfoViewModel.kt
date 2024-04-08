@@ -33,6 +33,9 @@ class AdditionalInfoViewModel @Inject constructor(
     private val _registerState : MutableSharedFlow<UiState> = MutableSharedFlow()
     val registerState : SharedFlow<UiState> get() = _registerState
 
+    private val _actions: MutableSharedFlow<AdditionalInfoAction> = MutableSharedFlow()
+    val actions: SharedFlow<AdditionalInfoAction> get() = _actions
+
     private fun getJobTag(): String? = JobButtonId.findById(jobRadioChecked.value)?.job
 
     fun setJobTag(jobTag : String) {
@@ -84,11 +87,34 @@ class AdditionalInfoViewModel @Inject constructor(
                 _registerState.emit(UiState.Failed("출생년도를 다시 입력해주세요."))
             }
         } else _registerState.emit(UiState.Failed("앱을 재실행해주세요."))
+    }
 
+    fun backClicked() {
+        viewModelScope.launch {
+            _actions.emit(AdditionalInfoAction.MoveToBack)
+        }
+    }
+
+    fun cancelClicked() {
+        viewModelScope.launch {
+            _actions.emit(AdditionalInfoAction.ActivityFinish)
+        }
+    }
+
+    fun nextClicked() {
+        viewModelScope.launch {
+            _actions.emit(AdditionalInfoAction.MoveToNext)
+        }
     }
 
     fun getGenderTag(tabId : Int) : String = when(tabId) {
             R.id.maleButton-> GenderTag.MALE.tag
             else -> GenderTag.FEMALE.tag
         }
+}
+
+sealed class AdditionalInfoAction {
+    object MoveToBack : AdditionalInfoAction()
+    object ActivityFinish: AdditionalInfoAction()
+    object MoveToNext: AdditionalInfoAction()
 }

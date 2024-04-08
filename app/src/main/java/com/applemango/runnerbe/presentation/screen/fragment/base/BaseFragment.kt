@@ -71,9 +71,6 @@ open class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutId: In
     open fun goBack() {
         navPopStack()
     }
-    fun activityFinish() {
-        activity?.finish()
-    }
     private fun navigationAction() {
         navigationViewModel.apply {
             navDirectionAction.observe(viewLifecycleOwner) {

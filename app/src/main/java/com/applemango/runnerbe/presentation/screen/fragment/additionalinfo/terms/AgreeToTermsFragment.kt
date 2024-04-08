@@ -14,17 +14,35 @@ import com.applemango.runnerbe.presentation.screen.fragment.mypage.setting.Setti
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class AgreeToTermsFragment :BaseFragment<FragmentAgreeToTermsBinding>(R.layout.fragment_agree_to_terms) {
+class AgreeToTermsFragment :
+    BaseFragment<FragmentAgreeToTermsBinding>(R.layout.fragment_agree_to_terms) {
 
-    private val viewModel : AgreeToTermsViewModel by viewModels()
+    private val viewModel: AgreeToTermsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        binding.fragment = this
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.allCheck.collect {
                 binding.termsAllCheckBox.isChecked = it
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.actions.collect {
+                when (it) {
+                    is AgreeToTermsAction.ActivityFinish -> { activity?.finish() }
+                    is AgreeToTermsAction.MoveToWebView -> {
+                        navigate(
+                            AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToWebViewFragment(
+                                title = it.title,
+                                url = it.url
+                            )
+                        )
+                    }
+                    is AgreeToTermsAction.MoveToNext -> {
+                        navigate(AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToYearInfoFragment())
+                    }
+                }
             }
         }
         binding.termsAllCheckBox.setOnClickListener {
@@ -32,36 +50,5 @@ class AgreeToTermsFragment :BaseFragment<FragmentAgreeToTermsBinding>(R.layout.f
             viewModel.privacyTerms.value = binding.termsAllCheckBox.isChecked
             viewModel.locationServiceTerms.value = binding.termsAllCheckBox.isChecked
         }
-    }
-
-    fun moveToServiceUseTerms() {
-        navigate(
-            AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToWebViewFragment(
-                title = resources.getString(R.string.terms_of_service),
-                url = "https://raw.githubusercontent.com/runner-be/runner-be.github.io/main/Policy_Service.txt"
-            )
-        )
-    }
-
-    fun moveToPrivacyTerms() {
-        navigate(
-            AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToWebViewFragment(
-                title = resources.getString(R.string.privacy_policy),
-                url = "https://raw.githubusercontent.com/runner-be/runner-be.github.io/main/Policy_Privacy_Collect.txt"
-            )
-        )
-    }
-
-    fun moveToLocationServiceUseTerms() {
-        navigate(
-            AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToWebViewFragment(
-                title = resources.getString(R.string.use_a_location_service),
-                url = "https://raw.githubusercontent.com/runner-be/runner-be.github.io/main/Policy_Location.txt"
-            )
-        )
-    }
-
-    fun moveToNext() {
-        navigate(AgreeToTermsFragmentDirections.actionAgreeToTermsFragmentToYearInfoFragment())
     }
 }

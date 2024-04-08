@@ -9,6 +9,7 @@ import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentAdditionalJobSelectBinding
 import com.applemango.runnerbe.presentation.model.JobButtonId
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
+import com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.AdditionalInfoAction
 import com.applemango.runnerbe.presentation.screen.fragment.additionalinfo.AdditionalInfoViewModel
 import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
 import com.applemango.runnerbe.presentation.state.UiState
@@ -23,7 +24,6 @@ class AdditionalJobSelectFragment: BaseFragment<FragmentAdditionalJobSelectBindi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fragment = this
         binding.vm = viewModel
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -44,6 +44,15 @@ class AdditionalJobSelectFragment: BaseFragment<FragmentAdditionalJobSelectBindi
                                 )
                             }
                         }
+                    }
+                }
+            }
+
+            launch {
+                viewModel.actions.collect {
+                    when(it) {
+                        is AdditionalInfoAction.MoveToBack -> { navPopStack() }
+                        is AdditionalInfoAction.ActivityFinish -> { activity?.finish() }
                     }
                 }
             }
