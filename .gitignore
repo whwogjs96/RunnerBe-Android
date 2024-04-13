@@ -21,6 +21,8 @@ out/
 .gradle/
 build/
 
+/.idea
+
 # Local configuration file (sdk path, etc)
 local.properties
 
@@ -87,3 +89,4 @@ lint/tmp/
 # Ignore Mac DS_Store files
 .DS_Store
 .DS_Store?
+.idea/deploymentTargetDropDown.xml
