@@ -13,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.FragmentRunningTalkDetailBinding
+import com.applemango.runnerbe.domain.entity.Pace
+import com.applemango.runnerbe.presentation.component.PaceComponentMini
 import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
 import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
@@ -32,6 +34,9 @@ class RunningTalkDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
+        binding.paceView.setContent {
+            PaceComponentMini(pace = Pace.getPaceByName(viewModel.roomInfo.value.pace)?:Pace.BEGINNER)
+        }
         binding.fragment = this
         viewModel.roomId = args.roomId
         viewModel.roomRepName = args.roomRepUserName

@@ -54,6 +54,7 @@
             app:layout_constraintLeft_toRightOf="@id/message_container_view"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/create_date_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"

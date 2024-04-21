@@ -99,31 +99,26 @@
                 android:background="@color/dark_g6"
                 app:layout_constraintTop_toBottomOf="@id/runningTalkDetailTopBar">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/runningTagView"
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/pace_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="출근 전"
-                    android:text="@{vm.roomInfo.runningTag}"
-                    android:paddingHorizontal="6dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="12dp"
-                    android:paddingBottom="1dp"
-                    android:textSize="12sp"
-                    android:textColor="@color/primary"
-                    android:background="@drawable/bg_primary_stroke_radius_30"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:layout_marginRight="8dp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/runningTitleView"
+                    android:id="@+id/running_title_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@{vm.roomInfo.talkTitle}"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/pretendard_regular"
                     tools:text="불금에 달리기 하실 분!"
                     android:textColor="@color/dark_g2_5"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
