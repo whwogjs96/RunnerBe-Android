@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.applemango.runnerbe.data.dto.Messages
 import com.applemango.runnerbe.data.dto.RoomInfo
 import com.applemango.runnerbe.data.network.response.RunningTalkDetailResponse
+import com.applemango.runnerbe.domain.entity.Pace
 import com.applemango.runnerbe.domain.usecase.runningtalk.GetRunningTalkDetailUseCase
 import com.applemango.runnerbe.domain.usecase.runningtalk.MessageReportUseCase
 import com.applemango.runnerbe.domain.usecase.runningtalk.MessageSendUseCase
@@ -29,7 +30,7 @@ class RunningTalkDetailViewModel @Inject constructor(
 
     var roomId : Int? = null
     var roomRepName : String = ""
-    val roomInfo : MutableStateFlow<RoomInfo> = MutableStateFlow(RoomInfo("출근 전","러닝 제목"))
+    val roomInfo : MutableStateFlow<RoomInfo> = MutableStateFlow(RoomInfo("러닝 제목", Pace.BEGINNER.time))
     val messageList : ObservableArrayList<Messages> = ObservableArrayList()
     val message : MutableStateFlow<String> = MutableStateFlow("")
     val isDeclaration: MutableStateFlow<Boolean> = MutableStateFlow(false)
