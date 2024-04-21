@@ -105,7 +105,7 @@ class RunningWriteTwoViewModel @Inject constructor(
             longitude = oneData.value.coordinate.longitude,
             locationInfo = locationInfo.value,
             contents = content.value.ifEmpty { null },
-            paceGrade = paceList.value.firstOrNull()?.pace?.key?:"",
+            paceGrade = paceList.value.firstOrNull{ it.isSelected }?.pace?.key?:"",
             isAfterParty = when(afterPartyRadioChecked.value) {
                 R.id.hasExistTab -> 1
                 else -> 2
