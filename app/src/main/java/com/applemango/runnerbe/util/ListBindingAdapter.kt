@@ -17,6 +17,8 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListI
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailListAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.presentation.screen.fragment.map.PostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.map.write.paceselect.PaceSimpleSelectListAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.mypage.joinpost.JoinPostAdapter
@@ -168,4 +170,18 @@ fun setPaceSimpleSelectAdapter(
     val adapter = recyclerView.adapter
     recyclerView.itemAnimator = null
     if(adapter is PaceSimpleSelectListAdapter) adapter.submitList(dataList)
+}
+
+@BindingAdapter("bind:talkListAdapter")
+fun setTalkListAdapter(
+    recyclerView: RecyclerView,
+    dataList: List<RunningTalkUiState>
+) {
+    recyclerView.adapter?: run {
+        recyclerView.adapter = RunningTalkDetailListAdapter()
+    }
+    val adapter = recyclerView.adapter
+    recyclerView.itemAnimator = null
+    if(adapter is RunningTalkDetailListAdapter) adapter.submitList(dataList)
+
 }

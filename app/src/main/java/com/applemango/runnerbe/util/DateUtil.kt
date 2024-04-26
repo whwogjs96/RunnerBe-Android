@@ -7,9 +7,9 @@ import java.util.*
  * author : 두루
  */
 
-fun TimeHourAndMinute(dateString: String): String {
+fun timeHourAndMinute(dateString: String): String {
     val stringToDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val to: Date = stringToDate.parse(dateString)
+    val to: Date = stringToDate.parse(dateString.replace("T", " ").replace("Z", " "))
     val dateToString = SimpleDateFormat("HH:mm")
     return dateToString.format(to)
 }
@@ -26,6 +26,13 @@ fun DateString(dateString: String): String {
     val to: Date = stringToDate.parse(dateString)
     val dateToString = SimpleDateFormat("yyyy-MM-dd")
     return dateToString.format(to)
+}
+
+fun dateStringToString(dateString: String, format: SimpleDateFormat): String? {
+    val temp = dateString.replace("T", " ").replace("Z", " ")
+    val stringToDate = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
+    val to: Date? = stringToDate.parse(temp)
+    return to?.let { format.format(it) }
 }
 
 fun DateStringInT(dateString: String) : String = dateString.substring(0, dateString.indexOf("T"))

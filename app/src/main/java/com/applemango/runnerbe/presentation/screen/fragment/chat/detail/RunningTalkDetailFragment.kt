@@ -38,7 +38,7 @@ class RunningTalkDetailFragment :
         viewModel.roomId = args.roomId
         viewModel.roomRepName = args.roomRepUserName
         context?.let {
-            binding.messageRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
+            binding.messageRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 24))
         }
         refresh()
         observeBind()
