@@ -34,14 +34,11 @@ class RunningTalkDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        binding.paceView.setContent {
-            PaceComponentMini(pace = Pace.getPaceByName(viewModel.roomInfo.value.pace)?:Pace.BEGINNER)
-        }
         binding.fragment = this
         viewModel.roomId = args.roomId
         viewModel.roomRepName = args.roomRepUserName
         context?.let {
-            binding.messageRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 12))
+            binding.messageRecyclerView.addItemDecoration(RecyclerViewItemDeco(it, 24))
         }
         refresh()
         observeBind()
@@ -67,6 +64,13 @@ class RunningTalkDetailFragment :
                     }
                     when (it) {
                         is UiState.Success -> refresh()
+                    }
+                }
+            }
+            launch {
+                viewModel.roomInfo.collect {
+                    binding.paceView.setContent {
+                        PaceComponentMini(pace = Pace.getPaceByName(viewModel.roomInfo.value.pace)?:Pace.BEGINNER)
                     }
                 }
             }
