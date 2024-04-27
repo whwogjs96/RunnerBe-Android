@@ -101,19 +101,6 @@ class RunningTalkDetailFragment :
                     }
                 }
             }
-            launch {
-                viewModel.isDeclaration.collect {
-                    runCatching {
-                        val adapter = binding.messageRecyclerView.adapter
-                        if (adapter is RunningTalkDetailAdapter) {
-                            adapter.isDeclarationMode = it
-                            adapter.notifyDataSetChanged()
-                        }
-                    }.onFailure {
-                        it.printStackTrace()
-                    }
-                }
-            }
         }
     }
 

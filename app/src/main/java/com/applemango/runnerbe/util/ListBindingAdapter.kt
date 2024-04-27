@@ -16,7 +16,6 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListD
 import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListItemAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
-import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailListAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.presentation.screen.fragment.map.PostAdapter
@@ -131,17 +130,6 @@ fun setWaitingUserInfoAdapter(
     if (recyclerView.adapter == null) recyclerView.adapter =
         WaitingRunnerInfoAdapter(dataList, listener)
     recyclerView.adapter?.notifyDataSetChanged()
-}
-
-@BindingAdapter("messageAdapter")
-fun setMessageAdapter(
-    recyclerView: RecyclerView,
-    dataList: ObservableArrayList<Messages>
-) {
-    if(recyclerView.adapter == null) recyclerView.adapter =
-        RunningTalkDetailAdapter(dataList)
-    recyclerView.adapter?.notifyDataSetChanged()
-    recyclerView.scrollToPosition(dataList.size - 1)
 }
 
 @BindingAdapter("bind:paceListAdapter", "bind:paceSelectListener")
