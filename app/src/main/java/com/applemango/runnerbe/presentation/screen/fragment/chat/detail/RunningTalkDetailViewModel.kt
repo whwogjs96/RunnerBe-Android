@@ -1,9 +1,15 @@
 package com.applemango.runnerbe.presentation.screen.fragment.chat.detail
 
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.loader.content.CursorLoader
+import com.applemango.runnerbe.R
+import com.applemango.runnerbe.RunnerBeApplication
 import com.applemango.runnerbe.data.dto.Messages
 import com.applemango.runnerbe.data.dto.RoomInfo
 import com.applemango.runnerbe.data.network.response.RunningTalkDetailResponse
@@ -11,19 +17,17 @@ import com.applemango.runnerbe.domain.entity.Pace
 import com.applemango.runnerbe.domain.usecase.runningtalk.GetRunningTalkDetailUseCase
 import com.applemango.runnerbe.domain.usecase.runningtalk.MessageReportUseCase
 import com.applemango.runnerbe.domain.usecase.runningtalk.MessageSendUseCase
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.RunningTalkDetailImageSelectListener
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.mapper.RunningTalkDetailMapper
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
-import com.google.gson.annotations.SerializedName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class RunningTalkDetailViewModel @Inject constructor(
@@ -32,42 +36,51 @@ class RunningTalkDetailViewModel @Inject constructor(
     private val messageReportUseCase: MessageReportUseCase
 ) : ViewModel() {
 
-    var roomId : Int? = null
-    var roomRepName : String = ""
-    val roomInfo : MutableStateFlow<RoomInfo> = MutableStateFlow(RoomInfo("러닝 제목", Pace.BEGINNER.time))
-    val messageList : ObservableArrayList<Messages> = ObservableArrayList()
+    val actions: MutableSharedFlow<RunningTalkDetailAction> = MutableSharedFlow()
+    var roomId: Int? = null
+    var roomRepName: String = ""
+    val roomInfo: MutableStateFlow<RoomInfo> =
+        MutableStateFlow(RoomInfo("러닝 제목", Pace.BEGINNER.time))
+    val messageList: ObservableArrayList<Messages> = ObservableArrayList()
     val talkList: MutableStateFlow<List<RunningTalkUiState>> = MutableStateFlow(emptyList())
-    val message : MutableStateFlow<String> = MutableStateFlow("")
+    val message: MutableStateFlow<String> = MutableStateFlow("")
     val isDeclaration: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private val _messageSendUiState: MutableSharedFlow<UiState> = MutableSharedFlow()
     val messageSendUiState get() = _messageSendUiState
     private val _messageReportUiState: MutableSharedFlow<UiState> = MutableSharedFlow()
     val messageReportUiState get() = _messageReportUiState
 
-    fun getDetailData(isRefresh : Boolean) = viewModelScope.launch {
-        roomId?.let {roomId ->
+    val attachImageUrls: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
+
+    private val maxImageCount = 3
+
+    fun getDetailData(isRefresh: Boolean) = viewModelScope.launch {
+        roomId?.let { roomId ->
             runningTalkDetailUseCase(roomId).collect {
-                if(it is CommonResponse.Success<*> && it.body is RunningTalkDetailResponse) {
-                    if(isRefresh) messageList.clear()
+                if (it is CommonResponse.Success<*> && it.body is RunningTalkDetailResponse) {
+                    if (isRefresh) messageList.clear()
                     roomInfo.emit(it.body.result.roomInfo[0])
-                    talkList.value = RunningTalkDetailMapper.messagesToRunningTalkUiState(it.body.result.messages)
+                    talkList.value =
+                        RunningTalkDetailMapper.messagesToRunningTalkUiState(it.body.result.messages)
                 }
             }
         }
     }
 
-    fun messageSend(content : String) = viewModelScope.launch {
+    fun messageSend(content: String) = viewModelScope.launch {
         roomId?.let {
             message.value = ""
             messageSendUseCase(it, content).collect { response ->
-                when(response) {
+                when (response) {
                     is CommonResponse.Success<*> -> {
                         _messageSendUiState.emit(UiState.Success(response.code))
                     }
+
                     is CommonResponse.Failed -> {
                         message.value = content
                         _messageSendUiState.emit(UiState.Failed(response.message))
                     }
+
                     is CommonResponse.Loading -> {
                         _messageReportUiState.emit(UiState.Loading)
                     }
@@ -77,8 +90,20 @@ class RunningTalkDetailViewModel @Inject constructor(
     }
 
     fun imageAttachClicked() {
-        // TODO 이미지 추가 기능...
+        viewModelScope.launch {
+            if (attachImageUrls.value.size < maxImageCount) {
+                actions.emit(RunningTalkDetailAction.ShowImageSelect)
+            } else {
+                actions.emit(
+                    RunningTalkDetailAction.ShowToast(
+                        RunnerBeApplication.instance.getString(R.string.image_count_alert)
+                    )
+                )
+            }
+        }
+
     }
+
     fun messageReport() = viewModelScope.launch {
         _messageReportUiState.emit(UiState.Loading)
         val messageCheckList = talkList.value.filter {
@@ -86,18 +111,19 @@ class RunningTalkDetailViewModel @Inject constructor(
         }
         val messageIdList: ArrayList<Int> = arrayListOf()
         messageCheckList.forEach {
-            if(it is RunningTalkUiState.OtherRunningTalkUiState) {
+            if (it is RunningTalkUiState.OtherRunningTalkUiState) {
                 it.items.forEach { item ->
                     messageIdList.add(item.messageId)
                 }
             }
         }
-        if(messageIdList.isNotEmpty()) {
+        if (messageIdList.isNotEmpty()) {
             messageReportUseCase(messageIdList).collect {
-                when(it) {
+                when (it) {
                     is CommonResponse.Success<*> -> {
                         _messageReportUiState.emit(UiState.Success(it.code))
                     }
+
                     is CommonResponse.Failed -> {
                         _messageReportUiState.emit(UiState.Failed(it.message))
                     }
@@ -111,7 +137,7 @@ class RunningTalkDetailViewModel @Inject constructor(
 
     fun setDeclaration(set: Boolean) {
         talkList.value = talkList.value.map {
-            when(it) {
+            when (it) {
                 is RunningTalkUiState.MyRunningTalkUiState -> it
                 is RunningTalkUiState.OtherRunningTalkUiState -> {
                     it.copy(isReportMode = set)
@@ -120,4 +146,52 @@ class RunningTalkDetailViewModel @Inject constructor(
         }
         isDeclaration.value = set
     }
+
+    fun selectImage(uri: Uri) {
+        attachImageUrls.value = ArrayList(attachImageUrls.value).apply {
+            getRealPath(uri)?.let {
+                add(it)
+            }
+        }
+    }
+
+    private fun getRealPath(uri: Uri): String? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return if(isMediaStoreUri(uri)) {
+                val proj = arrayOf(MediaStore.Images.Media.DATA)
+                val loader = CursorLoader(
+                    RunnerBeApplication.instance.applicationContext,
+                    uri,
+                    proj,
+                    null,
+                    null,
+                    null
+                )
+                loader.loadInBackground()?.let { cursor ->
+                    val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                    cursor.moveToFirst()
+                    val result = cursor.getString(columnIndex)
+                    cursor.close()
+                    result
+                }
+            } else uri.toString()
+        } else uri.path
+    }
+
+    private fun isMediaStoreUri(uri: Uri): Boolean {
+        return uri.scheme.equals("content", ignoreCase = true) && MediaStore.AUTHORITY == uri.authority
+    }
+
+    fun getImageSelectListener() = object : RunningTalkDetailImageSelectListener {
+        override fun imageDeleteClick(position: Int) {
+            attachImageUrls.value = ArrayList(attachImageUrls.value).apply {
+                this.removeAt(position)
+            }
+        }
+    }
+}
+
+sealed class RunningTalkDetailAction {
+    object ShowImageSelect : RunningTalkDetailAction()
+    data class ShowToast(val message: String) : RunningTalkDetailAction()
 }

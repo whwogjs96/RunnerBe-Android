@@ -1,13 +1,12 @@
 package com.applemango.runnerbe.presentation.screen.fragment.chat.detail
 
-import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
+import android.Manifest
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -17,16 +16,20 @@ import com.applemango.runnerbe.domain.entity.Pace
 import com.applemango.runnerbe.presentation.component.PaceComponentMini
 import com.applemango.runnerbe.presentation.screen.deco.RecyclerViewItemDeco
 import com.applemango.runnerbe.presentation.screen.dialog.message.MessageDialog
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemDialog
+import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectItemParameter
 import com.applemango.runnerbe.presentation.screen.dialog.twobutton.TwoButtonDialog
-import com.applemango.runnerbe.presentation.screen.fragment.base.BaseFragment
+import com.applemango.runnerbe.presentation.screen.fragment.base.ImageBaseFragment
 import com.applemango.runnerbe.presentation.state.UiState
+import com.applemango.runnerbe.util.toUri
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.File
 
 
 @AndroidEntryPoint
 class RunningTalkDetailFragment :
-    BaseFragment<FragmentRunningTalkDetailBinding>(R.layout.fragment_running_talk_detail) {
+    ImageBaseFragment<FragmentRunningTalkDetailBinding>(R.layout.fragment_running_talk_detail) {
 
     private val viewModel: RunningTalkDetailViewModel by viewModels()
     private val args: RunningTalkDetailFragmentArgs by navArgs()
@@ -56,6 +59,36 @@ class RunningTalkDetailFragment :
 
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            launch {
+                viewModel.actions.collect {
+                    when(it) {
+                        is RunningTalkDetailAction.ShowImageSelect -> {
+                            checkAdditionalUserInfo {
+                                context?.let {
+                                    SelectItemDialog.createShow(it, listOf(
+                                        SelectItemParameter("촬영하기") {
+                                            isImage = false
+                                            permReqLauncher.launch(Manifest.permission.CAMERA)
+                                        },
+                                        SelectItemParameter("앨범에서 선택하기") {
+                                            isImage = true
+                                            isMultipleImage = true
+                                            permReqLauncher.launch(
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                                                    Manifest.permission.READ_MEDIA_IMAGES
+                                                else Manifest.permission.READ_EXTERNAL_STORAGE
+                                            )
+                                        }
+                                    ))
+                                }
+                            }
+                        }
+                        is RunningTalkDetailAction.ShowToast -> {
+                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
             launch {
                 viewModel.messageSendUiState.collect {
                     context?.let { context ->
@@ -102,6 +135,18 @@ class RunningTalkDetailFragment :
                 }
             }
         }
+    }
+
+    override fun resultCameraCapture(image: File) {
+        super.resultCameraCapture(image)
+        context?.let {
+            viewModel.selectImage(image.toUri(it))
+        }
+    }
+
+    override fun resultImageSelect(dataList: ArrayList<Uri>) {
+        super.resultImageSelect(dataList)
+        dataList.forEach { viewModel.selectImage(it) }
     }
 
     private fun refresh() {
