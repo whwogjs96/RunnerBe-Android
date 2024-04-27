@@ -20,6 +20,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,7 +51,6 @@ class RunningTalkDetailViewModel @Inject constructor(
                     if(isRefresh) messageList.clear()
                     roomInfo.emit(it.body.result.roomInfo[0])
                     talkList.value = RunningTalkDetailMapper.messagesToRunningTalkUiState(it.body.result.messages)
-                    messageList.addAll(it.body.result.messages)
                 }
             }
         }
@@ -80,7 +81,17 @@ class RunningTalkDetailViewModel @Inject constructor(
     }
     fun messageReport() = viewModelScope.launch {
         _messageReportUiState.emit(UiState.Loading)
-        val messageIdList = messageList.filter { it.isChecked }.map { it.messageId }
+        val messageCheckList = talkList.value.filter {
+            it is RunningTalkUiState.OtherRunningTalkUiState && it.isChecked
+        }
+        val messageIdList: ArrayList<Int> = arrayListOf()
+        messageCheckList.forEach {
+            if(it is RunningTalkUiState.OtherRunningTalkUiState) {
+                it.items.forEach { item ->
+                    messageIdList.add(item.messageId)
+                }
+            }
+        }
         if(messageIdList.isNotEmpty()) {
             messageReportUseCase(messageIdList).collect {
                 when(it) {
@@ -92,8 +103,21 @@ class RunningTalkDetailViewModel @Inject constructor(
                     }
                 }
             }
-        } else _messageReportUiState.emit(UiState.Empty)
+        } else {
+            isDeclaration.value = false
+            _messageReportUiState.emit(UiState.Empty)
+        }
     }
 
-    fun setDeclaration(set: Boolean) { isDeclaration.value = set }
+    fun setDeclaration(set: Boolean) {
+        talkList.value = talkList.value.map {
+            when(it) {
+                is RunningTalkUiState.MyRunningTalkUiState -> it
+                is RunningTalkUiState.OtherRunningTalkUiState -> {
+                    it.copy(isReportMode = set)
+                }
+            }
+        }
+        isDeclaration.value = set
+    }
 }

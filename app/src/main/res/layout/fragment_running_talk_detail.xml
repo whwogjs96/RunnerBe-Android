@@ -134,10 +134,12 @@
                 android:layout_height="0dp"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="20dp"
-                bind:talkListAdapter="@{vm.talkList}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleLayout"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintVertical_bias="0.0"
+                bind:talkListAdapter="@{vm.talkList}"
+                tools:layout_editor_absoluteX="-16dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
             
