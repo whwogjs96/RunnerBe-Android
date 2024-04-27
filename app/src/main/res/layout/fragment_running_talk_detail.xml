@@ -150,12 +150,20 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> vm.imageAttachClicked()}"
+                    android:src="@drawable/ic_plus_24"
+                    android:layout_marginStart="12dp"
+                    android:layout_gravity="center"/>
+
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/messageEditTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="14dp"
+                    android:layout_marginStart="14dp"
                     android:maxLines="1"
                     android:paddingTop="6dp"
                     android:paddingBottom="8dp"

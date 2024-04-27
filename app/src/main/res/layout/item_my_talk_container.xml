@@ -13,17 +13,6 @@
         android:gravity="end"
         android:orientation="horizontal">
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/create_date_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="3/31"
-            android:layout_gravity="bottom"
-            android:fontFamily="@font/pretendard_regular"
-            android:textSize="11sp"
-            android:layout_marginEnd="4dp"/>
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/message_container_view"
             android:layout_width="wrap_content"
