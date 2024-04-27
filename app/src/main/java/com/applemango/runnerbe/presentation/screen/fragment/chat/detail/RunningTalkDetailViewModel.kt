@@ -75,6 +75,9 @@ class RunningTalkDetailViewModel @Inject constructor(
         }
     }
 
+    fun imageAttachClicked() {
+        // TODO 이미지 추가 기능...
+    }
     fun messageReport() = viewModelScope.launch {
         _messageReportUiState.emit(UiState.Loading)
         val messageIdList = messageList.filter { it.isChecked }.map { it.messageId }

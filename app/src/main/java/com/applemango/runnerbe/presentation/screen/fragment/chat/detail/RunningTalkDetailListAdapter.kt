@@ -1,27 +1,23 @@
 package com.applemango.runnerbe.presentation.screen.fragment.chat.detail
 
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.setMargins
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.R
 import com.applemango.runnerbe.databinding.ItemImageTalkBinding
-import com.applemango.runnerbe.databinding.ItemMessageTalkBinding
+import com.applemango.runnerbe.databinding.ItemMeMessageTalkBinding
 import com.applemango.runnerbe.databinding.ItemMyTalkContainerBinding
+import com.applemango.runnerbe.databinding.ItemOtherMessageTalkBinding
 import com.applemango.runnerbe.databinding.ItemOtherTalkContainerBinding
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkItem
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.util.dpToPx
 import com.applemango.runnerbe.util.getMonthAndDay
-import com.google.android.material.internal.ViewUtils.dpToPx
-
 class RunningTalkDetailListAdapter :
     ListAdapter<RunningTalkUiState, RecyclerView.ViewHolder>(RunningTalkDetailDiffCallBack()) {
 
@@ -68,13 +64,12 @@ class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBin
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: RunningTalkUiState.MyRunningTalkUiState) {
         val context = binding.root.context
-        binding.createDateView.text = item.createTime
         binding.messageContainerView.removeAllViews()
         item.items.forEach {
             val itemBinding = when (it) {
                 is RunningTalkItem.MessageTalkItem -> {
                     val itemUi =
-                        ItemMessageTalkBinding.inflate(LayoutInflater.from(context))
+                        ItemMeMessageTalkBinding.inflate(LayoutInflater.from(context))
                     itemUi.apply {
                         messageView.text = it.message
                         messageView.setTextColor(
@@ -85,12 +80,13 @@ class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBin
                                 null
                             )
                         )
-                        backgroundLayout.background = ResourcesCompat.getDrawable(
+                        messageView.background = ResourcesCompat.getDrawable(
                             context.resources,
                             if (item.isPostWriter) R.drawable.bg_my_talk_organizer
                             else R.drawable.bg_my_talk_participants,
                             null
                         )
+                        if(item.items.last() == it) createDateView.text = item.createTime
                     }
                     itemUi
                 }
@@ -120,14 +116,18 @@ class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContai
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: RunningTalkUiState.OtherRunningTalkUiState) {
         val context = binding.root.context
-        binding.createDateView.text = getMonthAndDay(item.createTime)
         binding.messageContainerView.removeAllViews()
         item.items.forEach {
             val itemBinding = when (it) {
                 is RunningTalkItem.MessageTalkItem -> {
                     val itemUi =
-                        ItemMessageTalkBinding.inflate(LayoutInflater.from(context))
+                        ItemOtherMessageTalkBinding.inflate(LayoutInflater.from(context))
                     itemUi.apply {
+                        if(item.items.first() == it && item.isReportMode) {
+                            reportCheckBtn.visibility = View.VISIBLE
+                        } else {
+                            reportCheckBtn.visibility = View.GONE
+                        }
                         messageView.text = it.message
                         messageView.setTextColor(
                             ResourcesCompat.getColor(
@@ -143,6 +143,12 @@ class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContai
                             else R.drawable.bg_other_talk_participants,
                             null
                         )
+                        if(item.items.last() == it) {
+                            createDateView.text = item.createTime
+                            createDateView.visibility = View.VISIBLE
+                        } else {
+                            createDateView.visibility = View.GONE
+                        }
                     }
                     itemUi
                 }

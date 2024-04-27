@@ -40,29 +40,5 @@
             android:layout_marginTop="5dp"
             app:layout_constraintLeft_toRightOf="@id/profile_image_view"
             app:layout_constraintTop_toBottomOf="@id/name_view"/>
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/report_check_btn"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:button="@null"
-            android:layout_marginTop="7dp"
-            android:paddingLeft="5dp"
-            android:layout_marginLeft="7dp"
-            android:background="@drawable/selector_check_box"
-            app:layout_constraintTop_toTopOf="@id/message_container_view"
-            app:layout_constraintLeft_toRightOf="@id/message_container_view"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/create_date_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            tools:text="3/31"
-            android:fontFamily="@font/pretendard_regular"
-            android:textSize="11sp"
-            app:layout_constraintLeft_toRightOf="@id/message_container_view"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

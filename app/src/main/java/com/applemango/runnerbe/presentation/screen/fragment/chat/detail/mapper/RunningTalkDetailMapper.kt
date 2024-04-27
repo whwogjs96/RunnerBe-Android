@@ -1,6 +1,5 @@
 package com.applemango.runnerbe.presentation.screen.fragment.chat.detail.mapper
 
-import android.util.Log
 import com.applemango.runnerbe.data.dto.Messages
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkItem
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
@@ -27,8 +26,6 @@ object RunningTalkDetailMapper {
                 while (index < messages.size) {
                     val item = messages[index]
                     val itemDate = dateStringToString(item.createAt, formatter)
-                    Log.e("아이템", itemDate.toString())
-                    Log.e("타겟", targetDate.toString())
                     if(targetDate == itemDate) {
                         messageToRunningTalkItem(item)?.let {
                             items.add(it)
