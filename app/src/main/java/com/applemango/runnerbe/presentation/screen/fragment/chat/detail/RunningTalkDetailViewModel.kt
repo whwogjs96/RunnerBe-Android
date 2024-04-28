@@ -22,10 +22,16 @@ import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.mapper.R
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 
@@ -51,7 +57,8 @@ class RunningTalkDetailViewModel @Inject constructor(
     val messageReportUiState get() = _messageReportUiState
 
     val attachImageUrls: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-
+    val failedImageList = ArrayList<String>()
+    val successImageList = ArrayList<String>()
     private val maxImageCount = 3
 
     fun getDetailData(isRefresh: Boolean) = viewModelScope.launch {
@@ -67,25 +74,30 @@ class RunningTalkDetailViewModel @Inject constructor(
         }
     }
 
-    fun messageSend(content: String) = viewModelScope.launch {
+    fun messageSend(content: String) = viewModelScope.launch(Dispatchers.IO) {
+        failedImageList.clear()
+        successImageList.clear()
         roomId?.let {
             message.value = ""
-            messageSendUseCase(it, content).collect { response ->
-                when (response) {
+            _messageReportUiState.emit(UiState.Loading)
+
+            attachImageUrls.value.forEach { url -> uploadImg(it, url) }
+            //다 끝날때까지 대기
+            while (attachImageUrls.value.size != successImageList.size + failedImageList.size) {}
+            val isImageSend = attachImageUrls.value.size == successImageList.size
+            attachImageUrls.value = failedImageList
+            if(content.isNotEmpty()) {
+                when(val response = messageSendUseCase(it, content, null)) {
                     is CommonResponse.Success<*> -> {
                         _messageSendUiState.emit(UiState.Success(response.code))
                     }
-
                     is CommonResponse.Failed -> {
                         message.value = content
                         _messageSendUiState.emit(UiState.Failed(response.message))
                     }
-
-                    is CommonResponse.Loading -> {
-                        _messageReportUiState.emit(UiState.Loading)
-                    }
+                    is CommonResponse.Loading, is CommonResponse.Empty -> {}
                 }
-            }
+            } else _messageSendUiState.emit(if(isImageSend) UiState.Success(200) else UiState.Empty)
         }
     }
 
@@ -101,7 +113,40 @@ class RunningTalkDetailViewModel @Inject constructor(
                 )
             }
         }
+    }
 
+    private fun uploadImg(roomId: Int, uri: String) {
+//        firebase storage 에 이미지 업로드하는 method
+        var uploadTask: UploadTask? = null // 파일 업로드하는 객체
+        val name = RunnerBeApplication.mTokenPreference.getUserId().toString() + "_.png"
+
+        val reference: StorageReference = Firebase.storage.reference.child("item").child(name) // 이미지 파일 경로 지정 (/item/imageFileName)
+        uploadTask = uri.let { reference.putFile(Uri.fromFile(File(uri))) } // 업로드할 파일과 업로드할 위치 설정
+        uploadTask.addOnSuccessListener {
+            downloadUri(roomId, reference, uri) // 업로드 성공 시 업로드한 파일 Uri 다운받기
+        }.addOnFailureListener {
+            it.printStackTrace()
+            failedImageList.add(uri)
+        }
+    }
+
+    private fun downloadUri(roomId: Int, reference : StorageReference, originUrl: String) {
+//        지정한 경로(reference)에 대한 uri 을 다운로드하는 method
+        reference.downloadUrl.addOnSuccessListener {
+            viewModelScope.launch(Dispatchers.IO) {
+                Log.e("하...", it.toString())
+                it?.let { path ->
+                    when (messageSendUseCase(roomId, null, path.toString())) {
+                        is CommonResponse.Success<*> -> { successImageList.add(path.toString()) }
+                        is CommonResponse.Failed -> { failedImageList.add(path.toString()) }
+                        is CommonResponse.Empty, is CommonResponse.Loading -> {}
+                    }
+                } ?: run { failedImageList.add(originUrl) }
+            }
+        }.addOnFailureListener {
+            it.printStackTrace()
+            failedImageList.add(originUrl)
+        }
     }
 
     fun messageReport() = viewModelScope.launch {

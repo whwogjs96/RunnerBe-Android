@@ -9,15 +9,15 @@ import javax.inject.Inject
 class MessageSendUseCase @Inject constructor(
     private val repo: RunningTalkRepository
 ) {
-    operator fun invoke(roomId: Int, content: String): Flow<CommonResponse> = flow {
+    suspend operator fun invoke(roomId: Int, content: String?, url: String?): CommonResponse {
         runCatching {
-            emit(CommonResponse.Loading)
-            repo.sendMessage(roomId, content)
+            repo.sendMessage(roomId, content, url)
         }.onSuccess {
-            emit(it)
+            return it
         }.onFailure {
             it.printStackTrace()
-            emit(CommonResponse.Failed(999, it.message?:"error"))
+            return CommonResponse.Failed(999, it.message?:"error")
         }
+        return CommonResponse.Failed(999, "error")
     }
 }
