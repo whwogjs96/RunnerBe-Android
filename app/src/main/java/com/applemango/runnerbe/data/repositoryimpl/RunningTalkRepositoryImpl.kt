@@ -48,9 +48,9 @@ class RunningTalkRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendMessage(roomId: Int, content: String): CommonResponse {
+    override suspend fun sendMessage(roomId: Int, content: String?, url: String?): CommonResponse {
         return try {
-            val response = sendMessagesApi.sendMessage(roomId, SendMessageRequest(content))
+            val response = sendMessagesApi.sendMessage(roomId, SendMessageRequest(content, url))
             if (response.isSuccessful && response.body() != null && response.body()!!.isSuccess) {
                 CommonResponse.Success(response.body()!!.code, response.body()!!)
             } else {

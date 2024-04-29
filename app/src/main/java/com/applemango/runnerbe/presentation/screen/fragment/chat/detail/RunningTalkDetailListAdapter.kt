@@ -18,6 +18,8 @@ import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.util.dpToPx
 import com.applemango.runnerbe.util.getMonthAndDay
+import com.bumptech.glide.Glide
+
 class RunningTalkDetailListAdapter :
     ListAdapter<RunningTalkUiState, RecyclerView.ViewHolder>(RunningTalkDetailDiffCallBack()) {
 
@@ -95,6 +97,7 @@ class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBin
                     val itemUi =
                         ItemImageTalkBinding.inflate(LayoutInflater.from(context))
                     //TODO 이미지 작업
+                    Glide.with(itemUi.talkImageView).load(it.imgUrl).into(itemUi.talkImageView)
                     itemUi
                 }
             }
@@ -157,6 +160,7 @@ class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContai
                     val itemUi =
                         ItemImageTalkBinding.inflate(LayoutInflater.from(context))
                     //TODO 이미지 작업
+                    Glide.with(itemUi.talkImageView).load(it.imgUrl).into(itemUi.talkImageView)
                     itemUi
                 }
             }
