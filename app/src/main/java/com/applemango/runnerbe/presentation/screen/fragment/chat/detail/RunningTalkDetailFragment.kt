@@ -72,7 +72,6 @@ class RunningTalkDetailFragment :
                                         },
                                         SelectItemParameter("앨범에서 선택하기") {
                                             isImage = true
-                                            isMultipleImage = true
                                             permReqLauncher.launch(
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                                                     Manifest.permission.READ_MEDIA_IMAGES
