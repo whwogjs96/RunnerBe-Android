@@ -9,16 +9,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.applemango.runnerbe.R
-import com.applemango.runnerbe.databinding.ItemImageTalkBinding
+import com.applemango.runnerbe.databinding.ItemMeImageTalkBinding
 import com.applemango.runnerbe.databinding.ItemMeMessageTalkBinding
 import com.applemango.runnerbe.databinding.ItemMyTalkContainerBinding
+import com.applemango.runnerbe.databinding.ItemOtherImageTalkBinding
 import com.applemango.runnerbe.databinding.ItemOtherMessageTalkBinding
 import com.applemango.runnerbe.databinding.ItemOtherTalkContainerBinding
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkItem
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.util.dpToPx
-import com.applemango.runnerbe.util.getMonthAndDay
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 
 class RunningTalkDetailListAdapter :
     ListAdapter<RunningTalkUiState, RecyclerView.ViewHolder>(RunningTalkDetailDiffCallBack()) {
@@ -30,13 +32,21 @@ class RunningTalkDetailListAdapter :
         return when (viewType) {
             myViewType -> {
                 RunningTalkDetailMyContainerViewHolder(
-                    ItemMyTalkContainerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemMyTalkContainerBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
             }
 
             else -> {
                 RunningTalkDetailOtherContainerViewHolder(
-                    ItemOtherTalkContainerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemOtherTalkContainerBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
             }
         }
@@ -88,16 +98,30 @@ class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBin
                             else R.drawable.bg_my_talk_participants,
                             null
                         )
-                        if(item.items.last() == it) createDateView.text = item.createTime
+                        if (item.items.last() == it) createDateView.text = item.createTime
                     }
                     itemUi
                 }
 
                 is RunningTalkItem.ImageTalkItem -> {
                     val itemUi =
-                        ItemImageTalkBinding.inflate(LayoutInflater.from(context))
+                        ItemMeImageTalkBinding.inflate(LayoutInflater.from(context))
+                    val round = 12.dpToPx(context).toFloat()
+                    val roundedCorner = GranularRoundedCorners(round, 0f, round, round)
                     //TODO 이미지 작업
-                    Glide.with(itemUi.talkImageView).load(it.imgUrl).into(itemUi.talkImageView)
+                    Glide.with(itemUi.talkImageView)
+                        .load(it.imgUrl)
+                        .override(200.dpToPx(context), 200.dpToPx(context))
+                        .transform(CenterCrop(), roundedCorner)
+                        .into(itemUi.talkImageView)
+                    itemUi.apply {
+                        if (item.items.last() == it) {
+                            createDateView.text = item.createTime
+                            createDateView.visibility = View.VISIBLE
+                        } else {
+                            createDateView.visibility = View.GONE
+                        }
+                    }
                     itemUi
                 }
             }
@@ -105,8 +129,8 @@ class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBin
             val layoutParams = itemBinding.root.layoutParams
             layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
             layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            if(item.items.last() != it) {
-                if(layoutParams is LinearLayoutCompat.LayoutParams) {
+            if (item.items.last() != it) {
+                if (layoutParams is LinearLayoutCompat.LayoutParams) {
                     layoutParams.setMargins(0, 0, 0, 10.dpToPx(context))
                     itemBinding.root.layoutParams = layoutParams
                 }
@@ -126,7 +150,7 @@ class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContai
                     val itemUi =
                         ItemOtherMessageTalkBinding.inflate(LayoutInflater.from(context))
                     itemUi.apply {
-                        if(item.items.first() == it && item.isReportMode) {
+                        if (item.items.first() == it && item.isReportMode) {
                             reportCheckBtn.visibility = View.VISIBLE
                         } else {
                             reportCheckBtn.visibility = View.GONE
@@ -146,7 +170,7 @@ class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContai
                             else R.drawable.bg_other_talk_participants,
                             null
                         )
-                        if(item.items.last() == it) {
+                        if (item.items.last() == it) {
                             createDateView.text = item.createTime
                             createDateView.visibility = View.VISIBLE
                         } else {
@@ -158,9 +182,23 @@ class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContai
 
                 is RunningTalkItem.ImageTalkItem -> {
                     val itemUi =
-                        ItemImageTalkBinding.inflate(LayoutInflater.from(context))
+                        ItemOtherImageTalkBinding.inflate(LayoutInflater.from(context))
                     //TODO 이미지 작업
-                    Glide.with(itemUi.talkImageView).load(it.imgUrl).into(itemUi.talkImageView)
+                    val round = 12.dpToPx(context).toFloat()
+                    val roundedCorner = GranularRoundedCorners(0f, round, round, round)
+                    Glide.with(itemUi.talkImageView)
+                        .load(it.imgUrl)
+                        .transform(CenterCrop(), roundedCorner)
+                        .override(200.dpToPx(context), 200.dpToPx(context))
+                        .into(itemUi.talkImageView)
+                    itemUi.apply {
+                        if (item.items.last() == it) {
+                            createDateView.text = item.createTime
+                            createDateView.visibility = View.VISIBLE
+                        } else {
+                            createDateView.visibility = View.GONE
+                        }
+                    }
                     itemUi
                 }
             }
