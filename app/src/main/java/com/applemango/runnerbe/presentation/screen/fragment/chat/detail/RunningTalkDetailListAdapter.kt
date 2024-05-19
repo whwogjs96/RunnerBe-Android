@@ -18,9 +18,11 @@ import com.applemango.runnerbe.databinding.ItemOtherTalkContainerBinding
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkItem
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.util.dpToPx
+import com.applemango.runnerbe.util.glide.GranularRoundedAndBorderTransform
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
+import com.bumptech.glide.request.RequestOptions
 
 class RunningTalkDetailListAdapter :
     ListAdapter<RunningTalkUiState, RecyclerView.ViewHolder>(RunningTalkDetailDiffCallBack()) {
@@ -106,13 +108,23 @@ class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBin
                 is RunningTalkItem.ImageTalkItem -> {
                     val itemUi =
                         ItemMeImageTalkBinding.inflate(LayoutInflater.from(context))
-                    val round = 12.dpToPx(context).toFloat()
-                    val roundedCorner = GranularRoundedCorners(round, 0f, round, round)
-                    //TODO 이미지 작업
                     Glide.with(itemUi.talkImageView)
                         .load(it.imgUrl)
-                        .override(200.dpToPx(context), 200.dpToPx(context))
-                        .transform(CenterCrop(), roundedCorner)
+                        .apply(
+                            RequestOptions()
+                                .override(200.dpToPx(context), 200.dpToPx(context))
+                                .transform(
+                                    CenterCrop(),
+                                    GranularRoundedAndBorderTransform(
+                                        12f,
+                                        12f,
+                                        12f,
+                                        0f,
+                                        1f,
+                                        R.color.white_20
+                                    )
+                                )
+                        )
                         .into(itemUi.talkImageView)
                     itemUi.apply {
                         if (item.items.last() == it) {
@@ -183,13 +195,23 @@ class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContai
                 is RunningTalkItem.ImageTalkItem -> {
                     val itemUi =
                         ItemOtherImageTalkBinding.inflate(LayoutInflater.from(context))
-                    //TODO 이미지 작업
-                    val round = 12.dpToPx(context).toFloat()
-                    val roundedCorner = GranularRoundedCorners(0f, round, round, round)
                     Glide.with(itemUi.talkImageView)
                         .load(it.imgUrl)
-                        .transform(CenterCrop(), roundedCorner)
-                        .override(200.dpToPx(context), 200.dpToPx(context))
+                        .apply(
+                            RequestOptions()
+                                .override(200.dpToPx(context), 200.dpToPx(context))
+                                .transform(
+                                    CenterCrop(),
+                                    GranularRoundedAndBorderTransform(
+                                        12f,
+                                        12f,
+                                        0f,
+                                        12f,
+                                        1f,
+                                        R.color.white_20
+                                    )
+                                )
+                        )
                         .into(itemUi.talkImageView)
                     itemUi.apply {
                         if (item.items.last() == it) {
