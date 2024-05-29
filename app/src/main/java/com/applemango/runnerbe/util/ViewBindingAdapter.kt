@@ -204,3 +204,10 @@ fun TextView.getPaceText(pace: String?) {
 fun View.visible(isVisible: Boolean) {
     this.isVisible = isVisible
 }
+
+@BindingAdapter("bind:glideImageFromUrl")
+fun ImageView.setImageUrl(url: String?) {
+    Glide.with(this)
+        .load(url)
+        .into(this)
+}

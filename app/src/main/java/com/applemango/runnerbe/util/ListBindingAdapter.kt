@@ -4,7 +4,6 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.applemango.runnerbe.data.dto.Messages
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
 import com.applemango.runnerbe.data.dto.Room
@@ -19,8 +18,8 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListI
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailListAdapter
-import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.RunningTalkDetailImageAdapter
-import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.RunningTalkDetailImageSelectListener
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.preview.RunningTalkDetailImageAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.preview.RunningTalkDetailImageSelectListener
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.presentation.screen.fragment.map.PostAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.map.write.paceselect.PaceSimpleSelectListAdapter

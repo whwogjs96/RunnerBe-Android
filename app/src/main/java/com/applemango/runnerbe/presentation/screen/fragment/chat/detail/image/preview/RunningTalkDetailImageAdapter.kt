@@ -1,4 +1,4 @@
-package com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image
+package com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.preview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
