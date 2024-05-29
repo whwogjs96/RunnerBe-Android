@@ -21,7 +21,6 @@ import com.applemango.runnerbe.util.dpToPx
 import com.applemango.runnerbe.util.glide.GranularRoundedAndBorderTransform
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import com.bumptech.glide.request.RequestOptions
 
 class RunningTalkDetailListAdapter :

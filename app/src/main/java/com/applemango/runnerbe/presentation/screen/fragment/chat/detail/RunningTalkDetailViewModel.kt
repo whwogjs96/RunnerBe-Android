@@ -17,7 +17,7 @@ import com.applemango.runnerbe.domain.entity.Pace
 import com.applemango.runnerbe.domain.usecase.runningtalk.GetRunningTalkDetailUseCase
 import com.applemango.runnerbe.domain.usecase.runningtalk.MessageReportUseCase
 import com.applemango.runnerbe.domain.usecase.runningtalk.MessageSendUseCase
-import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.RunningTalkDetailImageSelectListener
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.preview.RunningTalkDetailImageSelectListener
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.mapper.RunningTalkDetailMapper
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.presentation.state.CommonResponse
