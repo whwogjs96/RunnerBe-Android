@@ -3,6 +3,7 @@ package com.applemango.runnerbe.presentation.screen.fragment.chat.detail
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.text.format.DateUtils
 import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModel
@@ -33,6 +34,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -83,10 +85,9 @@ class RunningTalkDetailViewModel @Inject constructor(
             message.value = ""
             _messageReportUiState.emit(UiState.Loading)
 
-            attachImageUrls.value.forEach { url -> uploadImg(it, url) }
+            attachImageUrls.value.forEachIndexed { index, url -> uploadImg(it, url, index) }
             //다 끝날때까지 대기
-            while (attachImageUrls.value.size != successImageList.size + failedImageList.size) {
-            }
+            while (attachImageUrls.value.size != successImageList.size + failedImageList.size){}
             val isImageSend = attachImageUrls.value.size == successImageList.size
             attachImageUrls.value = failedImageList
             if (content.isNotEmpty()) {
@@ -120,13 +121,15 @@ class RunningTalkDetailViewModel @Inject constructor(
         }
     }
 
-    private fun uploadImg(roomId: Int, uri: String) {
-//        firebase storage 에 이미지 업로드하는 method
+    //        firebase storage 에 이미지 업로드하는 method
+    private fun uploadImg(roomId: Int, uri: String, primaryKey: Int) {
+        Log.e("확인용", uri)
         var uploadTask: UploadTask? = null // 파일 업로드하는 객체
-        val name = RunnerBeApplication.mTokenPreference.getUserId().toString() + "_.png"
-
+        val name = RunnerBeApplication.mTokenPreference.getUserId()
+        val fileName= "$name${Calendar.getInstance().time}${primaryKey}_.png"
+        Log.e("무슨 일인데?", fileName)
         val reference: StorageReference = Firebase.storage.reference.child("item")
-            .child(name) // 이미지 파일 경로 지정 (/item/imageFileName)
+            .child(fileName) // 이미지 파일 경로 지정 (/item/imageFileName)
         uploadTask = uri.let { reference.putFile(Uri.fromFile(File(uri))) } // 업로드할 파일과 업로드할 위치 설정
         uploadTask.addOnSuccessListener {
             downloadUri(roomId, reference, uri) // 업로드 성공 시 업로드한 파일 Uri 다운받기
@@ -207,6 +210,7 @@ class RunningTalkDetailViewModel @Inject constructor(
     fun selectImage(uri: Uri) {
         attachImageUrls.value = ArrayList(attachImageUrls.value).apply {
             getRealPath(uri)?.let {
+                Log.e("뭔데...", it)
                 add(it)
             }
         }
