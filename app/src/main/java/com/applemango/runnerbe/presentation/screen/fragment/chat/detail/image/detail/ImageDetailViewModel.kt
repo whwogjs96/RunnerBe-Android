@@ -6,8 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface ImageDetailViewModel {
 
     val title: StateFlow<String>
-    val imageList: StateFlow<List<String>>
-    val currentImageUrl: StateFlow<String>
+    val imageList: StateFlow<List<ImageDetailUiState>>
     val currentPageNumber: StateFlow<Int>
     val actions: SharedFlow<ImageDetailAction>
 

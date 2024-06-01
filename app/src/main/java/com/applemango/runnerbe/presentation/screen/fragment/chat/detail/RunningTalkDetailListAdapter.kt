@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 
-class RunningTalkDetailListAdapter :
+class RunningTalkDetailListAdapter(val listener: RunningTalkDetailListClickListener) :
     ListAdapter<RunningTalkUiState, RecyclerView.ViewHolder>(RunningTalkDetailDiffCallBack()) {
 
     private val myViewType = 1
@@ -37,7 +38,7 @@ class RunningTalkDetailListAdapter :
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    )
+                    ), listener = listener
                 )
             }
 
@@ -47,7 +48,7 @@ class RunningTalkDetailListAdapter :
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    )
+                    ), listener = listener
                 )
             }
         }
@@ -73,7 +74,10 @@ class RunningTalkDetailListAdapter :
     }
 }
 
-class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBinding) :
+class RunningTalkDetailMyContainerViewHolder(
+    val binding: ItemMyTalkContainerBinding,
+    private val listener: RunningTalkDetailListClickListener
+) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: RunningTalkUiState.MyRunningTalkUiState) {
         val context = binding.root.context
@@ -126,11 +130,16 @@ class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBin
                         )
                         .into(itemUi.talkImageView)
                     itemUi.apply {
+                        createDateView.isVisible = item.items.last() == it
                         if (item.items.last() == it) {
                             createDateView.text = item.createTime
-                            createDateView.visibility = View.VISIBLE
-                        } else {
-                            createDateView.visibility = View.GONE
+                        }
+                        talkImageView.setOnClickListener { _ ->
+                            listener.imageClicked(
+                                it.imgUrl,
+                                item.items.map { it.messageId },
+                                it.messageId
+                            )
                         }
                     }
                     itemUi
@@ -150,7 +159,10 @@ class RunningTalkDetailMyContainerViewHolder(val binding: ItemMyTalkContainerBin
     }
 }
 
-class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContainerBinding) :
+class RunningTalkDetailOtherContainerViewHolder(
+    val binding: ItemOtherTalkContainerBinding,
+    private val listener: RunningTalkDetailListClickListener
+) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: RunningTalkUiState.OtherRunningTalkUiState) {
         val context = binding.root.context
@@ -213,11 +225,16 @@ class RunningTalkDetailOtherContainerViewHolder(val binding: ItemOtherTalkContai
                         )
                         .into(itemUi.talkImageView)
                     itemUi.apply {
+                        createDateView.isVisible = item.items.last() == it
                         if (item.items.last() == it) {
                             createDateView.text = item.createTime
-                            createDateView.visibility = View.VISIBLE
-                        } else {
-                            createDateView.visibility = View.GONE
+                        }
+                        talkImageView.setOnClickListener { _ ->
+                            listener.imageClicked(
+                                it.imgUrl,
+                                item.items.map { it.messageId },
+                                it.messageId
+                            )
                         }
                     }
                     itemUi
@@ -253,5 +270,8 @@ class RunningTalkDetailDiffCallBack : DiffUtil.ItemCallback<RunningTalkUiState>(
             }
         }
     }
+}
 
+interface RunningTalkDetailListClickListener {
+    fun imageClicked(imageUrl: String, talkIdList: List<Int>, clickItemId: Int)
 }

@@ -50,6 +50,17 @@
                 app:layout_constraintRight_toRightOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            bind:imageDetailAdapter="@{vm.imageList}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            app:layout_constraintBottom_toTopOf="@id/bottom_number_layout"/>
+
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,16 +80,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            bind:glideImageFromUrl="@{vm.currentImageUrl}"
-            android:scaleType="centerCrop"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            app:layout_constraintBottom_toTopOf="@id/bottom_number_layout"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/bottom_number_layout"
@@ -98,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
                 tools:text="2"
-                android:text="@{vm.currentPageNumber}"
+                android:text="@{String.valueOf(vm.currentPageNumber + 1)}"
                 android:textColor="@color/white"
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:includeFontPadding="false"
@@ -117,7 +118,7 @@
                 android:id="@+id/list_size_number_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{vm.imageList.size()}"
+                android:text="@{String.valueOf(vm.imageList.size())}"
                 tools:text="3"
                 android:textColor="@color/dark_g3_5"
                 android:includeFontPadding="false"
