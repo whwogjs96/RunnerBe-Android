@@ -60,33 +60,7 @@ class RunningTalkDetailFragment :
     private fun observeBind() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             launch {
-                viewModel.actions.collect {
-                    when(it) {
-                        is RunningTalkDetailAction.ShowImageSelect -> {
-                            checkAdditionalUserInfo {
-                                context?.let {
-                                    SelectItemDialog.createShow(it, listOf(
-                                        SelectItemParameter("촬영하기") {
-                                            isImage = false
-                                            permReqLauncher.launch(Manifest.permission.CAMERA)
-                                        },
-                                        SelectItemParameter("앨범에서 선택하기") {
-                                            isImage = true
-                                            permReqLauncher.launch(
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                                                    Manifest.permission.READ_MEDIA_IMAGES
-                                                else Manifest.permission.READ_EXTERNAL_STORAGE
-                                            )
-                                        }
-                                    ))
-                                }
-                            }
-                        }
-                        is RunningTalkDetailAction.ShowToast -> {
-                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+                viewModel.actions.collect(::handleAction)
             }
             launch {
                 viewModel.messageSendUiState.collect {
@@ -151,6 +125,41 @@ class RunningTalkDetailFragment :
     private fun refresh() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.getDetailData(true)
+        }
+    }
+
+    private fun handleAction(action: RunningTalkDetailAction) {
+        when(action) {
+            is RunningTalkDetailAction.ShowImageSelect -> {
+                checkAdditionalUserInfo {
+                    context?.let {
+                        SelectItemDialog.createShow(it, listOf(
+                            SelectItemParameter("촬영하기") {
+                                isImage = false
+                                permReqLauncher.launch(Manifest.permission.CAMERA)
+                            },
+                            SelectItemParameter("앨범에서 선택하기") {
+                                isImage = true
+                                permReqLauncher.launch(
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                                        Manifest.permission.READ_MEDIA_IMAGES
+                                    else Manifest.permission.READ_EXTERNAL_STORAGE
+                                )
+                            }
+                        ))
+                    }
+                }
+            }
+            is RunningTalkDetailAction.ShowToast -> {
+                Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
+            }
+            is RunningTalkDetailAction.MoveToImageDetail -> {
+                navigate(RunningTalkDetailFragmentDirections.moveToImageDetailFragment(
+                    title = action.title,
+                    images = action.images.toTypedArray(),
+                    pageNumber = action.clickPageNumber
+                ))
+            }
         }
     }
 

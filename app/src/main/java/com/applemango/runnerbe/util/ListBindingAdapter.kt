@@ -4,6 +4,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.applemango.runnerbe.data.dto.Posting
 import com.applemango.runnerbe.presentation.model.CreatorImageAndPosition
 import com.applemango.runnerbe.data.dto.Room
@@ -18,6 +19,9 @@ import com.applemango.runnerbe.presentation.screen.dialog.selectitem.SelectListI
 import com.applemango.runnerbe.presentation.screen.fragment.bookmark.BookMarkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.RunningTalkAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailListAdapter
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.RunningTalkDetailListClickListener
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.detail.ImageDetailUiState
+import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.detail.ImageDetailViewPagerAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.preview.RunningTalkDetailImageAdapter
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.preview.RunningTalkDetailImageSelectListener
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
@@ -164,13 +168,14 @@ fun setPaceSimpleSelectAdapter(
     if (adapter is PaceSimpleSelectListAdapter) adapter.submitList(dataList)
 }
 
-@BindingAdapter("bind:talkListAdapter")
+@BindingAdapter("bind:talkListAdapter", "bind:talkListClickListener")
 fun setTalkListAdapter(
     recyclerView: RecyclerView,
-    dataList: List<RunningTalkUiState>
+    dataList: List<RunningTalkUiState>,
+    listener: RunningTalkDetailListClickListener
 ) {
     recyclerView.adapter ?: run {
-        recyclerView.adapter = RunningTalkDetailListAdapter()
+        recyclerView.adapter = RunningTalkDetailListAdapter(listener = listener)
     }
     val adapter = recyclerView.adapter
     recyclerView.itemAnimator = null
@@ -192,4 +197,17 @@ fun setTalkImageAdapter(
     }
     val adapter = recyclerView.adapter
     if (adapter is RunningTalkDetailImageAdapter) adapter.submitList(dataList)
+}
+
+@BindingAdapter("bind:imageDetailAdapter")
+fun setImageDetailAdapter(
+    viewPager: ViewPager2,
+    dataList: List<ImageDetailUiState>
+) {
+    viewPager.adapter ?: run {
+        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        viewPager.adapter = ImageDetailViewPagerAdapter()
+    }
+    val adapter = viewPager.adapter
+    if(adapter is ImageDetailViewPagerAdapter) adapter.submitList(dataList)
 }

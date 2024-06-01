@@ -153,6 +153,9 @@
         <argument
             android:name="roomRepUserName"
             app:argType="string"/>
+        <action
+            android:id="@+id/moveToImageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
@@ -192,5 +195,24 @@
         <action
             android:id="@+id/moveToWriteFragment"
             app:destination="@id/runningWriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageDetailFragment"
+        tools:layout="@layout/fragment_image_detail"
+        android:name="com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.detail.ImageDetailFragment"
+        android:label="ImageDetailFragment" >
+
+        <argument
+            android:name="title"
+            app:argType="string"/>
+
+        <argument
+            android:name="pageNumber"
+            app:argType="integer"
+            android:defaultValue="0"/>
+
+        <argument
+            android:name="images"
+            app:argType="string[]"/>
     </fragment>
 </navigation>
