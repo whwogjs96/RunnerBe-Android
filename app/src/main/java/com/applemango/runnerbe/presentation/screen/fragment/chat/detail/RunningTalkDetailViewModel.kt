@@ -3,9 +3,6 @@ package com.applemango.runnerbe.presentation.screen.fragment.chat.detail
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.text.format.DateUtils
-import android.util.Log
-import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.loader.content.CursorLoader
@@ -20,7 +17,6 @@ import com.applemango.runnerbe.domain.usecase.runningtalk.MessageReportUseCase
 import com.applemango.runnerbe.domain.usecase.runningtalk.MessageSendUseCase
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.image.preview.RunningTalkDetailImageSelectListener
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.mapper.RunningTalkDetailMapper
-import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkItem
 import com.applemango.runnerbe.presentation.screen.fragment.chat.detail.uistate.RunningTalkUiState
 import com.applemango.runnerbe.presentation.state.CommonResponse
 import com.applemango.runnerbe.presentation.state.UiState
@@ -87,7 +83,8 @@ class RunningTalkDetailViewModel @Inject constructor(
 
             attachImageUrls.value.forEachIndexed { index, url -> uploadImg(it, url, index) }
             //다 끝날때까지 대기
-            while (attachImageUrls.value.size != successImageList.size + failedImageList.size){}
+            while (attachImageUrls.value.size != successImageList.size + failedImageList.size) {
+            }
             val isImageSend = attachImageUrls.value.size == successImageList.size
             attachImageUrls.value = failedImageList
             if (content.isNotEmpty()) {
@@ -123,11 +120,9 @@ class RunningTalkDetailViewModel @Inject constructor(
 
     //        firebase storage 에 이미지 업로드하는 method
     private fun uploadImg(roomId: Int, uri: String, primaryKey: Int) {
-        Log.e("확인용", uri)
         var uploadTask: UploadTask? = null // 파일 업로드하는 객체
         val name = RunnerBeApplication.mTokenPreference.getUserId()
-        val fileName= "$name${Calendar.getInstance().time}${primaryKey}_.png"
-        Log.e("무슨 일인데?", fileName)
+        val fileName = "$name${Calendar.getInstance().time}${primaryKey}_.png"
         val reference: StorageReference = Firebase.storage.reference.child("item")
             .child(fileName) // 이미지 파일 경로 지정 (/item/imageFileName)
         uploadTask = uri.let { reference.putFile(Uri.fromFile(File(uri))) } // 업로드할 파일과 업로드할 위치 설정
@@ -143,7 +138,6 @@ class RunningTalkDetailViewModel @Inject constructor(
 //        지정한 경로(reference)에 대한 uri 을 다운로드하는 method
         reference.downloadUrl.addOnSuccessListener {
             viewModelScope.launch(Dispatchers.IO) {
-                Log.e("하...", it.toString())
                 it?.let { path ->
                     when (messageSendUseCase(roomId, null, path.toString())) {
                         is CommonResponse.Success<*> -> {
@@ -210,7 +204,6 @@ class RunningTalkDetailViewModel @Inject constructor(
     fun selectImage(uri: Uri) {
         attachImageUrls.value = ArrayList(attachImageUrls.value).apply {
             getRealPath(uri)?.let {
-                Log.e("뭔데...", it)
                 add(it)
             }
         }
@@ -256,7 +249,8 @@ class RunningTalkDetailViewModel @Inject constructor(
 
     fun getTalkClickListener() = object : RunningTalkDetailListClickListener {
         override fun imageClicked(imageUrl: String, talkIdList: List<Int>, clickItemId: Int) {
-            val images = messageList.filter { talkIdList.contains(it.messageId) && it.imageUrl != null }
+            val images =
+                messageList.filter { talkIdList.contains(it.messageId) && it.imageUrl != null }
             val i = images.indexOfFirst { it.messageId == clickItemId }
             val index = if (i < 0) 0 else i
             viewModelScope.launch {
